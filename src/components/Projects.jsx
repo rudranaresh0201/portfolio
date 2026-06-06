@@ -2,91 +2,192 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, ChevronDown, ChevronUp, Trophy } from 'lucide-react';
 
+/* ── Architecture diagram components ────────────────────────── */
+
+function ClinIQDiagram() {
+  const nodes = [
+    { label: 'Symptom\nExtract', color: '#818cf8' },
+    { label: 'Differential\nDx', color: '#a78bfa' },
+    { label: 'Epidemiology\nRerank', color: '#22d3ee' },
+    { label: 'Risk\nStratify', color: '#f472b6' },
+    { label: 'Doctor\nDashboard', color: '#34d399' },
+  ];
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(129,140,248,0.04)', border: '1px solid rgba(129,140,248,0.1)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+        <span className="font-mono text-[9px] text-slate-500 tracking-widest">MULTI-AGENT PIPELINE</span>
+      </div>
+      <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
+        <div className="text-[9px] font-mono text-slate-500 px-2 py-1 rounded-md"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          Patient Input
+        </div>
+        {nodes.map((n, i) => (
+          <div key={i} className="flex items-center gap-1">
+            <svg width="10" height="10" viewBox="0 0 10 10">
+              <path d="M2 5 L8 5 M6 3 L8 5 L6 7" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div className="text-[9px] font-mono px-2 py-1 rounded-md whitespace-pre-line text-center leading-tight"
+              style={{ background: `${n.color}10`, border: `1px solid ${n.color}30`, color: n.color }}>
+              {n.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RAGDiagram() {
+  const ingest = ['PDF', 'PyMuPDF', 'Chunk\n650/100', 'BAAI\nEmbed', 'ChromaDB'];
+  const retrieve = ['Query', 'Dense\ncosine', 'BM25\nOkapi', 'RRF\nFusion', 'LLM\nResponse'];
+  const Row = ({ label, nodes, color }) => (
+    <div className="flex items-center gap-1 flex-wrap">
+      <span className="font-mono text-[8px] text-slate-600 w-12 flex-shrink-0">{label}</span>
+      {nodes.map((n, i) => (
+        <div key={i} className="flex items-center gap-0.5">
+          {i > 0 && (
+            <svg width="8" height="8" viewBox="0 0 8 8">
+              <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
+          <div className="text-[8px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
+            style={{ background: `${color}10`, border: `1px solid ${color}25`, color }}>
+            {n}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(34,211,238,0.03)', border: '1px solid rgba(34,211,238,0.1)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+        <span className="font-mono text-[9px] text-slate-500 tracking-widest">HYBRID RETRIEVAL PIPELINE</span>
+      </div>
+      <div className="px-3 pb-3 space-y-2">
+        <Row label="INGEST" nodes={ingest} color="#22d3ee" />
+        <Row label="QUERY" nodes={retrieve} color="#818cf8" />
+      </div>
+    </div>
+  );
+}
+
+function CrewAIDiagram() {
+  const nodes = ['Ingest', 'Schema\nProfile', 'Clean', 'LLM\nPlan', 'AST\nExec', 'Validate', 'Insights'];
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(34,211,238,0.03)', border: '1px solid rgba(34,211,238,0.1)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+        <span className="font-mono text-[9px] text-slate-500 tracking-widest">7-AGENT PIPELINE</span>
+      </div>
+      <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
+        {nodes.map((n, i) => (
+          <div key={i} className="flex items-center gap-0.5">
+            {i > 0 && (
+              <svg width="8" height="8" viewBox="0 0 8 8">
+                <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
+            <div className="text-[9px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
+              style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: '#67e8f9' }}>
+              {n}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Data ─────────────────────────────────────────────────────── */
 const PROJECTS = [
   {
     id: 1,
     title: 'ClinIQ',
     subtitle: 'Agentic Medical Intelligence Platform',
-    description:
-      'Multi-agent clinical workflow covering symptom extraction, differential diagnosis generation, India-specific epidemiology reranking, risk stratification, monitoring-plan creation, escalation handling, and doctor-facing patient timeline management.',
+    hook: 'What if a junior doctor had infinite memory, never got tired, and actually read the PubMed papers? Built that.',
+    description: 'Multi-agent clinical workflow: symptom extraction → differential diagnosis → India-specific epidemiology reranking → risk stratification → monitoring plan → doctor-facing patient timeline.',
+    Diagram: ClinIQDiagram,
     highlights: [
-      'DeepDive lab report analysis engine — ingests structured lab PDFs, generates clinician-grade interpretations.',
-      'OpenRouter as LLM fallback layer for resilience across model providers.',
-      'Supabase-backed persistence for patient sessions and doctor console state.',
-      'Deployed on Render + Vercel with Docker CI/CD via GitHub Actions.',
+      'DeepDive lab report analysis engine — ingests structured PDFs, generates clinician-grade interpretations.',
+      'OpenRouter LLM fallback layer for resilience across model providers.',
+      'Supabase-backed persistence; deployed on Render + Vercel with Docker CI/CD via GitHub Actions.',
     ],
+    stats: ['7 Specialist Agents', 'Render + Vercel', 'Docker CI/CD'],
     tags: ['Python', 'FastAPI', 'ChromaDB', 'Supabase', 'Groq', 'TypeScript'],
     category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    featured: true,
     accentColor: '#818cf8',
   },
   {
     id: 2,
     title: 'CrewAI CSV Analytics Agent',
     subtitle: '7-Agent Natural Language Analytics',
-    description:
-      'Production-grade multi-agent system for natural-language analytics over CSV/XLSX files: ingestion → schema profiling → cleaning → LLM query planning → AST-sandboxed execution → validation → insight generation.',
+    hook: 'Seven agents, one CSV, zero hallucinated pandas code. The AST sandbox physically cannot let the LLM do anything dangerous.',
+    description: 'Natural-language analytics over CSV/XLSX: ingestion → schema profiling → cleaning → LLM query planning → AST-sandboxed execution → validation → insight generation.',
+    Diagram: CrewAIDiagram,
     highlights: [
-      'Secure code-execution sandbox (safe_executor.py) using Python\'s ast module — blocks imports, dunder access, and dangerous builtins.',
-      'Persona-aware answer generation (Risk Analyst, Compliance Officer, Student, General).',
-      '3-attempt LLM retry loop via OpenRouter; full pytest suite and CLI entry point.',
+      'Secure code-execution sandbox (safe_executor.py) — AST validates every LLM-generated pandas snippet before execution.',
+      'Persona-aware output (Risk Analyst, Compliance Officer, Student, General) with 3-attempt OpenRouter retry loop.',
+      'Full pytest suite and CLI entry point.',
     ],
+    stats: ['7 Agents', 'AST Sandboxed', '3-Attempt Retry'],
     tags: ['Python', 'CrewAI', 'pandas', 'OpenRouter', 'AST'],
     category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    featured: true,
     accentColor: '#22d3ee',
   },
   {
     id: 3,
     title: 'RAG Knowledge Assistant',
     subtitle: 'Hybrid Dense + Sparse Retrieval',
-    description:
-      'End-to-end document ingestion pipeline using PyMuPDF, overlapping chunking (650-char windows, 100-char overlap), and dense embeddings via BAAI/bge-base-en-v1.5 persisted in ChromaDB.',
+    hook: 'Built because I was tired of LLMs confidently making things up. Now it cannot — hallucination guard blocks generation when retrieval confidence falls below threshold.',
+    description: 'End-to-end document intelligence: PyMuPDF ingestion, overlapping chunking (650/100 chars), BAAI/bge-base-en-v1.5 embeddings into ChromaDB. Retrieval fuses dense vector search and BM25 via Reciprocal Rank Fusion.',
+    Diagram: RAGDiagram,
     highlights: [
-      'Hybrid retrieval: dense vector search (cosine) + sparse BM25 (Okapi), fused with s = 1.4·s_vec + 1.0·s_BM25 + 0.35|Q∩T|.',
-      'Post-filtered top-5 chunks with deduplication via Jaccard ≥ 0.85 and trigram-repeat detection.',
-      'OpenRouter (primary) + TinyLlama-1.1B offline fallback; React frontend.',
+      'RRF fusion: s = 1.4·s_vec + 1.0·s_BM25 + 0.35|Q∩T| with length-quality penalties and keyword-hit bonuses.',
+      'Post-filtered top-5 chunks: Jaccard ≥ 0.85 dedup, trigram-repeat detection.',
+      '8 production bugs fixed — including a data-loss race condition on re-upload and a hallucination baked into the fallback path.',
     ],
+    stats: ['RRF Fusion', 'Jaccard Dedup', '2 LLM Providers'],
     tags: ['Python', 'FastAPI', 'ChromaDB', 'BM25', 'Sentence-Transformers', 'React'],
     category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    featured: false,
     accentColor: '#a78bfa',
   },
   {
     id: 4,
     title: 'Loan Risk Intelligence System',
     subtitle: 'LSTM-Based Financial Risk Prediction',
-    description:
-      'Deep learning model for financial risk prediction with an LSTM architecture, a hybrid ML + rule-based decision framework, and an interactive React dashboard for real-time analytics.',
+    hook: 'Banks use rules written in Excel. I used an LSTM. The LSTM won.',
+    description: 'LSTM deep learning model for financial risk prediction with a hybrid ML + rule-based decision framework and a React dashboard for real-time analytics.',
     highlights: [
-      'LSTM-based deep learning model for sequential financial data.',
-      'Hybrid ML + rule-based decision framework for loan risk scoring.',
-      'Interactive dashboard for real-time risk analytics and visualisation.',
+      'LSTM architecture for sequential financial data modelling.',
+      'Hybrid ML + rule-based scoring framework.',
+      'Interactive React dashboard for real-time risk analytics.',
     ],
+    stats: ['LSTM Model', 'Hybrid Framework', 'React Dashboard'],
     tags: ['Python', 'PyTorch', 'LSTM', 'React'],
     category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    featured: false,
     accentColor: '#34d399',
   },
   {
-    id: 6,
+    id: 5,
     title: 'AI Web Application Firewall',
     subtitle: 'Transformer-Based Anomaly Detection',
-    description:
-      'Transformer-based deep learning pipeline for web request classification and real-time anomaly detection for web traffic. Built for Smart India Hackathon 2025 — Shortlisted.',
+    hook: 'Turned a transformer — the thing that writes poetry — into a bouncer that reads HTTP requests and decides who gets kicked out.',
+    description: 'Transformer-based deep learning pipeline for web request classification and real-time anomaly detection. Built for Smart India Hackathon 2025.',
     highlights: [
       'Transformer model fine-tuned for web traffic classification.',
       'Real-time anomaly detection pipeline for HTTP request streams.',
-      'SIH 2025 — Shortlisted from thousands of national submissions.',
     ],
+    stats: ['Transformer Model', 'Real-Time Detection', 'SIH 2025'],
     tags: ['Python', 'Transformers', 'PyTorch', 'Deep Learning'],
     category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    featured: false,
     accentColor: '#f472b6',
     badge: 'SIH 2025 — Shortlisted',
   },
@@ -94,127 +195,106 @@ const PROJECTS = [
 
 const FILTERS = ['All', 'AI/ML'];
 
+/* ── Card ─────────────────────────────────────────────────────── */
 function ProjectCard({ project }) {
   const [expanded, setExpanded] = useState(false);
+  const Diagram = project.Diagram;
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 24 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="glass rounded-2xl overflow-hidden flex flex-col glow-border group"
-      style={{ borderColor: 'rgba(255,255,255,0.07)' }}
-      whileHover={{ y: -4, transition: { duration: 0.25 } }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="glass rounded-2xl overflow-hidden flex flex-col group"
+      style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+      whileHover={{ y: -4, transition: { duration: 0.22 } }}
     >
-      {/* Accent top bar */}
-      <div
-        className="h-0.5 w-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }}
-      />
+      <div className="h-0.5 w-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }} />
 
       <div className="p-5 flex flex-col flex-1">
-        {/* Header row */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex-1">
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <div className="flex-1 min-w-0">
             {project.badge && (
-              <div className="flex items-center gap-1.5 mb-2">
-                <Trophy size={11} className="text-yellow-400" />
-                <span className="font-mono text-[10px] text-yellow-400 font-semibold tracking-wide">
-                  {project.badge}
-                </span>
+              <div className="flex items-center gap-1 mb-1.5">
+                <Trophy size={10} className="text-yellow-400 flex-shrink-0" />
+                <span className="font-mono text-[9px] text-yellow-400 font-semibold tracking-wide">{project.badge}</span>
               </div>
             )}
-            <h3 className="font-bold text-white text-base leading-tight">{project.title}</h3>
-            <p className="text-xs mt-0.5" style={{ color: project.accentColor }}>
-              {project.subtitle}
-            </p>
+            <h3 className="font-bold text-white leading-tight">{project.title}</h3>
+            <p className="text-xs mt-0.5" style={{ color: project.accentColor }}>{project.subtitle}</p>
           </div>
-
-          <motion.a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
+          <motion.a href={project.github} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-white transition-colors"
             style={{ background: 'rgba(255,255,255,0.05)' }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.93 }}
-          >
-            <Github size={14} />
+            whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}>
+            <Github size={13} />
           </motion.a>
         </div>
 
-        {/* Description */}
-        <p className="text-slate-400 text-sm leading-relaxed mb-3">
-          {project.description}
+        <p className="text-xs italic mb-2 leading-relaxed"
+          style={{ color: project.accentColor, opacity: 0.8 }}>
+          "{project.hook}"
         </p>
 
-        {/* Highlights (collapsible) */}
+        <p className="text-slate-400 text-sm leading-relaxed mb-3">{project.description}</p>
+
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {project.stats.map((s) => (
+            <span key={s} className="font-mono text-[9px] px-2 py-0.5 rounded-full"
+              style={{ background: `${project.accentColor}0d`, color: project.accentColor, border: `1px solid ${project.accentColor}20` }}>
+              {s}
+            </span>
+          ))}
+        </div>
+
         <AnimatePresence initial={false}>
           {expanded && (
-            <motion.ul
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="space-y-1.5 mb-3 overflow-hidden"
+              className="overflow-hidden"
             >
-              {project.highlights.map((h, i) => (
-                <li key={i} className="flex gap-2 text-xs text-slate-400 leading-relaxed">
-                  <span style={{ color: project.accentColor }} className="flex-shrink-0 mt-0.5">
-                    ›
-                  </span>
-                  {h}
-                </li>
-              ))}
-            </motion.ul>
+              {Diagram && <Diagram />}
+              <ul className="space-y-1.5 mb-3">
+                {project.highlights.map((h, i) => (
+                  <li key={i} className="flex gap-2 text-xs text-slate-400 leading-relaxed">
+                    <span className="flex-shrink-0 mt-0.5" style={{ color: project.accentColor }}>›</span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Toggle highlights */}
-        <button
-          onClick={() => setExpanded((p) => !p)}
-          className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-4"
-        >
-          {expanded ? (
-            <>
-              <ChevronUp size={12} /> Hide details
-            </>
-          ) : (
-            <>
-              <ChevronDown size={12} /> Show details
-            </>
-          )}
+        <button onClick={() => setExpanded((p) => !p)}
+          className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-4">
+          {expanded
+            ? <><ChevronUp size={11} /> Hide details</>
+            : <><ChevronDown size={11} /> Architecture + details</>}
         </button>
 
-        {/* Tags */}
         <div className="mt-auto flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <span key={tag} className="tag">
-              {tag}
-            </span>
-          ))}
+          {project.tags.map((t) => <span key={t} className="tag">{t}</span>)}
         </div>
       </div>
     </motion.div>
   );
 }
 
+/* ── Section ──────────────────────────────────────────────────── */
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
-
-  const filtered =
-    activeFilter === 'All'
-      ? PROJECTS
-      : PROJECTS.filter((p) => p.category === activeFilter);
+  const filtered = activeFilter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.category === activeFilter);
 
   return (
     <section id="projects" className="py-24 px-5 sm:px-8">
       <div className="max-w-7xl mx-auto">
-
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -223,42 +303,28 @@ export default function Projects() {
           className="mb-12"
         >
           <p className="section-label mb-3">03. projects</p>
-          <h2
-            className="font-black tracking-tight text-white mb-4"
-            style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}
-          >
-            Things I've{' '}
-            <span className="gradient-text">Built</span>
+          <h2 className="font-black tracking-tight text-white mb-3"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
+            Things I've <span className="gradient-text">Built</span>
           </h2>
-          <p className="text-slate-400 text-base leading-relaxed max-w-2xl">
-            From multi-agent AI systems and RAG pipelines to self-balancing robots —
-            each project ships real, working code.
+          <p className="text-slate-400 text-base max-w-xl">
+            Click "Architecture + details" on any card to see the pipeline diagram and deep technical notes.
           </p>
         </motion.div>
 
-        {/* Filter tabs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.1 }}
+          transition={{ duration: 0.4 }}
           className="flex items-center gap-2 mb-10 flex-wrap"
         >
           {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                activeFilter === f
-                  ? 'text-white'
-                  : 'text-slate-500 hover:text-slate-300'
-              }`}
-              style={
-                activeFilter === f
-                  ? { background: 'linear-gradient(135deg,rgba(99,102,241,0.3),rgba(6,182,212,0.2))', border: '1px solid rgba(129,140,248,0.3)' }
-                  : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }
-              }
-            >
+            <button key={f} onClick={() => setActiveFilter(f)}
+              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+              style={activeFilter === f
+                ? { background: 'linear-gradient(135deg,rgba(99,102,241,0.3),rgba(6,182,212,0.2))', border: '1px solid rgba(129,140,248,0.3)', color: 'white' }
+                : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: '#64748b' }}>
               {f}
               <span className="ml-1.5 font-mono text-xs opacity-60">
                 {f === 'All' ? PROJECTS.length : PROJECTS.filter((p) => p.category === f).length}
@@ -267,32 +333,24 @@ export default function Projects() {
           ))}
         </motion.div>
 
-        {/* Cards grid */}
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+            {filtered.map((p) => <ProjectCard key={p.id} project={p} />)}
           </AnimatePresence>
         </motion.div>
 
-        {/* GitHub CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.45 }}
           className="text-center mt-14"
         >
-          <a
-            href="https://github.com/rudranaresh0201"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 btn-ghost"
-          >
-            <Github size={15} />
-            View all repos on GitHub
-            <ExternalLink size={12} className="opacity-60" />
+          <a href="https://github.com/rudranaresh0201" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 btn-ghost">
+            <Github size={14} />
+            View all repos
+            <ExternalLink size={11} className="opacity-50" />
           </a>
         </motion.div>
       </div>
