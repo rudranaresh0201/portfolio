@@ -13,7 +13,7 @@ const SOCIALS = [
 
 const STATS = [
   { label: '2 Active Internships',    color: '#22d3ee' },
-  { label: '5 Shipped Projects',      color: '#818cf8' },
+  { label: '5 Major Projects',         color: '#818cf8' },
   { label: 'Anthropic MCP Certified', color: '#34d399' },
 ];
 
