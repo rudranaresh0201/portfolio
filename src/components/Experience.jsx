@@ -3,29 +3,40 @@ import { Briefcase, GraduationCap, Users, Zap } from 'lucide-react';
 
 const TIMELINE = [
   {
-    id: 1, current: true, icon: Briefcase, iconColor: '#22d3ee',
+    id: 1, current: true, icon: Briefcase, iconColor: '#f59e0b',
+    role: 'AI Automation Intern', company: 'Elevar Sports',
+    period: 'June 2026 — Present', location: 'Mumbai, India',
+    bullets: [
+      'Automated real business data pipelines from Shopify and EasyEcom into Google Apps Script-driven workflows, replacing manual data entry across order, inventory, and fulfillment reporting.',
+      'Building automation for NDR (Non-Delivery Report) claims, reshipping, and returns processing — reducing manual intervention in courier exception handling.',
+    ],
+    tags: ['Google Apps Script', 'Shopify', 'EasyEcom', 'Automation', 'Python'],
+  },
+  {
+    id: 2, current: true, icon: Briefcase, iconColor: '#22d3ee',
     role: 'Backend Engineering Intern', company: 'OpenRAG',
     period: '2026 — Present', location: 'Remote',
     bullets: [
-      '7-agent CrewAI system for DocDynamo: ingestion → schema profiling → cleaning → LLM query planning → AST-sandboxed execution → validation → insight generation.',
-      'Optimising SSE streaming pipeline to cut time-to-first-token and deliver real-time tokens to the frontend.',
-      'Building conversation memory with a vector store for contextual continuity across multi-turn sessions.',
+      'Fixed a BM25 chunk-overwrite bug in a production multi-user RAG pipeline — multi-file uploads silently deleted chunks; resolved with file-scoped UUID keying in MongoDB.',
+      'Implemented Redis-backed FAISS cache eliminating cross-worker cache misses in a Gunicorn multi-process deployment; added L1 in-process TTL cache for hot users.',
+      'Upgraded to SemanticChunker with A/B retrieval evaluation; built Redis semantic cache, SSE streaming error recovery, and load-balancer-safe per-user rate limiting.',
     ],
-    tags: ['CrewAI', 'FastAPI', 'SSE', 'Vector Store', 'Python'],
+    tags: ['RAG', 'Redis', 'FAISS', 'MongoDB', 'FastAPI', 'SSE', 'Python'],
   },
   {
-    id: 2, current: true, icon: Briefcase, iconColor: '#818cf8',
+    id: 3, current: true, icon: Briefcase, iconColor: '#818cf8',
     role: 'Software Engineering Intern', company: '4seer Technologies',
     period: '2026 — Present', location: 'Remote',
     bullets: [
-      'FastAPI microservice for automated PDF generation (quotations, invoices) for the Amplex project.',
-      'Layered architecture: HTTP routers → Pydantic schemas → service layer → ReportLab rendering, with structured logging, correlation ID middleware, and rate limiting.',
-      'Containerised with Docker; pytest suite covering health checks, schema validation, and endpoint behaviour.',
+      'Built a production FastAPI microservice for automated PDF generation — layered architecture: HTTP routers → Pydantic schemas → service layer → ReportLab rendering, with structured logging and correlation ID middleware.',
+      'End-to-end backend testing for Amplex (Australian client) — app testing, cable management flows, and pricing engine validation across API endpoints.',
+      'Built an internal dashboard for the Amplex app to surface live metrics and streamline ops visibility.',
+      'Containerised via Docker; wrote pytest suite covering health checks, schema validation, and endpoint behaviour.',
     ],
-    tags: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic'],
+    tags: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic', 'React'],
   },
   {
-    id: 3, current: false, icon: GraduationCap, iconColor: '#f472b6',
+    id: 4, current: false, icon: GraduationCap, iconColor: '#f472b6',
     role: 'B.Tech Electronics Engineering', company: 'VJTI Mumbai',
     period: 'Aug 2024 — Present', location: 'Mumbai, India',
     bullets: [
@@ -35,14 +46,14 @@ const TIMELINE = [
     tags: ['Electronics', 'AI/ML Minor', 'CGPA 8.37'],
   },
   {
-    id: 4, current: false, icon: Users, iconColor: '#a78bfa',
+    id: 5, current: false, icon: Users, iconColor: '#a78bfa',
     role: 'Department Head', company: 'E-Cell VJTI',
     period: '2024 — Present', location: 'VJTI Mumbai',
     bullets: ['Leading entrepreneurship initiatives, startup events, and speaker sessions.'],
     tags: ['Leadership', 'Entrepreneurship'],
   },
   {
-    id: 5, current: false, icon: Zap, iconColor: '#34d399',
+    id: 6, current: false, icon: Zap, iconColor: '#34d399',
     role: 'Chief Coordinator', company: 'Enthusia',
     period: '2024 — Present', location: 'VJTI Mumbai',
     bullets: ["Cross-functional coordination for VJTI's annual technical and cultural festival."],
@@ -119,7 +130,7 @@ export default function Experience() {
           <h2 className="font-black tracking-tight text-white mb-3" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
             Where I've <span className="gradient-text">Worked</span>
           </h2>
-          <p className="text-slate-400 text-base">Two active internships · building production AI in parallel.</p>
+          <p className="text-slate-400 text-base">Three active internships · building production AI in parallel.</p>
         </motion.div>
         <div className="relative">
           {TIMELINE.map((t) => <TimelineItem key={t.id} item={t} />)}

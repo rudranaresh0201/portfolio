@@ -4,6 +4,102 @@ import { Github, ExternalLink, ChevronDown, ChevronUp, Trophy } from 'lucide-rea
 
 /* ── Architecture diagram components ────────────────────────── */
 
+function PRGuardDiagram() {
+  const nodes = [
+    { label: 'Triage', color: '#f59e0b' },
+    { label: 'Security', color: '#ef4444' },
+    { label: 'Docs', color: '#22d3ee' },
+    { label: 'Bug\nDetect', color: '#a78bfa' },
+    { label: 'API\nChange', color: '#f472b6' },
+    { label: 'Critical\nFile Audit', color: '#34d399' },
+    { label: 'CodeRAG\nIndex', color: '#818cf8' },
+    { label: 'Checks\nAPI', color: '#fb923c' },
+  ];
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(245,158,11,0.04)', border: '1px solid rgba(245,158,11,0.15)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+        <span className="font-mono text-[9px] text-slate-500 tracking-widest">8-NODE LANGGRAPH PIPELINE</span>
+      </div>
+      <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
+        <div className="text-[9px] font-mono text-slate-500 px-2 py-1 rounded-md"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          PR Event
+        </div>
+        {nodes.map((n, i) => (
+          <div key={i} className="flex items-center gap-0.5">
+            <svg width="8" height="8" viewBox="0 0 8 8">
+              <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div className="text-[9px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
+              style={{ background: `${n.color}10`, border: `1px solid ${n.color}30`, color: n.color }}>
+              {n.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AriaDiagram() {
+  const agents = ['Gmail', 'GitHub', 'Calendar', 'Code Exec', 'Data Analysis', '+ 5 more'];
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(99,102,241,0.04)', border: '1px solid rgba(99,102,241,0.15)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+        <span className="font-mono text-[9px] text-slate-500 tracking-widest">MULTI-AGENT ORCHESTRATION</span>
+      </div>
+      <div className="px-3 pb-3 space-y-2">
+        {/* Orchestrator pipeline */}
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">PIPELINE</span>
+          {['Orchestrator', 'Synthesis', 'Critic', 'HiTL Approval'].map((n, i) => (
+            <div key={i} className="flex items-center gap-0.5">
+              {i > 0 && (
+                <svg width="8" height="8" viewBox="0 0 8 8">
+                  <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+              <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+                style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', color: '#818cf8' }}>
+                {n}
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* RAG pipeline */}
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">RETRIEVAL</span>
+          {['HyDE Expand', 'Dense Vec', 'BM25', 'RRF Fuse', 'Cross-Enc Rerank'].map((n, i) => (
+            <div key={i} className="flex items-center gap-0.5">
+              {i > 0 && (
+                <svg width="8" height="8" viewBox="0 0 8 8">
+                  <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              )}
+              <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+                style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: '#67e8f9' }}>
+                {n}
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Specialist agents */}
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">AGENTS</span>
+          {agents.map((n, i) => (
+            <div key={i} className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+              style={{ background: 'rgba(244,114,182,0.08)', border: '1px solid rgba(244,114,182,0.2)', color: '#f9a8d4' }}>
+              {n}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ClinIQDiagram() {
   const nodes = [
     { label: 'Symptom\nExtract', color: '#818cf8' },
@@ -105,6 +201,42 @@ function CrewAIDiagram() {
 const PROJECTS = [
   {
     id: 1,
+    title: 'PRGuard',
+    subtitle: 'Autonomous PR Governance Agent',
+    hook: 'Pull requests reviewed by a pipeline that never sleeps, never misses a vuln, and actually reads the whole codebase — not just the diff.',
+    description: 'Autonomous PR governance via an 8-node LangGraph pipeline (triage, security, documentation, bug detection, API change detection, critical file audit) — reviews PRs across any language with zero human involvement.',
+    Diagram: PRGuardDiagram,
+    highlights: [
+      'AST-indexed CodeRAG indexes codebases at function level, enabling architecture violation and duplication detection that diff-only tools cannot achieve.',
+      '100% recall, 94.12% precision on a 16-vulnerability suite (Python, Solidity, Bash, Dockerfile).',
+      'GitHub App auth with Checks API merge blocking; /prguard fix pushes corrected code to the PR branch on approval.',
+    ],
+    stats: ['8-Node LangGraph', '100% Recall', '94.12% Precision'],
+    tags: ['LangGraph', 'FastAPI', 'ChromaDB', 'Groq', 'PyGitHub', 'ONNX'],
+    category: 'AI/ML',
+    github: 'https://github.com/rudranaresh0201',
+    accentColor: '#f59e0b',
+  },
+  {
+    id: 2,
+    title: 'Aria',
+    subtitle: 'Agentic AI Assistant with Human-in-the-Loop',
+    hook: 'Every write action — email, code commit, calendar event — shows you an editable approval card. Nothing executes without your say.',
+    description: 'Production-grade multi-agent assistant with a Human-in-the-Loop approval layer. LangGraph StateGraph orchestrates 10+ specialist write-agents behind a single Orchestrator → Synthesis → Critic pipeline.',
+    Diagram: AriaDiagram,
+    highlights: [
+      'Hybrid RAG retrieval via HyDE query expansion + BM25 fused with dense vectors and cross-encoder reranking; tunable similarity threshold blocks hallucinated answers when no relevant context exists.',
+      'Per-user multi-tenant isolation across vector store, episodic memory, and OAuth credentials.',
+      '10+ specialist write-agents: Gmail, GitHub, Calendar, code execution, data analysis — all gated behind the approval layer.',
+    ],
+    stats: ['10+ Agents', 'HiTL Approval', 'HyDE + BM25 RAG'],
+    tags: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Groq'],
+    category: 'AI/ML',
+    github: 'https://github.com/rudranaresh0201',
+    accentColor: '#6366f1',
+  },
+  {
+    id: 3,
     title: 'ClinIQ',
     subtitle: 'Agentic Medical Intelligence Platform',
     hook: 'What if a junior doctor had infinite memory, never got tired, and actually read the PubMed papers? Built that.',
@@ -122,7 +254,7 @@ const PROJECTS = [
     accentColor: '#818cf8',
   },
   {
-    id: 2,
+    id: 4,
     title: 'CrewAI CSV Analytics Agent',
     subtitle: '7-Agent Natural Language Analytics',
     hook: 'Seven agents, one CSV, zero hallucinated pandas code. The AST sandbox physically cannot let the LLM do anything dangerous.',
@@ -140,7 +272,7 @@ const PROJECTS = [
     accentColor: '#22d3ee',
   },
   {
-    id: 3,
+    id: 5,
     title: 'RAG Knowledge Assistant',
     subtitle: 'Hybrid Dense + Sparse Retrieval',
     hook: 'Built because I was tired of LLMs confidently making things up. Now it cannot — hallucination guard blocks generation when retrieval confidence falls below threshold.',
@@ -158,7 +290,7 @@ const PROJECTS = [
     accentColor: '#a78bfa',
   },
   {
-    id: 4,
+    id: 6,
     title: 'Loan Risk Intelligence System',
     subtitle: 'LSTM-Based Financial Risk Prediction',
     hook: 'Banks use rules written in Excel. I used an LSTM. The LSTM won.',
@@ -175,7 +307,7 @@ const PROJECTS = [
     accentColor: '#34d399',
   },
   {
-    id: 5,
+    id: 7,
     title: 'AI Web Application Firewall',
     subtitle: 'Transformer-Based Anomaly Detection',
     hook: 'Turned a transformer — the thing that writes poetry — into a bouncer that reads HTTP requests and decides who gets kicked out.',
