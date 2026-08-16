@@ -1,38 +1,45 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink, ChevronDown, ChevronUp, Trophy } from 'lucide-react';
+import { TiltCard } from './Motion';
 
 /* ── Architecture diagram components ────────────────────────── */
 
+function Arrow() {
+  return (
+    <svg width="8" height="8" viewBox="0 0 8 8">
+      <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(24,20,15,0.22)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function PRGuardDiagram() {
   const nodes = [
-    { label: 'Triage', color: '#f59e0b' },
-    { label: 'Security', color: '#ef4444' },
-    { label: 'Docs', color: '#22d3ee' },
-    { label: 'Bug\nDetect', color: '#a78bfa' },
-    { label: 'API\nChange', color: '#f472b6' },
-    { label: 'Critical\nFile Audit', color: '#34d399' },
-    { label: 'CodeRAG\nIndex', color: '#818cf8' },
-    { label: 'Checks\nAPI', color: '#fb923c' },
+    { label: 'Triage', color: '#c1861a' },
+    { label: 'Security', color: '#c23c1b' },
+    { label: 'Docs', color: '#1f7d68' },
+    { label: 'Bug\nDetect', color: '#c2528f' },
+    { label: 'API\nChange', color: '#e8542e' },
+    { label: 'Critical\nFile Audit', color: '#155f4d' },
+    { label: 'CodeRAG\nIndex', color: '#996a11' },
+    { label: 'Checks\nAPI', color: '#e0a52c' },
   ];
   return (
-    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(245,158,11,0.04)', border: '1px solid rgba(245,158,11,0.15)' }}>
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(232,84,46,0.04)', border: '1px solid rgba(232,84,46,0.15)' }}>
       <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-        <span className="font-mono text-[9px] text-slate-500 tracking-widest">8-NODE LANGGRAPH PIPELINE</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-coral-400" />
+        <span className="font-mono text-[9px] text-ink-500 tracking-widest">8-NODE LANGGRAPH PIPELINE</span>
       </div>
       <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
-        <div className="text-[9px] font-mono text-slate-500 px-2 py-1 rounded-md"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="text-[9px] font-mono text-ink-500 px-2 py-1 rounded-md"
+          style={{ background: 'rgba(24,20,15,0.04)', border: '1px solid rgba(24,20,15,0.08)' }}>
           PR Event
         </div>
         {nodes.map((n, i) => (
           <div key={i} className="flex items-center gap-0.5">
-            <svg width="8" height="8" viewBox="0 0 8 8">
-              <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <Arrow />
             <div className="text-[9px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
-              style={{ background: `${n.color}10`, border: `1px solid ${n.color}30`, color: n.color }}>
+              style={{ background: `${n.color}12`, border: `1px solid ${n.color}30`, color: n.color }}>
               {n.label}
             </div>
           </div>
@@ -45,52 +52,80 @@ function PRGuardDiagram() {
 function AriaDiagram() {
   const agents = ['Gmail', 'GitHub', 'Calendar', 'Code Exec', 'Data Analysis', '+ 5 more'];
   return (
-    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(99,102,241,0.04)', border: '1px solid rgba(99,102,241,0.15)' }}>
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(31,125,104,0.04)', border: '1px solid rgba(31,125,104,0.15)' }}>
       <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-        <span className="font-mono text-[9px] text-slate-500 tracking-widest">MULTI-AGENT ORCHESTRATION</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-teal-400" />
+        <span className="font-mono text-[9px] text-ink-500 tracking-widest">MULTI-AGENT ORCHESTRATION</span>
       </div>
       <div className="px-3 pb-3 space-y-2">
-        {/* Orchestrator pipeline */}
         <div className="flex items-center gap-1 flex-wrap">
-          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">PIPELINE</span>
+          <span className="font-mono text-[8px] text-ink-300 w-20 flex-shrink-0">PIPELINE</span>
           {['Orchestrator', 'Synthesis', 'Critic', 'HiTL Approval'].map((n, i) => (
             <div key={i} className="flex items-center gap-0.5">
-              {i > 0 && (
-                <svg width="8" height="8" viewBox="0 0 8 8">
-                  <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
+              {i > 0 && <Arrow />}
               <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-                style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', color: '#818cf8' }}>
+                style={{ background: 'rgba(31,125,104,0.1)', border: '1px solid rgba(31,125,104,0.28)', color: '#155f4d' }}>
                 {n}
               </div>
             </div>
           ))}
         </div>
-        {/* RAG pipeline */}
         <div className="flex items-center gap-1 flex-wrap">
-          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">RETRIEVAL</span>
+          <span className="font-mono text-[8px] text-ink-300 w-20 flex-shrink-0">RETRIEVAL</span>
           {['HyDE Expand', 'Dense Vec', 'BM25', 'RRF Fuse', 'Cross-Enc Rerank'].map((n, i) => (
             <div key={i} className="flex items-center gap-0.5">
-              {i > 0 && (
-                <svg width="8" height="8" viewBox="0 0 8 8">
-                  <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
+              {i > 0 && <Arrow />}
               <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-                style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: '#67e8f9' }}>
+                style={{ background: 'rgba(193,134,26,0.08)', border: '1px solid rgba(193,134,26,0.24)', color: '#996a11' }}>
                 {n}
               </div>
             </div>
           ))}
         </div>
-        {/* Specialist agents */}
         <div className="flex items-center gap-1 flex-wrap">
-          <span className="font-mono text-[8px] text-slate-600 w-20 flex-shrink-0">AGENTS</span>
+          <span className="font-mono text-[8px] text-ink-300 w-20 flex-shrink-0">AGENTS</span>
           {agents.map((n, i) => (
             <div key={i} className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-              style={{ background: 'rgba(244,114,182,0.08)', border: '1px solid rgba(244,114,182,0.2)', color: '#f9a8d4' }}>
+              style={{ background: 'rgba(194,82,143,0.08)', border: '1px solid rgba(194,82,143,0.24)', color: '#a5406f' }}>
+              {n}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MCPDiagram() {
+  return (
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(193,134,26,0.04)', border: '1px solid rgba(193,134,26,0.15)' }}>
+      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
+        <span className="font-mono text-[9px] text-ink-500 tracking-widest">TRANSPARENT VERIFICATION PROXY</span>
+      </div>
+      <div className="px-3 pb-3 space-y-2">
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-ink-300 w-14 flex-shrink-0">STDIO</span>
+          <div className="text-[9px] font-mono px-2 py-1 rounded-md"
+            style={{ background: 'rgba(24,20,15,0.04)', border: '1px solid rgba(24,20,15,0.08)', color: '#332c22' }}>
+            MCP Host
+          </div>
+          <Arrow />
+          <div className="text-[9px] font-mono px-2 py-1 rounded-md"
+            style={{ background: 'rgba(193,134,26,0.1)', border: '1px solid rgba(193,134,26,0.3)', color: '#996a11' }}>
+            verimcp
+          </div>
+          <Arrow />
+          <div className="text-[9px] font-mono px-2 py-1 rounded-md"
+            style={{ background: 'rgba(31,125,104,0.08)', border: '1px solid rgba(31,125,104,0.26)', color: '#155f4d' }}>
+            devmcp (git/CI)
+          </div>
+        </div>
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-ink-300 w-14 flex-shrink-0">CHECKS</span>
+          {['pre-check: dedupe retries', 'post-check: verify claims', 'policy gates', 'OTel spans'].map((n, i) => (
+            <div key={i} className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+              style={{ background: 'rgba(232,84,46,0.08)', border: '1px solid rgba(232,84,46,0.22)', color: '#c23c1b' }}>
               {n}
             </div>
           ))}
@@ -102,30 +137,28 @@ function AriaDiagram() {
 
 function ClinIQDiagram() {
   const nodes = [
-    { label: 'Symptom\nExtract', color: '#818cf8' },
-    { label: 'Differential\nDx', color: '#a78bfa' },
-    { label: 'Epidemiology\nRerank', color: '#22d3ee' },
-    { label: 'Risk\nStratify', color: '#f472b6' },
-    { label: 'Doctor\nDashboard', color: '#34d399' },
+    { label: 'Symptom\nExtract', color: '#8a4a2e' },
+    { label: 'Differential\nDx', color: '#c2528f' },
+    { label: 'Epidemiology\nRerank', color: '#1f7d68' },
+    { label: 'Risk\nStratify', color: '#c1861a' },
+    { label: 'Doctor\nDashboard', color: '#155f4d' },
   ];
   return (
-    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(129,140,248,0.04)', border: '1px solid rgba(129,140,248,0.1)' }}>
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(138,74,46,0.04)', border: '1px solid rgba(138,74,46,0.15)' }}>
       <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-        <span className="font-mono text-[9px] text-slate-500 tracking-widest">MULTI-AGENT PIPELINE</span>
+        <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#8a4a2e' }} />
+        <span className="font-mono text-[9px] text-ink-500 tracking-widest">MULTI-AGENT PIPELINE</span>
       </div>
       <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
-        <div className="text-[9px] font-mono text-slate-500 px-2 py-1 rounded-md"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="text-[9px] font-mono text-ink-500 px-2 py-1 rounded-md"
+          style={{ background: 'rgba(24,20,15,0.04)', border: '1px solid rgba(24,20,15,0.08)' }}>
           Patient Input
         </div>
         {nodes.map((n, i) => (
           <div key={i} className="flex items-center gap-1">
-            <svg width="10" height="10" viewBox="0 0 10 10">
-              <path d="M2 5 L8 5 M6 3 L8 5 L6 7" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <Arrow />
             <div className="text-[9px] font-mono px-2 py-1 rounded-md whitespace-pre-line text-center leading-tight"
-              style={{ background: `${n.color}10`, border: `1px solid ${n.color}30`, color: n.color }}>
+              style={{ background: `${n.color}12`, border: `1px solid ${n.color}30`, color: n.color }}>
               {n.label}
             </div>
           </div>
@@ -135,63 +168,50 @@ function ClinIQDiagram() {
   );
 }
 
-function RAGDiagram() {
-  const ingest = ['PDF', 'PyMuPDF', 'Chunk\n650/100', 'BAAI\nEmbed', 'ChromaDB'];
-  const retrieve = ['Query', 'Dense\ncosine', 'BM25\nOkapi', 'RRF\nFusion', 'LLM\nResponse'];
-  const Row = ({ label, nodes, color }) => (
-    <div className="flex items-center gap-1 flex-wrap">
-      <span className="font-mono text-[8px] text-slate-600 w-12 flex-shrink-0">{label}</span>
-      {nodes.map((n, i) => (
-        <div key={i} className="flex items-center gap-0.5">
-          {i > 0 && (
-            <svg width="8" height="8" viewBox="0 0 8 8">
-              <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          )}
-          <div className="text-[8px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
-            style={{ background: `${color}10`, border: `1px solid ${color}25`, color }}>
-            {n}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+function ComputerUseDiagram() {
   return (
-    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(34,211,238,0.03)', border: '1px solid rgba(34,211,238,0.1)' }}>
+    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(194,82,143,0.04)', border: '1px solid rgba(194,82,143,0.15)' }}>
       <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-        <span className="font-mono text-[9px] text-slate-500 tracking-widest">HYBRID RETRIEVAL PIPELINE</span>
+        <span className="w-1.5 h-1.5 rounded-full bg-[#c2528f]" />
+        <span className="font-mono text-[9px] text-ink-500 tracking-widest">PERCEIVE → DECIDE → ACT LOOP</span>
       </div>
       <div className="px-3 pb-3 space-y-2">
-        <Row label="INGEST" nodes={ingest} color="#22d3ee" />
-        <Row label="QUERY" nodes={retrieve} color="#818cf8" />
-      </div>
-    </div>
-  );
-}
-
-function CrewAIDiagram() {
-  const nodes = ['Ingest', 'Schema\nProfile', 'Clean', 'LLM\nPlan', 'AST\nExec', 'Validate', 'Insights'];
-  return (
-    <div className="mt-3 mb-4 rounded-xl overflow-hidden" style={{ background: 'rgba(34,211,238,0.03)', border: '1px solid rgba(34,211,238,0.1)' }}>
-      <div className="px-3 pt-2.5 pb-1 flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-        <span className="font-mono text-[9px] text-slate-500 tracking-widest">7-AGENT PIPELINE</span>
-      </div>
-      <div className="px-3 pb-3 flex items-center gap-1 flex-wrap">
-        {nodes.map((n, i) => (
-          <div key={i} className="flex items-center gap-0.5">
-            {i > 0 && (
-              <svg width="8" height="8" viewBox="0 0 8 8">
-                <path d="M1 4 L7 4 M5 2 L7 4 L5 6" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            )}
-            <div className="text-[9px] font-mono px-1.5 py-0.5 rounded whitespace-pre-line text-center leading-tight"
-              style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: '#67e8f9' }}>
-              {n}
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-ink-300 w-16 flex-shrink-0">PERCEIVE</span>
+          {['Windows UIA tree', 'Vision fallback (screenshot)'].map((n, i) => (
+            <div key={i} className="flex items-center gap-0.5">
+              {i > 0 && <Arrow />}
+              <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+                style={{ background: 'rgba(194,82,143,0.09)', border: '1px solid rgba(194,82,143,0.26)', color: '#a5406f' }}>
+                {n}
+              </div>
             </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-ink-300 w-16 flex-shrink-0">DECIDE</span>
+          {['Scripted brain', 'Local VLM', 'Hosted model', 'Qwen2-VL-2B + LoRA'].map((n, i) => (
+            <div key={i} className="flex items-center gap-0.5">
+              {i > 0 && <Arrow />}
+              <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+                style={{ background: 'rgba(193,134,26,0.08)', border: '1px solid rgba(193,134,26,0.24)', color: '#996a11' }}>
+                {n}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-1 flex-wrap">
+          <span className="font-mono text-[8px] text-ink-300 w-16 flex-shrink-0">ACT</span>
+          <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+            style={{ background: 'rgba(31,125,104,0.08)', border: '1px solid rgba(31,125,104,0.24)', color: '#155f4d' }}>
+            click / type / scroll on real OS
           </div>
-        ))}
+          <Arrow />
+          <div className="text-[9px] font-mono px-1.5 py-0.5 rounded"
+            style={{ background: 'rgba(24,20,15,0.04)', border: '1px solid rgba(24,20,15,0.1)', color: '#332c22' }}>
+            loop until goal met
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -213,16 +233,15 @@ const PROJECTS = [
     ],
     stats: ['8-Node LangGraph', '100% Recall', '94.12% Precision'],
     tags: ['LangGraph', 'FastAPI', 'ChromaDB', 'Groq', 'PyGitHub', 'ONNX'],
-    category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    accentColor: '#f59e0b',
+    accentColor: '#e8542e',
   },
   {
     id: 2,
     title: 'Aria',
-    subtitle: 'Agentic AI Assistant with Human-in-the-Loop',
+    subtitle: 'Agentic RAG · Multi-Agent Assistant with HiTL',
     hook: 'Every write action — email, code commit, calendar event — shows you an editable approval card. Nothing executes without your say.',
-    description: 'Production-grade multi-agent assistant with a Human-in-the-Loop approval layer. LangGraph StateGraph orchestrates 10+ specialist write-agents behind a single Orchestrator → Synthesis → Critic pipeline.',
+    description: 'Production-grade agentic RAG assistant with a Human-in-the-Loop approval layer. LangGraph StateGraph orchestrates 10+ specialist write-agents behind a single Orchestrator → Synthesis → Critic pipeline, grounded by hybrid retrieval.',
     Diagram: AriaDiagram,
     highlights: [
       'Hybrid RAG retrieval via HyDE query expansion + BM25 fused with dense vectors and cross-encoder reranking; tunable similarity threshold blocks hallucinated answers when no relevant context exists.',
@@ -231,9 +250,8 @@ const PROJECTS = [
     ],
     stats: ['10+ Agents', 'HiTL Approval', 'HyDE + BM25 RAG'],
     tags: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Groq'],
-    category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    accentColor: '#6366f1',
+    accentColor: '#1f7d68',
   },
   {
     id: 3,
@@ -249,83 +267,49 @@ const PROJECTS = [
     ],
     stats: ['7 Specialist Agents', 'Render + Vercel', 'Docker CI/CD'],
     tags: ['Python', 'FastAPI', 'ChromaDB', 'Supabase', 'Groq', 'TypeScript'],
-    category: 'AI/ML',
     github: 'https://github.com/rudranaresh0201',
-    accentColor: '#818cf8',
+    accentColor: '#8a4a2e',
   },
   {
     id: 4,
-    title: 'CrewAI CSV Analytics Agent',
-    subtitle: '7-Agent Natural Language Analytics',
-    hook: 'Seven agents, one CSV, zero hallucinated pandas code. The AST sandbox physically cannot let the LLM do anything dangerous.',
-    description: 'Natural-language analytics over CSV/XLSX: ingestion → schema profiling → cleaning → LLM query planning → AST-sandboxed execution → validation → insight generation.',
-    Diagram: CrewAIDiagram,
+    title: 'verimcp + devmcp',
+    subtitle: 'A Trusted Agent Stack for MCP',
+    hook: 'MCP tool calls are trusted by default — a server that says "commit succeeded" might be lying, and nothing stops a retried call from firing twice. Built the proxy that catches both.',
+    description: 'A transparent stdio proxy that sits between any MCP Host and backend server. It independently re-derives the real outcome of a tool call and compares it against what the backend claimed, and answers safe retries from a verified cache instead of re-executing side effects. devmcp is the real MCP server built to prove it against — with tool-call surface across git (commit, branch, status, log), CI (run_ci_pipeline), the filesystem (write_file), Docker (build_image, run_container), and SQLite (create_table, insert_row), because a proxy is only as convincing as what it\'s shown catching.',
+    Diagram: MCPDiagram,
     highlights: [
-      'Secure code-execution sandbox (safe_executor.py) — AST validates every LLM-generated pandas snippet before execution.',
-      'Persona-aware output (Risk Analyst, Compliance Officer, Student, General) with 3-attempt OpenRouter retry loop.',
-      'Full pytest suite and CLI entry point.',
+      'Correctness verifiers re-check claims against real state (disk hash-compare for writes, re-derived git log for commits, self-consistency + safe re-execution for CI) — a pluggable system via importlib.metadata.entry_points, the same mechanism pytest/Black use.',
+      'On a 12-scenario adversarial claim-acceptance benchmark, an unprotected Host accepts 100% of fabricated results; verimcp catches 75%, with the remaining gaps named explicitly in the benchmark output rather than hidden.',
+      'verify-before-retry (--idempotent-replay) cuts duplicate side effects from 5/5 to 0/5 on realistic non-idempotent actions (counter bumps, notifications, invoices); adapted from arXiv:2608.02645 and moved to the proxy layer so it works for any Host/backend pair.',
+      'Published on PyPI (verimcp, devmcp-server) and listed on the official MCP Registry; 138 tests over real subprocess pipes and a real git repo, no mocks, plus real bugs caught by MCP Inspector and VS Code Copilot Chat that the test suite itself missed.',
     ],
-    stats: ['7 Agents', 'AST Sandboxed', '3-Attempt Retry'],
-    tags: ['Python', 'CrewAI', 'pandas', 'OpenRouter', 'AST'],
-    category: 'AI/ML',
-    github: 'https://github.com/rudranaresh0201',
-    accentColor: '#22d3ee',
+    stats: ['PyPI + MCP Registry', '75% Claim-Catch', '0% Duplicate Actions'],
+    tags: ['MCP', 'Python', 'OpenTelemetry', 'Docker', 'pytest', 'PyPI'],
+    github: 'https://github.com/rudranaresh0201/mcp',
+    accentColor: '#c1861a',
   },
   {
     id: 5,
-    title: 'RAG Knowledge Assistant',
-    subtitle: 'Hybrid Dense + Sparse Retrieval',
-    hook: 'Built because I was tired of LLMs confidently making things up. Now it cannot — hallucination guard blocks generation when retrieval confidence falls below threshold.',
-    description: 'End-to-end document intelligence: PyMuPDF ingestion, overlapping chunking (650/100 chars), BAAI/bge-base-en-v1.5 embeddings into ChromaDB. Retrieval fuses dense vector search and BM25 via Reciprocal Rank Fusion.',
-    Diagram: RAGDiagram,
+    title: 'computer-use',
+    subtitle: 'Autonomous Windows Desktop Agent',
+    status: 'wip',
+    statusNote: "In active development — dataset validated (3,163 rows, 0 integrity errors), LoRA fine-tuning pipeline built, currently training Qwen2-VL-2B with the 4-arm eval harness up next.",
+    hook: "Anthropic's computer-use architecture, but scoped to the whole OS instead of just a browser — and with three falsifiable hypotheses pre-registered before I touched any data, so I can't quietly redefine success after the fact.",
+    description: 'A goal-driven Windows desktop agent that loops perceive → decide → act until done. Hybrid perception fuses Windows UI Automation (structured, primary) with vision as fallback/ground truth; a LangGraph state machine drives the loop behind a pluggable decision backend — scripted, local VLM, hosted model, or a self-fine-tuned Qwen2-VL-2B.',
+    Diagram: ComputerUseDiagram,
     highlights: [
-      'RRF fusion: s = 1.4·s_vec + 1.0·s_BM25 + 0.35|Q∩T| with length-quality penalties and keyword-hit bonuses.',
-      'Post-filtered top-5 chunks: Jaccard ≥ 0.85 dedup, trigram-repeat detection.',
-      '8 production bugs fixed — including a data-loss race condition on re-upload and a hallucination baked into the fallback path.',
+      'Pre-registered three falsifiable hypotheses before touching data: does fine-tuning beat zero-shot on native Windows apps, does hybrid UIA+vision grounding beat either pure strategy alone, and does it generalize to apps never seen in training.',
+      'Built the full dataset pipeline from scratch — an orchestrator walks 14 real Windows apps and auto-labels click targets straight from the UI Automation tree, no manual annotation — then fine-tunes Qwen2-VL-2B via LoRA, all on free-tier Kaggle/Colab GPUs to keep the project at $0 spend.',
+      'Real debugging, not a clean run: a Windows UIPI/process-integrity bug where a standard-privilege collector literally could not see an auto-elevated window like Task Manager; an fp16 underflow bug where LoRA weight updates were silently rounding to zero while loss still looked fine; and a data-integrity bug where 36% of a "validated" dataset turned out to be labels from the wrong app — caught only by rendering bounding boxes onto screenshots and looking.',
+      'Caught and fixed three separate real PII leaks before any data left the machine: a single-instance app reusing a window with stale tab content, a Windows session-restore mechanism, and an OS page rendering the signed-in username.',
+      'Every architecture decision written up as an ADR, every session logged in a dev-log — 150+ passing unit tests so far.',
     ],
-    stats: ['RRF Fusion', 'Jaccard Dedup', '2 LLM Providers'],
-    tags: ['Python', 'FastAPI', 'ChromaDB', 'BM25', 'Sentence-Transformers', 'React'],
-    category: 'AI/ML',
+    stats: ['3,163-Row Dataset', '14 Windows Apps', '$0 Budget'],
+    tags: ['LangGraph', 'Qwen2-VL', 'LoRA', 'Windows UIA', 'PyTorch', 'Computer Use'],
     github: 'https://github.com/rudranaresh0201',
-    accentColor: '#a78bfa',
-  },
-  {
-    id: 6,
-    title: 'Loan Risk Intelligence System',
-    subtitle: 'LSTM-Based Financial Risk Prediction',
-    hook: 'Banks use rules written in Excel. I used an LSTM. The LSTM won.',
-    description: 'LSTM deep learning model for financial risk prediction with a hybrid ML + rule-based decision framework and a React dashboard for real-time analytics.',
-    highlights: [
-      'LSTM architecture for sequential financial data modelling.',
-      'Hybrid ML + rule-based scoring framework.',
-      'Interactive React dashboard for real-time risk analytics.',
-    ],
-    stats: ['LSTM Model', 'Hybrid Framework', 'React Dashboard'],
-    tags: ['Python', 'PyTorch', 'LSTM', 'React'],
-    category: 'AI/ML',
-    github: 'https://github.com/rudranaresh0201',
-    accentColor: '#34d399',
-  },
-  {
-    id: 7,
-    title: 'AI Web Application Firewall',
-    subtitle: 'Transformer-Based Anomaly Detection',
-    hook: 'Turned a transformer — the thing that writes poetry — into a bouncer that reads HTTP requests and decides who gets kicked out.',
-    description: 'Transformer-based deep learning pipeline for web request classification and real-time anomaly detection. Built for Smart India Hackathon 2025.',
-    highlights: [
-      'Transformer model fine-tuned for web traffic classification.',
-      'Real-time anomaly detection pipeline for HTTP request streams.',
-    ],
-    stats: ['Transformer Model', 'Real-Time Detection', 'SIH 2025'],
-    tags: ['Python', 'Transformers', 'PyTorch', 'Deep Learning'],
-    category: 'AI/ML',
-    github: 'https://github.com/rudranaresh0201',
-    accentColor: '#f472b6',
-    badge: 'SIH 2025 — Shortlisted',
+    accentColor: '#c2528f',
   },
 ];
-
-const FILTERS = ['All', 'AI/ML'];
 
 /* ── Card ─────────────────────────────────────────────────────── */
 function ProjectCard({ project }) {
@@ -333,97 +317,115 @@ function ProjectCard({ project }) {
   const Diagram = project.Diagram;
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="glass rounded-2xl overflow-hidden flex flex-col group"
-      style={{ border: '1px solid rgba(255,255,255,0.07)' }}
-      whileHover={{ y: -4, transition: { duration: 0.22 } }}
+    <TiltCard
+      maxTilt={5}
+      className="glass rounded-2xl overflow-hidden flex flex-col group relative"
+      style={{ border: '1px solid rgba(24,20,15,0.08)' }}
     >
-      <div className="h-0.5 w-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }} />
+      <motion.div
+        layout
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={{ y: -4, transition: { duration: 0.22 } }}
+        className="flex flex-col flex-1"
+      >
+        <div className="h-0.5 w-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }} />
 
-      <div className="p-5 flex flex-col flex-1">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <div className="flex-1 min-w-0">
-            {project.badge && (
-              <div className="flex items-center gap-1 mb-1.5">
-                <Trophy size={10} className="text-yellow-400 flex-shrink-0" />
-                <span className="font-mono text-[9px] text-yellow-400 font-semibold tracking-wide">{project.badge}</span>
-              </div>
-            )}
-            <h3 className="font-bold text-white leading-tight">{project.title}</h3>
-            <p className="text-xs mt-0.5" style={{ color: project.accentColor }}>{project.subtitle}</p>
+        <div className="p-5 flex flex-col flex-1">
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div className="flex-1 min-w-0">
+              <span className="font-mono text-[10px] text-ink-300 tracking-widest">0{project.id}</span>
+              {project.badge && (
+                <div className="flex items-center gap-1 mb-1.5">
+                  <Trophy size={10} className="text-gold-500 flex-shrink-0" />
+                  <span className="font-mono text-[9px] text-gold-600 font-semibold tracking-wide">{project.badge}</span>
+                </div>
+              )}
+              {project.status === 'wip' && (
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: project.accentColor }} />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background: project.accentColor }} />
+                  </span>
+                  <span className="font-mono text-[9px] font-semibold tracking-wide" style={{ color: project.accentColor }}>BUILDING RIGHT NOW</span>
+                </div>
+              )}
+              <h3 className="font-bold text-ink-900 leading-tight">{project.title}</h3>
+              <p className="text-xs mt-0.5" style={{ color: project.accentColor }}>{project.subtitle}</p>
+            </div>
+            <motion.a href={project.github} target="_blank" rel="noopener noreferrer"
+              className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-ink-500 hover:text-ink-900 transition-colors"
+              style={{ background: 'rgba(24,20,15,0.05)' }}
+              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}>
+              <Github size={13} />
+            </motion.a>
           </div>
-          <motion.a href={project.github} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-white transition-colors"
-            style={{ background: 'rgba(255,255,255,0.05)' }}
-            whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}>
-            <Github size={13} />
-          </motion.a>
-        </div>
 
-        <p className="text-xs italic mb-2 leading-relaxed"
-          style={{ color: project.accentColor, opacity: 0.8 }}>
-          "{project.hook}"
-        </p>
+          <p className="text-xs italic mb-2 leading-relaxed"
+            style={{ color: project.accentColor, opacity: 0.9 }}>
+            "{project.hook}"
+          </p>
 
-        <p className="text-slate-400 text-sm leading-relaxed mb-3">{project.description}</p>
+          <p className="text-ink-500 text-sm leading-relaxed mb-3">{project.description}</p>
 
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {project.stats.map((s) => (
-            <span key={s} className="font-mono text-[9px] px-2 py-0.5 rounded-full"
-              style={{ background: `${project.accentColor}0d`, color: project.accentColor, border: `1px solid ${project.accentColor}20` }}>
-              {s}
-            </span>
-          ))}
-        </div>
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {project.stats.map((s) => (
+              <span key={s} className="font-mono text-[9px] px-2 py-0.5 rounded-full"
+                style={{ background: `${project.accentColor}0d`, color: project.accentColor, border: `1px solid ${project.accentColor}25` }}>
+                {s}
+              </span>
+            ))}
+          </div>
 
-        <AnimatePresence initial={false}>
-          {expanded && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="overflow-hidden"
-            >
-              {Diagram && <Diagram />}
-              <ul className="space-y-1.5 mb-3">
-                {project.highlights.map((h, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-slate-400 leading-relaxed">
-                    <span className="flex-shrink-0 mt-0.5" style={{ color: project.accentColor }}>›</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+          {project.statusNote && (
+            <p className="text-xs text-ink-500 leading-relaxed mb-3 pl-3 border-l-2" style={{ borderColor: `${project.accentColor}40` }}>
+              {project.statusNote}
+            </p>
           )}
-        </AnimatePresence>
 
-        <button onClick={() => setExpanded((p) => !p)}
-          className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-4">
-          {expanded
-            ? <><ChevronUp size={11} /> Hide details</>
-            : <><ChevronDown size={11} /> Architecture + details</>}
-        </button>
+          <AnimatePresence initial={false}>
+            {expanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.25 }}
+                className="overflow-hidden"
+              >
+                {Diagram && <Diagram />}
+                <ul className="space-y-1.5 mb-3">
+                  {project.highlights.map((h, i) => (
+                    <li key={i} className="flex gap-2 text-xs text-ink-500 leading-relaxed">
+                      <span className="flex-shrink-0 mt-0.5" style={{ color: project.accentColor }}>›</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        <div className="mt-auto flex flex-wrap gap-1.5">
-          {project.tags.map((t) => <span key={t} className="tag">{t}</span>)}
+          <button onClick={() => setExpanded((p) => !p)}
+            className="flex items-center gap-1 text-xs text-ink-500 hover:text-ink-700 transition-colors mb-4">
+            {expanded
+              ? <><ChevronUp size={11} /> Hide details</>
+              : <><ChevronDown size={11} /> Architecture + details</>}
+          </button>
+
+          <div className="mt-auto flex flex-wrap gap-1.5">
+            {project.tags.map((t) => <span key={t} className="tag">{t}</span>)}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </TiltCard>
   );
 }
 
 /* ── Section ──────────────────────────────────────────────────── */
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const filtered = activeFilter === 'All' ? PROJECTS : PROJECTS.filter((p) => p.category === activeFilter);
-
   return (
     <section id="projects" className="py-24 px-5 sm:px-8">
       <div className="max-w-7xl mx-auto">
@@ -435,40 +437,17 @@ export default function Projects() {
           className="mb-12"
         >
           <p className="section-label mb-3">03. projects</p>
-          <h2 className="font-black tracking-tight text-white mb-3"
+          <h2 className="font-serif font-semibold tracking-tight text-ink-900 mb-3"
             style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
             Things I've <span className="gradient-text">Built</span>
           </h2>
-          <p className="text-slate-400 text-base max-w-xl">
-            Click "Architecture + details" on any card to see the pipeline diagram and deep technical notes.
+          <p className="text-ink-500 text-base max-w-xl">
+            The ones I'd actually stand behind — including the one I'm elbow-deep in right now. Click "Architecture + details" on any card for the pipeline diagram and deep technical notes.
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="flex items-center gap-2 mb-10 flex-wrap"
-        >
-          {FILTERS.map((f) => (
-            <button key={f} onClick={() => setActiveFilter(f)}
-              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
-              style={activeFilter === f
-                ? { background: 'linear-gradient(135deg,rgba(99,102,241,0.3),rgba(6,182,212,0.2))', border: '1px solid rgba(129,140,248,0.3)', color: 'white' }
-                : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: '#64748b' }}>
-              {f}
-              <span className="ml-1.5 font-mono text-xs opacity-60">
-                {f === 'All' ? PROJECTS.length : PROJECTS.filter((p) => p.category === f).length}
-              </span>
-            </button>
-          ))}
-        </motion.div>
-
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p) => <ProjectCard key={p.id} project={p} />)}
-          </AnimatePresence>
+          {PROJECTS.map((p) => <ProjectCard key={p.id} project={p} />)}
         </motion.div>
 
         <motion.div

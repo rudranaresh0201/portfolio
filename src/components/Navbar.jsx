@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Magnetic } from './Motion';
 
 const NAV_LINKS = [
-  { label: 'About',      href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects',   href: '#projects' },
-  { label: 'Life',       href: '#life' },
-  { label: 'Certs',      href: '#certifications' },
-  { label: 'Contact',    href: '#contact' },
+  { n: '01', label: 'About',      href: '#about' },
+  { n: '02', label: 'Experience', href: '#experience' },
+  { n: '03', label: 'Projects',   href: '#projects' },
+  { n: '04', label: 'Life',       href: '#life' },
+  { n: '05', label: 'Certs',      href: '#certifications' },
+  { n: '06', label: 'Contact',    href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -42,38 +43,38 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled || mobileOpen ? 'glass border-b border-white/[0.06]' : 'bg-transparent'}`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled || mobileOpen ? 'bg-paper/90 backdrop-blur-md border-b border-ink-900/[0.07]' : 'bg-transparent'}`}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
         <motion.button onClick={() => scrollTo('#about')} className="flex items-center gap-2 focus:outline-none" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
           <span className="text-xl font-black tracking-tight gradient-text" style={{ fontFamily: 'JetBrains Mono, monospace' }}>RN</span>
-          <span className="hidden sm:block text-slate-500 text-sm font-light">/ portfolio</span>
+          <span className="hidden sm:block text-ink-500 text-sm font-light">/ portfolio</span>
         </motion.button>
 
-        <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map(({ label, href }) => {
+        <div className="hidden md:flex items-center gap-6">
+          {NAV_LINKS.map(({ n, label, href }) => {
             const active = activeSection === href.slice(1);
             return (
               <button key={label} onClick={() => scrollTo(href)}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${active ? 'text-white' : 'text-slate-400 hover:text-slate-200'}`}>
-                {active && (
-                  <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-lg"
-                    style={{ background: 'rgba(255,255,255,0.07)' }}
-                    transition={{ type: 'spring', stiffness: 380, damping: 34 }} />
-                )}
-                <span className="relative z-10">{label}</span>
+                className="relative py-1.5 text-sm font-medium transition-colors duration-200 group">
+                <span className={`font-mono text-[10px] mr-1.5 ${active ? 'text-coral-500' : 'text-ink-300'}`}>{n}</span>
+                <span className={active ? 'text-ink-900' : 'text-ink-500 group-hover:text-ink-900'}>{label}</span>
+                <span className="absolute left-0 -bottom-0.5 h-[1.5px] bg-coral-500 transition-all duration-300"
+                  style={{ width: active ? '100%' : '0%' }} />
               </button>
             );
           })}
         </div>
 
         <div className="flex items-center gap-3">
-          <motion.a href="https://github.com/rudranaresh0201" target="_blank" rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-slate-300 px-4 py-2 rounded-xl border border-white/[0.08] hover:border-indigo-500/40 hover:text-white transition-all duration-200"
-            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-            <Github size={14} /> GitHub
-          </motion.a>
-          <button className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl glass text-slate-400 hover:text-white transition-colors"
+          <Magnetic strength={0.4} className="hidden md:block">
+            <a href="https://github.com/rudranaresh0201" target="_blank" rel="noopener noreferrer"
+              className="group inline-flex items-center gap-1 text-sm font-semibold text-ink-700 pb-0.5 border-b-2 border-ink-900/15 hover:border-coral-500 transition-colors duration-200">
+              GitHub
+              <ArrowUpRight size={13} className="text-coral-500 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          </Magnetic>
+          <button className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl glass text-ink-500 hover:text-ink-900 transition-colors"
             onClick={() => setMobileOpen((p) => !p)} aria-label="Toggle navigation">
             {mobileOpen ? <X size={17} /> : <Menu size={17} />}
           </button>
@@ -83,17 +84,17 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div key="mobile-menu" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.22 }} className="md:hidden overflow-hidden border-b border-white/[0.06]">
+            transition={{ duration: 0.22 }} className="md:hidden overflow-hidden border-b border-ink-900/[0.06]">
             <div className="px-5 py-3 space-y-1">
-              {NAV_LINKS.map(({ label, href }) => (
+              {NAV_LINKS.map(({ n, label, href }) => (
                 <button key={label} onClick={() => scrollTo(href)}
-                  className={`block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${activeSection === href.slice(1) ? 'text-white bg-white/[0.07]' : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'}`}>
-                  {label}
+                  className={`flex items-center gap-2 w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${activeSection === href.slice(1) ? 'text-ink-900 bg-ink-900/[0.06]' : 'text-ink-500 hover:text-ink-900 hover:bg-ink-900/[0.04]'}`}>
+                  <span className="font-mono text-[10px] text-ink-300">{n}</span> {label}
                 </button>
               ))}
               <a href="https://github.com/rudranaresh0201" target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all duration-150">
-                <Github size={14} /> GitHub ↗
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-ink-500 hover:text-ink-900 hover:bg-ink-900/[0.04] transition-all duration-150">
+                GitHub ↗
               </a>
             </div>
           </motion.div>
