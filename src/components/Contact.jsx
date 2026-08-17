@@ -50,7 +50,7 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <motion.p variants={fadeUp(0)} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-label mb-4">
-          06. contact
+          07. contact
         </motion.p>
 
         <motion.h2 variants={fadeUp(0.08)} initial="hidden" whileInView="visible" viewport={{ once: true }}

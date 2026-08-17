@@ -148,7 +148,7 @@ export default function Life() {
     <section id="life" className="py-24 px-5 sm:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} className="mb-16">
-          <p className="section-label mb-3">04. life</p>
+          <p className="section-label mb-3">05. life</p>
           <h2 className="font-serif font-semibold tracking-tight text-ink-900 mb-4" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
             Beyond the <span className="gradient-text">Code</span>
           </h2>

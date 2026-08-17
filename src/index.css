@@ -138,6 +138,43 @@
     border-color: rgba(232, 84, 46, 0.35);
     transform: translateY(-1px);
   }
+
+  /* Blog article prose */
+  .prose-blog h2 {
+    font-family: 'Fraunces', ui-serif, Georgia, serif;
+    font-weight: 600;
+    color: #18140f;
+    font-size: clamp(1.4rem, 3vw, 1.85rem);
+    letter-spacing: -0.01em;
+    margin-top: 3rem;
+    margin-bottom: 1.1rem;
+  }
+  .prose-blog p {
+    color: #332c22;
+    font-size: 1.02rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+  .prose-blog strong { color: #18140f; font-weight: 600; }
+  .prose-blog em { color: #6b6255; }
+  .prose-blog a {
+    color: #c23c1b;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(232, 84, 46, 0.35);
+    text-underline-offset: 2px;
+  }
+  .prose-blog a:hover { text-decoration-color: rgba(232, 84, 46, 0.8); }
+  .prose-blog code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: rgba(24, 20, 15, 0.06);
+    color: #c23c1b;
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+  }
+  .prose-blog ul { margin-bottom: 1.25rem; }
+  .prose-blog li { color: #332c22; line-height: 1.7; margin-bottom: 0.5rem; }
 }
 
 /* ─── Background grain texture ─────────────────────────────── */

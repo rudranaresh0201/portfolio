@@ -160,7 +160,7 @@ export default function Certifications() {
           transition={{ duration: 0.55 }}
           className="mb-12"
         >
-          <p className="section-label mb-3">05. certifications</p>
+          <p className="section-label mb-3">06. certifications</p>
           <h2
             className="font-serif font-semibold tracking-tight text-ink-900 mb-4"
             style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}

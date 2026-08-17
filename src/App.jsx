@@ -1,3 +1,4 @@
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import CursorLens from './components/CursorLens';
 import ClickWeb from './components/ClickWeb';
@@ -5,12 +6,14 @@ import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
+import Blog from './components/Blog';
 import Life from './components/Life';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import BlogVerimcp from './pages/BlogVerimcp';
 
-export default function App() {
+function Home() {
   return (
     <div className="my-3 mx-2 sm:my-6 sm:mx-6 lg:mx-10 rounded-2xl sm:rounded-[2rem] overflow-hidden relative"
       style={{
@@ -26,11 +29,23 @@ export default function App() {
         <Marquee />
         <Experience />
         <Projects />
+        <Blog />
         <Life />
         <Certifications />
         <Contact />
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/verimcp" element={<BlogVerimcp />} />
+      </Routes>
+    </HashRouter>
   );
 }

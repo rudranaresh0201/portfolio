@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, ChevronDown, ChevronUp, Trophy } from 'lucide-react';
+import { Github, ExternalLink, ChevronDown, ChevronUp, Trophy, BookOpen } from 'lucide-react';
 import { TiltCard } from './Motion';
 
 /* ── Architecture diagram components ────────────────────────── */
@@ -286,6 +287,7 @@ const PROJECTS = [
     stats: ['PyPI + MCP Registry', '75% Claim-Catch', '0% Duplicate Actions'],
     tags: ['MCP', 'Python', 'OpenTelemetry', 'Docker', 'pytest', 'PyPI'],
     github: 'https://github.com/rudranaresh0201/mcp',
+    blogPath: '/blog/verimcp',
     accentColor: '#c1861a',
   },
   {
@@ -408,12 +410,21 @@ function ProjectCard({ project }) {
             )}
           </AnimatePresence>
 
-          <button onClick={() => setExpanded((p) => !p)}
-            className="flex items-center gap-1 text-xs text-ink-500 hover:text-ink-700 transition-colors mb-4">
-            {expanded
-              ? <><ChevronUp size={11} /> Hide details</>
-              : <><ChevronDown size={11} /> Architecture + details</>}
-          </button>
+          <div className="flex items-center gap-3 mb-4">
+            <button onClick={() => setExpanded((p) => !p)}
+              className="flex items-center gap-1 text-xs text-ink-500 hover:text-ink-700 transition-colors">
+              {expanded
+                ? <><ChevronUp size={11} /> Hide details</>
+                : <><ChevronDown size={11} /> Architecture + details</>}
+            </button>
+            {project.blogPath && (
+              <Link to={project.blogPath}
+                className="flex items-center gap-1 text-xs font-medium transition-colors"
+                style={{ color: project.accentColor }}>
+                <BookOpen size={11} /> Read the writeup
+              </Link>
+            )}
+          </div>
 
           <div className="mt-auto flex flex-wrap gap-1.5">
             {project.tags.map((t) => <span key={t} className="tag">{t}</span>)}
