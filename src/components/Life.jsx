@@ -1,30 +1,10 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Users, Brain, Zap, Network } from 'lucide-react';
 import { TiltCard } from './Motion';
 
-const SKILL_GROUPS = [
-  { label: 'Languages', color: '#e8542e', bg: 'rgba(232,84,46,0.08)', border: 'rgba(232,84,46,0.22)', skills: ['Python', 'C', 'C++', 'TypeScript'] },
-  { label: 'AI / ML', color: '#1f7d68', bg: 'rgba(31,125,104,0.08)', border: 'rgba(31,125,104,0.22)', skills: ['PyTorch', 'Transformers', 'RAG', 'ChromaDB', 'Sentence-Transformers', 'BM25', 'CrewAI', 'LLM APIs'] },
-  { label: 'Backend & DevOps', color: '#c1861a', bg: 'rgba(193,134,26,0.09)', border: 'rgba(193,134,26,0.24)', skills: ['FastAPI', 'Docker', 'GitHub Actions', 'PostgreSQL', 'Supabase', 'Pydantic', 'ReportLab'] },
-  { label: 'Web', color: '#c2528f', bg: 'rgba(194,82,143,0.08)', border: 'rgba(194,82,143,0.22)', skills: ['React', 'Vite', 'Tailwind CSS', 'REST APIs', 'SSE'] },
-];
+const INTERESTS = ['Agentic AI Systems', 'RAG & Retrieval Systems', 'Multi-Agent Pipelines', 'MCP & Agent Infrastructure'];
 
-const LEADERSHIP = [
-  { role: 'Department Head', org: 'E-Cell VJTI', desc: 'Leading entrepreneurship initiatives, startup events, and speaker sessions for the student community at VJTI.', icon: Users, color: '#c1861a' },
-  { role: 'Chief Coordinator', org: 'Enthusia — VJTI Annual Fest', desc: "Coordinating cross-functional teams and managing large-scale logistics for VJTI's annual technical & cultural festival.", icon: Zap, color: '#1f7d68' },
-];
-
-const COMPETITIONS = [
-  { name: 'Smart India Hackathon (SIH) 2025', result: 'Shortlisted', desc: 'Built an AI-based Web Application Firewall using transformer models with a real-time anomaly detection pipeline for web traffic.', icon: Trophy, color: '#c1861a' },
-];
-
-const INTERESTS = [
-  { label: 'Agentic AI Systems',      icon: Brain,   color: '#e8542e' },
-  { label: 'RAG & Retrieval Systems', icon: Zap,     color: '#1f7d68' },
-  { label: 'Multi-Agent Pipelines',   icon: Network, color: '#c1861a' },
-];
-
-function PianoGraphic() {
+function PianoGraphic({ active }) {
   const bars = [4, 7, 11, 6, 9, 14, 8, 12, 5, 10, 13, 7, 9, 6, 8];
   return (
     <div className="relative w-full h-16 mb-4 overflow-hidden rounded-xl" style={{ background: 'rgba(194,82,143,0.07)' }}>
@@ -33,41 +13,39 @@ function PianoGraphic() {
         {[0,1,3,4,5].map((i) => <rect key={`b${i}`} x={i*22+14} y={0} width={13} height={17} rx={2} fill="#c2528f" opacity={0.8}/>)}
       </svg>
       <div className="absolute inset-x-3 top-2 flex items-end gap-0.5 h-9">
-        {bars.map((h, i) => (
-          <motion.div key={i} className="flex-1 rounded-full" style={{ backgroundColor: '#c2528f', minWidth: 2 }}
-            animate={{ height: [`${(h/14)*100}%`, `${(h*0.45/14)*100}%`, `${(h/14)*100}%`] }}
-            transition={{ duration: 1.1 + i * 0.09, repeat: Infinity, ease: 'easeInOut', delay: i * 0.05 }} />
-        ))}
+        {bars.map((h, i) => {
+          const peak = active ? h : h * 0.7;
+          return (
+            <motion.div key={i} className="flex-1 rounded-full" style={{ backgroundColor: '#c2528f', minWidth: 2 }}
+              animate={{ height: [`${(peak/14)*100}%`, `${(peak*0.4/14)*100}%`, `${(peak/14)*100}%`] }}
+              transition={{ duration: active ? 0.7 + i * 0.05 : 1.3 + i * 0.09, repeat: Infinity, ease: 'easeInOut', delay: i * 0.05 }} />
+          );
+        })}
       </div>
-      <div className="absolute top-2 right-3 font-mono text-[9px] text-[#a5406f] opacity-70 tracking-widest">♪ ARIJIT SINGH</div>
     </div>
   );
 }
 
-function CricketGraphic() {
+function TableTennisGraphic({ active }) {
   return (
     <div className="relative w-full h-16 mb-4 overflow-hidden rounded-xl" style={{ background: 'rgba(193,134,26,0.08)' }}>
       <svg viewBox="0 0 200 56" className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <line x1="0" y1="48" x2="200" y2="48" stroke="rgba(193,134,26,0.25)" strokeWidth="1"/>
-        {[52, 62, 72].map((x) => (
-          <g key={x}>
-            <rect x={x} y={18} width={4} height={30} rx={1.5} fill="#c1861a" opacity={0.7}/>
-            <rect x={x-3} y={16} width={10} height={4} rx={1} fill="#c1861a" opacity={0.5}/>
-          </g>
-        ))}
-        <g transform="rotate(-30, 130, 30)">
-          <rect x={127} y={8} width={7} height={30} rx={2} fill="rgba(193,134,26,0.5)"/>
-          <rect x={124} y={30} width={13} height={18} rx={3} fill="rgba(193,134,26,0.35)"/>
-        </g>
-        <circle cx={155} cy={22} r={8} fill="rgba(193,134,26,0.25)" stroke="#c1861a" strokeWidth="1" opacity="0.6"/>
-        <text x="14" y="38" fontFamily="JetBrains Mono, monospace" fontSize="26" fill="rgba(193,134,26,0.22)" fontWeight="900">#7</text>
-        <text x="14" y="52" fontFamily="JetBrains Mono, monospace" fontSize="7" fill="rgba(193,134,26,0.5)" letterSpacing="2">M S DHONI</text>
+        <line x1="100" y1="18" x2="100" y2="48" stroke="rgba(193,134,26,0.4)" strokeWidth="2"/>
+        <rect x={22} y={26} width={16} height={22} rx={8} fill="rgba(193,134,26,0.45)"/>
+        <rect x={162} y={26} width={16} height={22} rx={8} fill="rgba(193,134,26,0.45)"/>
       </svg>
+      <motion.div
+        className="absolute rounded-full"
+        style={{ backgroundColor: '#c1861a', top: 20, width: active ? 10 : 8, height: active ? 10 : 8 }}
+        animate={{ left: ['16%', '82%', '16%'], top: [20, 34, 20] }}
+        transition={{ duration: active ? 1.3 : 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      />
     </div>
   );
 }
 
-function BookGraphic() {
+function BookGraphic({ active }) {
   return (
     <div className="relative w-full h-16 mb-4 overflow-hidden rounded-xl" style={{ background: 'rgba(31,125,104,0.07)' }}>
       <svg viewBox="0 0 200 56" className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -77,69 +55,45 @@ function BookGraphic() {
         <path d="M 70 14 Q 100 10 130 14 L 128 42 Q 100 38 72 42 Z" fill="rgba(31,125,104,0.14)" stroke="rgba(31,125,104,0.35)" strokeWidth="1"/>
         <line x1="100" y1="13" x2="100" y2="42" stroke="rgba(31,125,104,0.45)" strokeWidth="1"/>
         {[20,26,32,38].map((y)=>(<g key={y}><line x1="76" y1={y} x2="95" y2={y} stroke="rgba(31,125,104,0.3)" strokeWidth="1.5"/><line x1="105" y1={y} x2="124" y2={y} stroke="rgba(31,125,104,0.3)" strokeWidth="1.5"/></g>))}
-        <text x="140" y="28" fontFamily="JetBrains Mono, monospace" fontSize="7" fill="rgba(31,125,104,0.5)" letterSpacing="1">CURRENTLY</text>
-        <text x="140" y="38" fontFamily="JetBrains Mono, monospace" fontSize="7" fill="rgba(31,125,104,0.5)" letterSpacing="1">READING</text>
       </svg>
+      <motion.div
+        className="absolute inset-0"
+        animate={active ? { opacity: [0.5, 0.9, 0.5] } : { opacity: 0.5 }}
+        transition={{ duration: 1.4, repeat: active ? Infinity : 0, ease: 'easeInOut' }}
+        style={{
+          background: 'linear-gradient(90deg, transparent 34%, rgba(31,125,104,0.18) 50%, transparent 66%)',
+        }}
+      />
     </div>
   );
 }
 
 const PERSONAL = [
-  { Graphic: PianoGraphic, color: '#c2528f', title: 'Music & Piano', desc: "Arijit Singh is basically my entire personality at this point. I also play piano — learning a piece feels exactly like debugging: frustrating for hours, then suddenly it clicks, and you wonder why it was ever hard." },
-  { Graphic: CricketGraphic, color: '#c1861a', title: 'Cricket & Table Tennis', desc: "Grew up watching Dhoni finish games nobody else could. Still believe the best engineers and the best finishers think the same way — stay calm when everything is on fire, back yourself, execute." },
-  { Graphic: BookGraphic, color: '#1f7d68', title: 'Reading', desc: "Transformer architecture papers at 1am, which is either productivity or a problem — I haven't decided. Also fiction that bends how I see the world. Books are where I collect mental models." },
+  { Graphic: PianoGraphic, color: '#c2528f', title: 'Piano', desc: 'I play piano in my free time.' },
+  { Graphic: TableTennisGraphic, color: '#c1861a', title: 'Table Tennis', desc: 'I play table tennis regularly.' },
+  { Graphic: BookGraphic, color: '#1f7d68', title: 'Reading', desc: 'Avid reader, fiction and technical papers alike.' },
 ];
 
 const fadeUp = (delay = 0) => ({ hidden: { opacity: 0, y: 28 }, visible: { opacity: 1, y: 0, transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] } } });
 
-function SkillGroup({ group, index }) {
+function PersonalCard({ item, index }) {
+  const [hovered, setHovered] = useState(false);
+  const Graphic = item.Graphic;
   return (
-    <TiltCard maxTilt={5} className="glass rounded-2xl glow-border group relative">
-      <motion.div variants={fadeUp(index * 0.07)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-2 h-2 rounded-full" style={{ background: group.color }} />
-          <span className="font-mono text-xs font-semibold tracking-wide" style={{ color: group.color }}>{group.label}</span>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {group.skills.map((skill) => (
-            <span key={skill} className="text-xs font-medium px-3 py-1.5 rounded-lg font-mono"
-              style={{ background: group.bg, color: group.color, border: `1px solid ${group.border}` }}>{skill}</span>
-          ))}
-        </div>
+    <TiltCard maxTilt={6} className="glass rounded-2xl overflow-hidden glow-border relative" style={{ borderColor: `${item.color}20` }}>
+      <motion.div
+        variants={fadeUp(index * 0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}
+        onHoverStart={() => setHovered(true)} onHoverEnd={() => setHovered(false)}
+        whileHover={{ y: -3 }}
+        className="p-5"
+      >
+        <div className="h-0.5 -mx-5 -mt-5 mb-4 transition-opacity duration-300"
+          style={{ background: `linear-gradient(90deg, ${item.color}, transparent)`, opacity: hovered ? 1 : 0.4 }} />
+        <Graphic active={hovered} />
+        <p className="font-semibold text-ink-900 mb-2">{item.title}</p>
+        <p className="text-sm text-ink-500 leading-relaxed">{item.desc}</p>
       </motion.div>
     </TiltCard>
-  );
-}
-
-function LeadershipCard({ item, index }) {
-  const Icon = item.icon;
-  return (
-    <motion.div variants={fadeUp(index * 0.1)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="glass rounded-2xl p-5 glass-hover glow-border">
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style={{ background: `${item.color}15`, border: `1px solid ${item.color}30` }}>
-        <Icon size={18} style={{ color: item.color }} />
-      </div>
-      <p className="font-semibold text-ink-900 mb-0.5">{item.role}</p>
-      <p className="text-sm font-medium mb-2" style={{ color: item.color }}>{item.org}</p>
-      <p className="text-sm text-ink-500 leading-relaxed">{item.desc}</p>
-    </motion.div>
-  );
-}
-
-function CompetitionCard({ item }) {
-  const Icon = item.icon;
-  return (
-    <motion.div variants={fadeUp()} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} className="glass rounded-2xl p-5 glow-border flex gap-4 items-start">
-      <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${item.color}15`, border: `1px solid ${item.color}30` }}>
-        <Icon size={20} style={{ color: item.color }} />
-      </div>
-      <div>
-        <div className="flex flex-wrap items-center gap-2 mb-1">
-          <h4 className="font-semibold text-ink-900 text-sm">{item.name}</h4>
-          <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: `${item.color}15`, color: item.color, border: `1px solid ${item.color}30` }}>{item.result}</span>
-        </div>
-        <p className="text-sm text-ink-500 leading-relaxed">{item.desc}</p>
-      </div>
-    </motion.div>
   );
 }
 
@@ -153,72 +107,31 @@ export default function Life() {
             Beyond the <span className="gradient-text">Code</span>
           </h2>
           <p className="text-ink-500 text-base leading-relaxed max-w-2xl">
-            Skills I've sharpened, teams I've led, things I've competed in — and the parts of life that have nothing to do with a terminal.
+            What I'm exploring right now, and the parts of life that have nothing to do with a terminal.
           </p>
         </motion.div>
 
         <div className="mb-16">
-          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
-            <span className="gradient-text">⌨</span> Technical Skills
-          </motion.h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {SKILL_GROUPS.map((g, i) => <SkillGroup key={g.label} group={g} index={i} />)}
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
-            <span className="gradient-text">🎯</span> Leadership
-          </motion.h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
-            {LEADERSHIP.map((l, i) => <LeadershipCard key={l.org} item={l} index={i} />)}
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
-            <span className="gradient-text">🏆</span> Competitions
-          </motion.h3>
-          <div className="max-w-3xl">
-            {COMPETITIONS.map((c) => <CompetitionCard key={c.name} item={c} />)}
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
-            <span className="gradient-text">🔭</span> What I'm Exploring
+          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6">
+            What I'm Exploring
           </motion.h3>
           <div className="flex flex-wrap gap-3">
-            {INTERESTS.map((interest, i) => {
-              const Icon = interest.icon;
-              return (
-                <motion.div key={interest.label} variants={fadeUp(i * 0.06)} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass glow-border"
-                  style={{ border: `1px solid ${interest.color}28` }} whileHover={{ scale: 1.04, y: -2 }}>
-                  <Icon size={14} style={{ color: interest.color }} />
-                  <span className="text-sm font-medium text-ink-700">{interest.label}</span>
-                </motion.div>
-              );
-            })}
+            {INTERESTS.map((interest, i) => (
+              <motion.div key={interest} variants={fadeUp(i * 0.06)} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                className="px-4 py-2.5 rounded-xl glass glow-border"
+                whileHover={{ scale: 1.04, y: -2 }}>
+                <span className="text-sm font-medium text-ink-700">{interest}</span>
+              </motion.div>
+            ))}
           </div>
         </div>
 
         <div>
-          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6 flex items-center gap-2">
-            <span className="gradient-text">✦</span> Outside the IDE
+          <motion.h3 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }} className="text-lg font-bold text-ink-900 mb-6">
+            Outside the IDE
           </motion.h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {PERSONAL.map((p, i) => {
-              const Graphic = p.Graphic;
-              return (
-                <motion.div key={p.title} variants={fadeUp(i * 0.08)} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}
-                  className="glass rounded-2xl p-5 glow-border glass-hover" style={{ borderColor: `${p.color}20` }}>
-                  <Graphic />
-                  <p className="font-semibold text-ink-900 mb-2">{p.title}</p>
-                  <p className="text-sm text-ink-500 leading-relaxed">{p.desc}</p>
-                </motion.div>
-              );
-            })}
+            {PERSONAL.map((p, i) => <PersonalCard key={p.title} item={p} index={i} />)}
           </div>
         </div>
       </div>

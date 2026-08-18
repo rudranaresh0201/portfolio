@@ -20,7 +20,7 @@ const CERTS = [
     accentColor: '#1f7d68',
     tags: ['MCP', 'AI Infrastructure', 'Anthropic'],
     description:
-      'Covers the Model Context Protocol — the open standard for connecting LLMs to external tools, data sources, and systems. Directly applicable to production agentic AI pipelines.',
+      'Covers the Model Context Protocol, the open standard for connecting LLMs to external tools, data sources, and systems. Directly applicable to production agentic AI pipelines.',
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const CERTS = [
     accentColor: '#76b900',
     tags: ['Data Science', 'RAPIDS', 'GPU Acceleration'],
     description:
-      'Certificate of Competency for accelerating full data science pipelines end-to-end on GPUs — issued by NVIDIA, signed by Howard Wright, VP.',
+      'Certificate of Competency for accelerating full data science pipelines end-to-end on GPUs. Issued by NVIDIA, signed by Howard Wright, VP.',
   },
 ];
 
@@ -169,7 +169,7 @@ export default function Certifications() {
             <span className="gradient-text">Verified</span>
           </h2>
           <p className="text-ink-500 text-base leading-relaxed max-w-2xl">
-            Credentials with actual verification links — not just screenshots.
+            Credentials with actual verification links, not just screenshots.
             Click a card for the details. More incoming as I keep building.
           </p>
         </motion.div>

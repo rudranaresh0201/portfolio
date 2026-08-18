@@ -9,7 +9,7 @@ const POSTS = [
     title: "Don't Trust the Tool Call: Building a Verifier for MCP",
     date: '2026-08-15',
     excerpt:
-      "An MCP server can say isError: false and still be lying — nothing in the protocol proves a claimed side effect actually happened. Here's the proxy I built that independently checks it, and the real bugs three different clients caught in it before I trusted my own \"it works.\"",
+      "An MCP server can say isError: false and still be lying: nothing in the protocol proves a claimed side effect actually happened. Here's the proxy I built that independently checks it, and the real bugs three different clients caught in it before I trusted my own \"it works.\"",
     tags: ['mcp', 'agentic-ai', 'verification', 'python'],
     accentColor: '#c1861a',
   },
@@ -66,7 +66,7 @@ export default function Blog() {
             Things I've <span className="gradient-text">Written</span>
           </h2>
           <p className="text-ink-500 text-base max-w-xl">
-            Real bugs, real numbers, real code — the technical write-ups behind what's above.
+            Real bugs, real numbers, real code: the technical write-ups behind what's above.
           </p>
         </motion.div>
 

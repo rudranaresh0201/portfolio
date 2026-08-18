@@ -72,13 +72,13 @@ function ProfilePortrait() {
 
       <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
         className="absolute -right-8 top-6 glass rounded-xl px-3 py-2 text-xs font-mono"
-        style={{ border: '1px solid rgba(31,125,104,0.3)', color: '#155f4d' }}>🤖 Agentic AI</motion.div>
+        style={{ border: '1px solid rgba(31,125,104,0.3)', color: '#155f4d' }}>Agentic AI</motion.div>
       <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
         className="absolute -left-10 bottom-24 glass rounded-xl px-3 py-2 text-xs font-mono"
-        style={{ border: '1px solid rgba(232,84,46,0.3)', color: '#c23c1b' }}>🔗 MCP</motion.div>
+        style={{ border: '1px solid rgba(232,84,46,0.3)', color: '#c23c1b' }}>MCP</motion.div>
       <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
         className="absolute -right-6 bottom-2 glass rounded-xl px-3 py-2 text-xs font-mono"
-        style={{ border: '1px solid rgba(193,134,26,0.3)', color: '#996a11' }}>📄 RAG</motion.div>
+        style={{ border: '1px solid rgba(193,134,26,0.3)', color: '#996a11' }}>RAG</motion.div>
     </motion.div>
   );
 }
@@ -102,7 +102,7 @@ export default function Hero() {
           <motion.div variants={container} initial="hidden" animate="visible"
             className="flex-1 text-center lg:text-left max-w-2xl">
             <motion.div variants={item} className="mb-5 inline-flex items-center gap-2">
-              <span className="section-label" style={{ fontFamily: 'JetBrains Mono, monospace' }}>01 — hello world, I'm</span>
+              <span className="section-label" style={{ fontFamily: 'JetBrains Mono, monospace' }}>01 · hello world, I'm</span>
             </motion.div>
             <motion.h1 variants={item} className="font-serif font-semibold tracking-tight leading-none mb-3"
               style={{ fontSize: 'clamp(3rem, 10vw, 6.5rem)' }}>
@@ -112,12 +112,9 @@ export default function Hero() {
               <span className="font-mono text-base sm:text-xl text-teal-500">{typedText}</span>
               <span className="font-mono text-xl text-coral-500 animate-blink ml-0.5">|</span>
             </motion.div>
-            <motion.p variants={item} className="font-serif italic text-ink-900 font-medium text-lg sm:text-xl mb-2">
-              I build AI that does the work, not just the demo.
-            </motion.p>
             <motion.p variants={item} className="text-ink-500 text-sm leading-relaxed mb-6">
-              Electronics engineer by degree, agent-plumber by obsession — RAG systems, autonomous
-              agents, and the infrastructure that keeps them honest. ·{' '}
+              Electronics engineering student building RAG systems, autonomous agents, and the
+              infrastructure that verifies them. ·{' '}
               <span className="text-ink-700 font-medium">VJTI Mumbai</span> · AI/ML Minor ·
               CGPA <span className="text-coral-600 font-mono font-semibold">8.37</span>
             </motion.p>

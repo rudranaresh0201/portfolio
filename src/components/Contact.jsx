@@ -61,8 +61,7 @@ export default function Contact() {
 
         <motion.p variants={fadeUp(0.14)} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="text-ink-500 text-base sm:text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-          If you're building something interesting in AI or just want to argue about
-          whether Dhoni is the GOAT <span className="text-ink-300 text-sm">(he is)</span>, reach out.
+          If you're building something in AI, reach out.
         </motion.p>
 
         <motion.div variants={fadeUp(0.2)} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mb-8">
@@ -92,7 +91,7 @@ export default function Contact() {
         <motion.div variants={fadeUp(0.32)} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="flex items-center gap-4">
           <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(24,20,15,0.1))' }} />
-          <p className="font-mono text-xs text-ink-300">Dhoni didn't wait for perfect conditions. Neither do I.</p>
+          <p className="font-mono text-xs text-ink-300">Usually replies within a day.</p>
           <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, rgba(24,20,15,0.1), transparent)' }} />
         </motion.div>
       </div>

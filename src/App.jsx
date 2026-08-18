@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import CursorLens from './components/CursorLens';
 import ClickWeb from './components/ClickWeb';
 import Hero from './components/Hero';
-import Marquee from './components/Marquee';
+import IntroBounce from './components/IntroBounce';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Blog from './components/Blog';
@@ -23,10 +23,10 @@ function Home() {
       }}>
       <CursorLens />
       <ClickWeb />
+      <IntroBounce />
       <Navbar />
       <main>
         <Hero />
-        <Marquee />
         <Experience />
         <Projects />
         <Blog />

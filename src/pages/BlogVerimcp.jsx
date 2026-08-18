@@ -31,11 +31,11 @@ export default function BlogVerimcp() {
     >
       <h2>How I found MCP</h2>
       <p>
-        I was building agentic systems with LangGraph — wiring up graphs of LLM calls, tools, and state, the usual
-        agent-framework plumbing. Somewhere in that work I ran into MCP: a standard way for something like Claude, or a
-        CLI, to actually go and do stuff in another application, instead of just talking about doing it. The framing that
-        stuck with me was "a smart API" — not quite right, but close enough to make me stop and actually read the spec
-        instead of skimming past another acronym.
+        I was building agentic systems with LangGraph, wiring up graphs of LLM calls, tools, and state: the usual
+        agent-framework plumbing. Somewhere in that work I ran into MCP, a standard way for something like Claude, or
+        a CLI, to actually go and do stuff in another application, instead of just talking about doing it. The framing
+        that stuck with me was "a smart API," not quite right, but close enough to make me stop and actually read the
+        spec instead of skimming past another acronym.
       </p>
 
       <h2>What MCP actually is</h2>
@@ -45,30 +45,30 @@ export default function BlogVerimcp() {
         tool."
       </p>
       <p>
-        There are three roles, not two. The <strong>Host</strong> is the actual application — Claude Code, an IDE,
+        There are three roles, not two. The <strong>Host</strong> is the actual application: Claude Code, an IDE,
         whatever app the user is sitting in front of. The Host owns the LLM. Inside the Host lives a{' '}
-        <strong>Client</strong>, and the Client's whole job is managing one connection to one <strong>Server</strong> —
-        in my case, a small server I built called devmcp.
+        <strong>Client</strong>, and the Client's whole job is managing one connection to one <strong>Server</strong>,
+        in my case a small server I built called devmcp.
       </p>
       <p>
         The conversation looks like this: the user asks the Host something. The Host's LLM decides it needs a tool, so
-        the Client sends a <code>tools/call</code> request to the Server, written in a message format called JSON-RPC —
+        the Client sends a <code>tools/call</code> request to the Server, written in a message format called JSON-RPC:
         think of it as a plain, structured way of saying "call this function, here are the arguments, and here's an ID
         so you know which reply belongs to which request." The Server does the work and sends back a response tagged
         with that same ID.
       </p>
       <p>
-        That ID-matching detail sounds like plumbing, not something worth mentioning — until it's the exact thing that
+        That ID-matching detail sounds like plumbing, not something worth mentioning, until it's the exact thing that
         breaks. It happened to me. MCP Inspector, the official test client, sent verimcp a <code>resources/list</code>{' '}
-        request with id <code>1</code>. Completely unrelated to that, devmcp — running behind verimcp — had{' '}
-        <em>also</em> just used id <code>1</code>, for its own request back to the Host (asking which folder it's
+        request with id <code>1</code>. Completely unrelated to that, devmcp, running behind verimcp, had{' '}
+        <em>also</em> just used id <code>1</code> for its own request back to the Host (asking which folder it's
         allowed to touch). Two separate counters, on two separate sides of the connection, both innocently starting
         from 1, colliding by pure coincidence. verimcp was matching replies to requests by id alone, so for one message
         it mistook devmcp's own outgoing request for the reply Inspector was actually waiting for, and handed back a
         synthesized, mostly-empty answer instead of the real one.
       </p>
       <p>
-        My own test suite, 100+ tests at that point, never once caught this — because every test I'd written happened
+        My own test suite, 100+ tests at that point, never once caught this, because every test I'd written happened
         to answer things in an order that closed the exact timing window where the collision could occur. I wasn't
         being sloppy; I just couldn't see the gap from inside my own assumptions. Inspector, a real client written by
         people who'd never seen my code, did something perfectly ordinary and walked straight into it. That's the whole
@@ -76,14 +76,14 @@ export default function BlogVerimcp() {
         tests I wrote myself.
       </p>
       <p>
-        The direction isn't always Host-to-Server, either. A Server can turn around and call the Host back — two
-        specific cases: <strong>sampling</strong>, where the Server asks the Host's own LLM to generate something on
+        The direction isn't always Host-to-Server, either. A Server can turn around and call the Host back: two
+        specific cases. <strong>Sampling</strong>, where the Server asks the Host's own LLM to generate something on
         its behalf, and <strong>elicitation</strong>, where the Server asks the Host to go get a real human's
         confirmation before doing something. Both are just more JSON-RPC messages, flowing the opposite direction over
         the same connection.
       </p>
       <p>
-        All of that is real, working, standardized. What isn't standardized — what nothing in the protocol guarantees —
+        All of that is real, working, standardized. What isn't standardized, what nothing in the protocol guarantees,
         is the one thing that actually matters: when a tool call comes back saying <code>isError: false</code>, that
         only means the Server didn't crash. It says nothing about whether the thing it claims to have done actually
         happened.
@@ -91,38 +91,38 @@ export default function BlogVerimcp() {
 
       <h2>The gap nobody was checking</h2>
       <p>
-        Sit with that for a second, because it's easy to skim past. An agent asks a Server to commit some code. The
-        Server replies <code>isError: false</code>, "committed abc123: fix the bug." The agent believes it. It moves
-        on, maybe tells the user the fix is in, maybe kicks off a deploy.
+        That's easy to skim past, so slow down for a second. An agent asks a Server to commit some code. The Server
+        replies <code>isError: false</code>, "committed abc123: fix the bug." The agent believes it. It moves on,
+        maybe tells the user the fix is in, maybe kicks off a deploy.
       </p>
       <p>
         Nothing in that exchange proves a commit with hash <code>abc123</code> exists anywhere. The Server could be
-        buggy. It could be lying — deliberately, or because it fabricated a plausible-looking hash after a silent
+        buggy. It could be lying, deliberately, or because it fabricated a plausible-looking hash after a silent
         failure. The agent has no way to tell the difference between "this genuinely happened" and "this is a
-        well-formatted sentence claiming it happened." And once the agent believes it, that belief propagates — into
+        well-formatted sentence claiming it happened." And once the agent believes it, that belief propagates into
         the next decision, the next tool call, the thing it tells the user.
       </p>
       <p>
-        That's the actual gap. Not "MCP is insecure" — MCP is doing exactly what it's designed to do. It's that{' '}
+        That's the actual gap. Not "MCP is insecure," MCP is doing exactly what it's designed to do. It's that{' '}
         <em>nothing in the loop independently checks a claim against reality</em>. So I built something that does.
       </p>
 
       <h2>What I built: devmcp and verimcp</h2>
       <p>Two pieces, two jobs.</p>
       <p>
-        <strong>devmcp</strong> is a real MCP Server — the thing that actually does work. Write a file, make a git
+        <strong>devmcp</strong> is a real MCP Server: the thing that actually does work. Write a file, make a git
         commit, create a branch, run a CI pipeline, build a Docker image, insert a row into SQLite. Nine tools now,
         each one a real, unmocked side effect: it really writes the file, really shells out to git, really talks to a
         real database file.
       </p>
       <p>
-        <strong>verimcp</strong> is the part that doesn't trust devmcp's word for it. It's a proxy — it sits on the
+        <strong>verimcp</strong> is the part that doesn't trust devmcp's word for it. It's a proxy: it sits on the
         wire between the Client and devmcp, invisible to both sides. Every <code>tools/call</code> response that passes
         through it gets checked, if there's a verifier for that tool: verimcp independently goes and looks. Did the
         file on disk actually get that content? Does <code>git cat-file</code> actually confirm that commit hash
         exists? Does <code>docker inspect</code> actually show that container with that exit code? Only if the
         independent check agrees with the claim does the response go through unchanged. If it doesn't agree, verimcp
-        rewrites the response into a real, visible failure — the Client never sees the unverified claim as if it were
+        rewrites the response into a real, visible failure. The Client never sees the unverified claim as if it were
         true.
       </p>
 
@@ -130,14 +130,14 @@ export default function BlogVerimcp() {
 
       <p>
         Neither side knows verimcp is there. The Host thinks it's talking straight to devmcp. devmcp thinks it's
-        talking straight to the Host. That's deliberate — it's what makes this work as a drop-in layer in front of{' '}
+        talking straight to the Host. That's deliberate: it's what makes this work as a drop-in layer in front of{' '}
         <em>any</em> MCP server, not just the one I wrote.
       </p>
 
       <h2>How verification actually works, concretely</h2>
       <p>
         Talk about "verification" too long in the abstract and it starts to sound like hand-waving. So here's the
-        first, simplest verifier, in full — <code>FilesystemVerifier</code>, roughly 30 lines, checking{' '}
+        first, simplest verifier, in full: <code>FilesystemVerifier</code>, roughly 30 lines, checking{' '}
         <code>write_file</code>:
       </p>
 
@@ -166,22 +166,22 @@ export default function BlogVerimcp() {
       <p>
         No LLM call. No heuristics. It re-opens the file, hashes what's actually there, compares it against what was
         claimed, and only lets the response through if reality agrees. Every other verifier follows the same shape
-        against a different ground truth: <code>GitCommitVerifier</code> runs <code>git cat-file -e &lt;hash&gt;</code>{' '}
-        — git's own "does this object exist" check. <code>DockerVerifier</code> runs <code>docker inspect</code> and
+        against a different ground truth: <code>GitCommitVerifier</code> runs <code>git cat-file -e &lt;hash&gt;</code>,
+        git's own "does this object exist" check. <code>DockerVerifier</code> runs <code>docker inspect</code> and
         compares the real exit code against the claimed one. <code>SQLiteVerifier</code> reconnects to the database
-        file fresh and re-queries for the exact row. Nine tools now, across five domains — filesystem, git, CI, SQLite,
-        Docker — each with its own independently-derived ground truth.
+        file fresh and re-queries for the exact row. Nine tools now, across five domains (filesystem, git, CI, SQLite,
+        Docker), each with its own independently-derived ground truth.
       </p>
 
       <h2>Proof, not claims</h2>
       <p>
         Every claim above is backed by something that runs, not something I'm asserting. Three separate,
-        independently-built AI clients — ones I didn't write — were pointed at this proxy, and each one caught a real
+        independently-built AI clients, ones I didn't write, were pointed at this proxy, and each one caught a real
         bug in it before I trusted the "it works" story:
       </p>
       <ul>
         <li>
-          <strong>MCP Inspector</strong> (the official testing client) caught a JSON-RPC id-collision bug — the proxy
+          <strong>MCP Inspector</strong> (the official testing client) caught a JSON-RPC id-collision bug: the proxy
           briefly confused a backend's own self-originated request with a reply meant for the Host, because two
           completely independent id counters happened to collide.
         </li>
@@ -194,7 +194,7 @@ export default function BlogVerimcp() {
           Windows path with backslashes into Inspector's argument box silently ate the backslashes, and devmcp wrote
           into a mangled folder path <em>inside the real project repo</em> instead of the isolated test directory I
           intended. I only caught it because I checked real <code>git status</code> myself instead of trusting the
-          tool's own success message — which is, appropriately, the entire thesis of this project happening to me
+          tool's own success message, which is, appropriately, the entire thesis of this project happening to me
           while building it.
         </li>
       </ul>
@@ -216,23 +216,23 @@ export default function BlogVerimcp() {
         The 75%, not 100%, is on purpose and stated plainly in the benchmark script's own output: 3 of the 12
         fabrication cases exploit a real, principled limit (a hash-exists check can't prove <em>this specific call</em>{' '}
         created the hash versus it already existing). A tool that claims a perfect score on its own benchmark is the
-        thing to be suspicious of — so this one doesn't.
+        thing to be suspicious of. This one doesn't.
       </p>
 
       <h2>What's actually shipped</h2>
       <p>
-        Both packages are published and installable — <code>pip install verimcp devmcp-server</code> — and listed on
+        Both packages are published and installable (<code>pip install verimcp devmcp-server</code>) and listed on
         the official MCP Registry, not just sitting in a repo. Nine tools across five verified domains. 168 passing
         tests, all against real subprocesses and real files, nothing mocked. Every non-obvious decision along the way
         has a written ADR explaining why, including the mistakes.
       </p>
       <p>
         That last part matters more to me than it might seem to say out loud: this wasn't "prompt an LLM, ship whatever
-        it says works." Every claim in this post — the bug counts, the benchmark numbers, the screenshots — is
+        it says works." Every claim in this post (the bug counts, the benchmark numbers, the screenshots) is
         something you can go run yourself, right now, against the real repo.
       </p>
       <p>
-        If you're working on agent reliability, MCP tooling, or just want to talk about any of this —{' '}
+        If you're working on agent reliability, MCP tooling, or just want to talk about any of this,{' '}
         <a href="https://github.com/rudranaresh0201/mcp" target="_blank" rel="noopener noreferrer">the repo's here</a>.
       </p>
     </BlogLayout>

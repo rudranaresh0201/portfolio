@@ -224,8 +224,8 @@ const PROJECTS = [
     id: 1,
     title: 'PRGuard',
     subtitle: 'Autonomous PR Governance Agent',
-    hook: 'Pull requests reviewed by a pipeline that never sleeps, never misses a vuln, and actually reads the whole codebase — not just the diff.',
-    description: 'Autonomous PR governance via an 8-node LangGraph pipeline (triage, security, documentation, bug detection, API change detection, critical file audit) — reviews PRs across any language with zero human involvement.',
+    hook: 'Pull requests reviewed by a pipeline that never sleeps, never misses a vuln, and actually reads the whole codebase, not just the diff.',
+    description: 'Autonomous PR governance via an 8-node LangGraph pipeline (triage, security, documentation, bug detection, API change detection, critical file audit). Reviews PRs across any language with zero human involvement.',
     Diagram: PRGuardDiagram,
     highlights: [
       'AST-indexed CodeRAG indexes codebases at function level, enabling architecture violation and duplication detection that diff-only tools cannot achieve.',
@@ -241,13 +241,13 @@ const PROJECTS = [
     id: 2,
     title: 'Aria',
     subtitle: 'Agentic RAG · Multi-Agent Assistant with HiTL',
-    hook: 'Every write action — email, code commit, calendar event — shows you an editable approval card. Nothing executes without your say.',
+    hook: 'Every write action (email, code commit, calendar event) shows you an editable approval card. Nothing executes without your say.',
     description: 'Production-grade agentic RAG assistant with a Human-in-the-Loop approval layer. LangGraph StateGraph orchestrates 10+ specialist write-agents behind a single Orchestrator → Synthesis → Critic pipeline, grounded by hybrid retrieval.',
     Diagram: AriaDiagram,
     highlights: [
       'Hybrid RAG retrieval via HyDE query expansion + BM25 fused with dense vectors and cross-encoder reranking; tunable similarity threshold blocks hallucinated answers when no relevant context exists.',
       'Per-user multi-tenant isolation across vector store, episodic memory, and OAuth credentials.',
-      '10+ specialist write-agents: Gmail, GitHub, Calendar, code execution, data analysis — all gated behind the approval layer.',
+      '10+ specialist write-agents: Gmail, GitHub, Calendar, code execution, data analysis, all gated behind the approval layer.',
     ],
     stats: ['10+ Agents', 'HiTL Approval', 'HyDE + BM25 RAG'],
     tags: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Groq'],
@@ -262,7 +262,7 @@ const PROJECTS = [
     description: 'Multi-agent clinical workflow: symptom extraction → differential diagnosis → India-specific epidemiology reranking → risk stratification → monitoring plan → doctor-facing patient timeline.',
     Diagram: ClinIQDiagram,
     highlights: [
-      'DeepDive lab report analysis engine — ingests structured PDFs, generates clinician-grade interpretations.',
+      'DeepDive lab report analysis engine that ingests structured PDFs and generates clinician-grade interpretations.',
       'OpenRouter LLM fallback layer for resilience across model providers.',
       'Supabase-backed persistence; deployed on Render + Vercel with Docker CI/CD via GitHub Actions.',
     ],
@@ -275,11 +275,11 @@ const PROJECTS = [
     id: 4,
     title: 'verimcp + devmcp',
     subtitle: 'A Trusted Agent Stack for MCP',
-    hook: 'MCP tool calls are trusted by default — a server that says "commit succeeded" might be lying, and nothing stops a retried call from firing twice. Built the proxy that catches both.',
-    description: 'A transparent stdio proxy that sits between any MCP Host and backend server. It independently re-derives the real outcome of a tool call and compares it against what the backend claimed, and answers safe retries from a verified cache instead of re-executing side effects. devmcp is the real MCP server built to prove it against — with tool-call surface across git (commit, branch, status, log), CI (run_ci_pipeline), the filesystem (write_file), Docker (build_image, run_container), and SQLite (create_table, insert_row), because a proxy is only as convincing as what it\'s shown catching.',
+    hook: 'MCP tool calls are trusted by default: a server that says "commit succeeded" might be lying, and nothing stops a retried call from firing twice. Built the proxy that catches both.',
+    description: 'A transparent stdio proxy that sits between any MCP Host and backend server. It independently re-derives the real outcome of a tool call and compares it against what the backend claimed, and answers safe retries from a verified cache instead of re-executing side effects. devmcp is the real MCP server built to prove it against, with tool-call surface across git (commit, branch, status, log), CI (run_ci_pipeline), the filesystem (write_file), Docker (build_image, run_container), and SQLite (create_table, insert_row), because a proxy is only as convincing as what it\'s shown catching.',
     Diagram: MCPDiagram,
     highlights: [
-      'Correctness verifiers re-check claims against real state (disk hash-compare for writes, re-derived git log for commits, self-consistency + safe re-execution for CI) — a pluggable system via importlib.metadata.entry_points, the same mechanism pytest/Black use.',
+      'Correctness verifiers re-check claims against real state (disk hash-compare for writes, re-derived git log for commits, self-consistency + safe re-execution for CI), a pluggable system via importlib.metadata.entry_points, the same mechanism pytest/Black use.',
       'On a 12-scenario adversarial claim-acceptance benchmark, an unprotected Host accepts 100% of fabricated results; verimcp catches 75%, with the remaining gaps named explicitly in the benchmark output rather than hidden.',
       'verify-before-retry (--idempotent-replay) cuts duplicate side effects from 5/5 to 0/5 on realistic non-idempotent actions (counter bumps, notifications, invoices); adapted from arXiv:2608.02645 and moved to the proxy layer so it works for any Host/backend pair.',
       'Published on PyPI (verimcp, devmcp-server) and listed on the official MCP Registry; 138 tests over real subprocess pipes and a real git repo, no mocks, plus real bugs caught by MCP Inspector and VS Code Copilot Chat that the test suite itself missed.',
@@ -295,16 +295,16 @@ const PROJECTS = [
     title: 'computer-use',
     subtitle: 'Autonomous Windows Desktop Agent',
     status: 'wip',
-    statusNote: "In active development — dataset validated (3,163 rows, 0 integrity errors), LoRA fine-tuning pipeline built, currently training Qwen2-VL-2B with the 4-arm eval harness up next.",
-    hook: "Anthropic's computer-use architecture, but scoped to the whole OS instead of just a browser — and with three falsifiable hypotheses pre-registered before I touched any data, so I can't quietly redefine success after the fact.",
-    description: 'A goal-driven Windows desktop agent that loops perceive → decide → act until done. Hybrid perception fuses Windows UI Automation (structured, primary) with vision as fallback/ground truth; a LangGraph state machine drives the loop behind a pluggable decision backend — scripted, local VLM, hosted model, or a self-fine-tuned Qwen2-VL-2B.',
+    statusNote: "In active development. Dataset validated (3,163 rows, 0 integrity errors), LoRA fine-tuning pipeline built, currently training Qwen2-VL-2B with the 4-arm eval harness up next.",
+    hook: "Anthropic's computer-use architecture, but scoped to the whole OS instead of just a browser, with three falsifiable hypotheses pre-registered before I touched any data, so I can't quietly redefine success after the fact.",
+    description: 'A goal-driven Windows desktop agent that loops perceive → decide → act until done. Hybrid perception fuses Windows UI Automation (structured, primary) with vision as fallback/ground truth; a LangGraph state machine drives the loop behind a pluggable decision backend: scripted, local VLM, hosted model, or a self-fine-tuned Qwen2-VL-2B.',
     Diagram: ComputerUseDiagram,
     highlights: [
       'Pre-registered three falsifiable hypotheses before touching data: does fine-tuning beat zero-shot on native Windows apps, does hybrid UIA+vision grounding beat either pure strategy alone, and does it generalize to apps never seen in training.',
-      'Built the full dataset pipeline from scratch — an orchestrator walks 14 real Windows apps and auto-labels click targets straight from the UI Automation tree, no manual annotation — then fine-tunes Qwen2-VL-2B via LoRA, all on free-tier Kaggle/Colab GPUs to keep the project at $0 spend.',
-      'Real debugging, not a clean run: a Windows UIPI/process-integrity bug where a standard-privilege collector literally could not see an auto-elevated window like Task Manager; an fp16 underflow bug where LoRA weight updates were silently rounding to zero while loss still looked fine; and a data-integrity bug where 36% of a "validated" dataset turned out to be labels from the wrong app — caught only by rendering bounding boxes onto screenshots and looking.',
+      'Built the full dataset pipeline from scratch: an orchestrator walks 14 real Windows apps and auto-labels click targets straight from the UI Automation tree, no manual annotation, then fine-tunes Qwen2-VL-2B via LoRA, all on free-tier Kaggle/Colab GPUs to keep the project at $0 spend.',
+      'Real debugging, not a clean run: a Windows UIPI/process-integrity bug where a standard-privilege collector literally could not see an auto-elevated window like Task Manager; an fp16 underflow bug where LoRA weight updates were silently rounding to zero while loss still looked fine; and a data-integrity bug where 36% of a "validated" dataset turned out to be labels from the wrong app, caught only by rendering bounding boxes onto screenshots and looking.',
       'Caught and fixed three separate real PII leaks before any data left the machine: a single-instance app reusing a window with stale tab content, a Windows session-restore mechanism, and an OS page rendering the signed-in username.',
-      'Every architecture decision written up as an ADR, every session logged in a dev-log — 150+ passing unit tests so far.',
+      'Every architecture decision written up as an ADR, every session logged in a dev-log, 150+ passing unit tests so far.',
     ],
     stats: ['3,163-Row Dataset', '14 Windows Apps', '$0 Budget'],
     tags: ['LangGraph', 'Qwen2-VL', 'LoRA', 'Windows UIA', 'PyTorch', 'Computer Use'],
@@ -453,7 +453,7 @@ export default function Projects() {
             Things I've <span className="gradient-text">Built</span>
           </h2>
           <p className="text-ink-500 text-base max-w-xl">
-            The ones I'd actually stand behind — including the one I'm elbow-deep in right now. Click "Architecture + details" on any card for the pipeline diagram and deep technical notes.
+            The ones I'd actually stand behind, including the one I'm elbow-deep in right now. Click "Architecture + details" on any card for the pipeline diagram and deep technical notes.
           </p>
         </motion.div>
 

@@ -13,7 +13,7 @@ export default function Footer() {
 
   useEffect(() => {
     console.log(
-      '%c\n  MS Dhoni would have shipped this portfolio with 6 balls to spare. 🏏\n\n  Hey recruiter 👋  Rudra Naresh — rudranaresh2018@gmail.com\n  github.com/rudranaresh0201\n',
+      '%c\n  Rudra Naresh · rudranaresh2018@gmail.com\n  github.com/rudranaresh0201\n',
       'color: #c23c1b; font-family: JetBrains Mono, monospace; font-size: 13px;'
     );
   }, []);

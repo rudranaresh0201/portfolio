@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, GraduationCap, Users, Zap, FileCheck, ArrowUpRight } from 'lucide-react';
+import { Briefcase, FileCheck, ArrowUpRight } from 'lucide-react';
 import { TiltCard } from './Motion';
 import Modal from './Modal';
 
@@ -8,14 +8,14 @@ const TIMELINE = [
   {
     id: 1, current: true, icon: Briefcase, iconColor: '#e8542e',
     role: 'AI Automation Intern', company: 'Elevar Sports',
-    period: 'June 2026 — Present', location: 'Mumbai, India',
-    blurb: 'Building the entire ops-automation stack — data sync, courier logic, and an AI support layer.',
+    period: 'June 2026 · Present', location: 'Mumbai, India',
+    blurb: 'Building the entire ops-automation stack: data sync, courier logic, and an AI support layer.',
     bullets: [
-      'Data layer: Google Apps Script syncs 7 sources (Shopify, Shiprocket, EasyEcom, Delhivery forward + reverse, ATS, Returns Prime, Amazon) into one master sheet nightly — handled real vendor quirks like EasyEcom\'s dual-header auth + report-queue API shape, Returns Prime\'s webhook-only data flow, and an AWB-corruption bug fixed by keying on a normalized match-key while storing raw values.',
+      'Data layer: Google Apps Script syncs 7 sources (Shopify, Shiprocket, EasyEcom, Delhivery forward + reverse, ATS, Returns Prime, Amazon) into one master sheet nightly. Handled real vendor quirks like EasyEcom\'s dual-header auth + report-queue API shape, Returns Prime\'s webhook-only data flow, and an AWB-corruption bug fixed by keying on a normalized match-key while storing raw values.',
       'Infrastructure: single $12/mo DigitalOcean droplet, fully Dockerized (n8n, Chatwoot, Postgres/pgvector, Redis, Caddy) with GitHub Actions auto-deploy on push; diagnosed and fixed a production OOM crash-loop from under-provisioned memory.',
-      'Automation core: 15+ n8n workflows across 4 phases — NDR detection, claims creation/tracking, courier-switching reship logic with a human-approval gate, and WhatsApp broadcast — debugged against real production executions (item-count explosions, duplicate-reship races, wrong-column consent gates).',
+      'Automation core: 15+ n8n workflows across 4 phases, covering NDR detection, claims creation/tracking, courier-switching reship logic with a human-approval gate, and WhatsApp broadcast. Debugged against real production executions (item-count explosions, duplicate-reship races, wrong-column consent gates).',
       'AI support layer: Gemini-classified WhatsApp bot via Chatwoot with a 19-domain intent classifier built from mining real customer transcripts, every reply execution-traced back to source data, conversation-state tracking across 8 intents, extended to a second brand on the same shared infra.',
-      'Field automation: Tampermonkey scripts that file courier claims by driving the real DOM on portals with no API — confirmed working end-to-end on Delhivery (form fill + multi-photo upload).',
+      'Field automation: Tampermonkey scripts that file courier claims by driving the real DOM on portals with no API. Confirmed working end-to-end on Delhivery (form fill + multi-photo upload).',
     ],
     tags: ['Google Apps Script', 'n8n', 'Docker', 'DigitalOcean', 'Postgres/pgvector', 'Redis', 'Chatwoot', 'Gemini', 'Tampermonkey'],
     highlight: true,
@@ -23,10 +23,10 @@ const TIMELINE = [
   {
     id: 2, current: false, icon: Briefcase, iconColor: '#1f7d68',
     role: 'Backend Engineering Intern', company: 'OpenRAG',
-    period: '2026 — Jun 2026', location: 'Remote',
-    blurb: 'Fixed production RAG infrastructure bugs — chunk overwrites, cache cross-talk, streaming recovery.',
+    period: '2026 · Jun 2026', location: 'Remote',
+    blurb: 'Fixed production RAG infrastructure bugs: chunk overwrites, cache cross-talk, streaming recovery.',
     bullets: [
-      'Fixed a BM25 chunk-overwrite bug in a production multi-user RAG pipeline — multi-file uploads silently deleted chunks; resolved with file-scoped UUID keying in MongoDB.',
+      'Fixed a BM25 chunk-overwrite bug in a production multi-user RAG pipeline, where multi-file uploads silently deleted chunks; resolved with file-scoped UUID keying in MongoDB.',
       'Implemented Redis-backed FAISS cache eliminating cross-worker cache misses in a Gunicorn multi-process deployment; added L1 in-process TTL cache for hot users.',
       'Upgraded to SemanticChunker with A/B retrieval evaluation; built Redis semantic cache, SSE streaming error recovery, and load-balancer-safe per-user rate limiting.',
     ],
@@ -35,44 +35,17 @@ const TIMELINE = [
   {
     id: 3, current: false, icon: Briefcase, iconColor: '#c1861a',
     role: 'Software Engineering Intern', company: '4seer Technologies',
-    period: 'May 2026 — Jul 2026', location: 'Remote',
+    period: 'May 2026 · Jul 2026', location: 'Remote',
     blurb: 'FastAPI PDF-generation microservice, plus backend testing for an Australian client.',
     bullets: [
-      'Built a production FastAPI microservice for automated PDF generation — layered architecture: HTTP routers → Pydantic schemas → service layer → ReportLab rendering, with structured logging and correlation ID middleware.',
-      'End-to-end backend testing for Amplex (Australian client) — app testing, cable management flows, and pricing engine validation across API endpoints.',
+      'Built a production FastAPI microservice for automated PDF generation: layered architecture, HTTP routers → Pydantic schemas → service layer → ReportLab rendering, with structured logging and correlation ID middleware.',
+      'End-to-end backend testing for Amplex (Australian client): app testing, cable management flows, and pricing engine validation across API endpoints.',
       'Built an internal dashboard for the Amplex app to surface live metrics and streamline ops visibility.',
       'Containerised via Docker; wrote pytest suite covering health checks, schema validation, and endpoint behaviour.',
     ],
     tags: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic', 'React'],
     certUrl: `${import.meta.env.BASE_URL}certs/4seer-internship-certificate.pdf`,
     certLabel: 'Internship completion certificate',
-  },
-  {
-    id: 4, current: false, icon: GraduationCap, iconColor: '#c2528f',
-    role: 'B.Tech Electronics Engineering', company: 'VJTI Mumbai',
-    period: 'Aug 2024 — Present', location: 'Mumbai, India',
-    blurb: 'Minor in AI/ML, CGPA 8.37 — active across E-Cell, Enthusia, and technical clubs.',
-    bullets: [
-      'Minor in Artificial Intelligence & Machine Learning · CGPA 8.37 / 10.',
-      'Active across E-Cell, Enthusia, and technical clubs.',
-    ],
-    tags: ['Electronics', 'AI/ML Minor', 'CGPA 8.37'],
-  },
-  {
-    id: 5, current: false, icon: Users, iconColor: '#155f4d',
-    role: 'Department Head', company: 'E-Cell VJTI',
-    period: '2024 — Present', location: 'VJTI Mumbai',
-    blurb: 'Leading entrepreneurship initiatives, startup events, and speaker sessions.',
-    bullets: ['Leading entrepreneurship initiatives, startup events, and speaker sessions.'],
-    tags: ['Leadership', 'Entrepreneurship'],
-  },
-  {
-    id: 6, current: false, icon: Zap, iconColor: '#996a11',
-    role: 'Chief Coordinator', company: 'Enthusia',
-    period: '2024 — Present', location: 'VJTI Mumbai',
-    blurb: "Cross-functional coordination for VJTI's annual technical and cultural festival.",
-    bullets: ["Cross-functional coordination for VJTI's annual technical and cultural festival."],
-    tags: ['Event Management', 'Coordination'],
   },
 ];
 

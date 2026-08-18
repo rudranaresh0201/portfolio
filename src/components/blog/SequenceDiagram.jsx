@@ -27,7 +27,7 @@ const SCENARIOS = {
       { from: 'verimcp', to: 'devmcp', text: 'forwarded unchanged' },
       { from: 'devmcp', to: 'verimcp', text: 'isError: false, commit_hash="ffff…"' },
       { note: 'verimcp independently runs git cat-file -e ffff…' },
-      { from: 'verimcp', to: 'host', text: 'isError: true — "claimed commit does not exist"', result: 'fail' },
+      { from: 'verimcp', to: 'host', text: 'isError: true, "claimed commit does not exist"', result: 'fail' },
     ],
   },
 };
@@ -142,8 +142,8 @@ export default function SequenceDiagram() {
           style={{ color: scenario.accent }}
         >
           {mode === 'honest'
-            ? '✓ Claim matched reality — response passed through unchanged'
-            : '✕ Claim disagreed with reality — verimcp rewrote it before the Host ever saw it'}
+            ? '✓ Claim matched reality, response passed through unchanged'
+            : '✕ Claim disagreed with reality, verimcp rewrote it before the Host ever saw it'}
         </motion.div>
       </div>
     </div>
