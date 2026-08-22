@@ -4,7 +4,7 @@ import { Github, Linkedin, Mail, ArrowDown, ArrowUpRight, Phone } from 'lucide-r
 import { useTypewriter } from '../hooks/useTypewriter';
 import { TiltCard, Magnetic } from './Motion';
 
-const ROLES = ['RAG Systems Engineer', 'Multi-Agent Pipeline Dev', 'MCP Infrastructure Builder', 'Agentic AI Builder'];
+const ROLES = ['Exploring MCP & Agent Infra', 'Shipping AI Workflows in Production', 'Multi-Agent Pipeline Dev', 'Verifying What Agents Claim'];
 
 const SOCIALS = [
   { icon: Github,   href: 'https://github.com/rudranaresh0201',             label: 'GitHub'   },
@@ -113,8 +113,8 @@ export default function Hero() {
               <span className="font-mono text-xl text-coral-500 animate-blink ml-0.5">|</span>
             </motion.div>
             <motion.p variants={item} className="text-ink-500 text-sm leading-relaxed mb-6">
-              Electronics engineering student building RAG systems, autonomous agents, and the
-              infrastructure that verifies them. ·{' '}
+              Electronics engineering student exploring MCP and AI agents, and building the
+              workflows that put them into production. ·{' '}
               <span className="text-ink-700 font-medium">VJTI Mumbai</span> · AI/ML Minor ·
               CGPA <span className="text-coral-600 font-mono font-semibold">8.37</span>
             </motion.p>
