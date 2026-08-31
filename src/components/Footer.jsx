@@ -1,42 +1,27 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail } from 'lucide-react';
-
-const SOCIALS = [
-  { icon: Github,   href: 'https://github.com/rudranaresh0201',              label: 'GitHub'   },
-  { icon: Linkedin, href: 'https://linkedin.com/in/rudra-naresh-790751321',  label: 'LinkedIn' },
-  { icon: Mail,     href: 'mailto:rudranaresh2018@gmail.com',                label: 'Email'    },
+const LINKS = [
+  { label: 'github', href: 'https://github.com/rudranaresh0201' },
+  { label: 'linkedin', href: 'https://linkedin.com/in/rudra-naresh-790751321' },
+  { label: 'email', href: 'mailto:rudranaresh2018@gmail.com' },
+  { label: 'phone', href: 'tel:+919167563916' },
 ];
 
 export default function Footer() {
-  const year = new Date().getFullYear();
-
-  useEffect(() => {
-    console.log(
-      '%c\n  Rudra Naresh · rudranaresh2018@gmail.com\n  github.com/rudranaresh0201\n',
-      'color: #c23c1b; font-family: JetBrains Mono, monospace; font-size: 13px;'
-    );
-  }, []);
-
   return (
-    <footer className="border-t border-ink-900/[0.07] py-8 px-5 sm:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="font-black text-sm gradient-text font-mono">RN</span>
-          <span className="text-ink-300 text-xs">© {year} Rudra Naresh. Built with React + Vite + Framer Motion.</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {SOCIALS.map(({ icon: Icon, href, label }) => (
-            <motion.a key={label} href={href}
-              target={label !== 'Email' ? '_blank' : undefined}
-              rel="noopener noreferrer" aria-label={label}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-ink-300 hover:text-ink-700 transition-colors"
-              style={{ background: 'rgba(24,20,15,0.04)' }}
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.93 }}>
-              <Icon size={13} />
-            </motion.a>
+    <footer className="border-t border-line mt-10">
+      <div className="max-w-page mx-auto px-5 py-8">
+        <p className="text-dim text-sm leading-relaxed mb-5 max-w-md">
+          If you are building agent infrastructure, or you have a system that quietly lies to itself,
+          I would like to hear about it.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
+          {LINKS.map((l) => (
+            <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
+              className="font-mono text-2xs link">{l.label}</a>
           ))}
         </div>
+        <p className="font-mono text-2xs text-faint">
+          built by hand, mumbai. no analytics, no cookies, nothing tracking you here.
+        </p>
       </div>
     </footer>
   );

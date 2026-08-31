@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import BlogLayout from '../components/blog/BlogLayout';
 import SequenceDiagram from '../components/blog/SequenceDiagram';
 import CodeBlock from '../components/blog/CodeBlock';
@@ -8,24 +7,19 @@ const BASE = import.meta.env.BASE_URL;
 
 function Shot({ src, alt }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5 }}
-      className="my-4 rounded-xl overflow-hidden"
-      style={{ border: '1px solid rgba(24,20,15,0.1)', boxShadow: '0 12px 30px rgba(24,20,15,0.1)' }}
-    >
-      <img src={src} alt={alt} className="w-full block" />
-      <p className="px-3 py-2 text-[11px] text-ink-500 font-mono" style={{ background: 'rgba(24,20,15,0.03)' }}>{alt}</p>
-    </motion.div>
+    <figure className="my-5 rounded-md overflow-hidden border border-line">
+      <img src={src} alt={alt} className="w-full block" loading="lazy" />
+      <figcaption className="px-3 py-2 font-mono text-2xs text-mute bg-raise border-t border-line">
+        {alt}
+      </figcaption>
+    </figure>
   );
 }
 
 export default function BlogVerimcp() {
   return (
     <BlogLayout
-      title={<>Don't Trust the Tool Call: Building a <span className="gradient-text">Verifier for MCP</span></>}
+      title={"Don't trust the tool call: building a verifier for MCP"}
       date="2026-08-15"
       tags={['mcp', 'agentic-ai', 'verification', 'python']}
     >
@@ -213,7 +207,7 @@ export default function BlogVerimcp() {
       <ComparisonTable />
 
       <p>
-        The 75%, not 100%, is on purpose and stated plainly in the benchmark script's own output: 3 of the 12
+        The 79%, not 100%, is on purpose and stated plainly in the benchmark script's own output: 3 of the 14
         fabrication cases exploit a real, principled limit (a hash-exists check can't prove <em>this specific call</em>{' '}
         created the hash versus it already existing). A tool that claims a perfect score on its own benchmark is the
         thing to be suspicious of. This one doesn't.

@@ -1,39 +1,32 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import CursorLens from './components/CursorLens';
-import ClickWeb from './components/ClickWeb';
+import Nav from './components/Nav';
 import Hero from './components/Hero';
-import IntroBounce from './components/IntroBounce';
+import Receipts from './components/Receipts';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
-import Blog from './components/Blog';
-import Life from './components/Life';
-import Certifications from './components/Certifications';
-import Contact from './components/Contact';
+import Writing from './components/Writing';
+import About from './components/About';
 import Footer from './components/Footer';
 import BlogVerimcp from './pages/BlogVerimcp';
 
 function Home() {
   return (
-    <div className="my-3 mx-2 sm:my-6 sm:mx-6 lg:mx-10 rounded-2xl sm:rounded-[2rem] overflow-hidden relative"
-      style={{
-        backgroundColor: '#f6f1e7',
-        border: '1px dotted rgba(24,20,15,0.3)',
-        boxShadow: '0 40px 80px rgba(60,42,20,0.35), 0 10px 26px rgba(60,42,20,0.22)',
-      }}>
-      <CursorLens />
-      <ClickWeb />
-      <IntroBounce />
-      <Navbar />
-      <main>
-        <Hero />
-        <Experience />
-        <Projects />
-        <Blog />
-        <Life />
-        <Certifications />
-        <Contact />
-      </main>
+    <>
+      <Hero />
+      <Receipts />
+      <Experience />
+      <Projects />
+      <Writing />
+      <About />
+    </>
+  );
+}
+
+function Shell({ children }) {
+  return (
+    <div className="min-h-screen bg-base">
+      <Nav />
+      <main className="max-w-page mx-auto px-5">{children}</main>
       <Footer />
     </div>
   );
@@ -43,8 +36,8 @@ export default function App() {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog/verimcp" element={<BlogVerimcp />} />
+        <Route path="/" element={<Shell><Home /></Shell>} />
+        <Route path="/blog/verimcp" element={<Shell><BlogVerimcp /></Shell>} />
       </Routes>
     </HashRouter>
   );

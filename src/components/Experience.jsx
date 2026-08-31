@@ -1,168 +1,117 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Briefcase, FileCheck, ArrowUpRight } from 'lucide-react';
-import { TiltCard } from './Motion';
-import Modal from './Modal';
+import Links from './Links';
 
-const TIMELINE = [
+const ROLES = [
   {
-    id: 1, current: true, icon: Briefcase, iconColor: '#e8542e',
-    role: 'AI Automation Intern', company: 'Elevar Sports',
-    period: 'June 2026 · Present', location: 'Mumbai, India',
-    blurb: 'Building the entire ops-automation stack: data sync, courier logic, and an AI support layer.',
-    bullets: [
-      'Data layer: Google Apps Script syncs 7 sources (Shopify, Shiprocket, EasyEcom, Delhivery forward + reverse, ATS, Returns Prime, Amazon) into one master sheet nightly. Handled real vendor quirks like EasyEcom\'s dual-header auth + report-queue API shape, Returns Prime\'s webhook-only data flow, and an AWB-corruption bug fixed by keying on a normalized match-key while storing raw values.',
-      'Infrastructure: single $12/mo DigitalOcean droplet, fully Dockerized (n8n, Chatwoot, Postgres/pgvector, Redis, Caddy) with GitHub Actions auto-deploy on push; diagnosed and fixed a production OOM crash-loop from under-provisioned memory.',
-      'Automation core: 15+ n8n workflows across 4 phases, covering NDR detection, claims creation/tracking, courier-switching reship logic with a human-approval gate, and WhatsApp broadcast. Debugged against real production executions (item-count explosions, duplicate-reship races, wrong-column consent gates).',
-      'AI support layer: Gemini-classified WhatsApp bot via Chatwoot with a 19-domain intent classifier built from mining real customer transcripts, every reply execution-traced back to source data, conversation-state tracking across 8 intents, extended to a second brand on the same shared infra.',
-      'Field automation: Tampermonkey scripts that file courier claims by driving the real DOM on portals with no API. Confirmed working end-to-end on Delhivery (form fill + multi-photo upload).',
+    id: 'elevar',
+    role: 'AI Automation Intern',
+    org: 'Elevar Sports',
+    period: 'jun 2026 to now',
+    current: true,
+    line: 'Own the ops automation stack end to end: data sync, courier logic, the support bot, and the infra it all sits on.',
+    points: [
+      'Seven sources (Shopify, Shiprocket, EasyEcom, Delhivery forward and reverse, ATS, Returns Prime, Amazon) sync nightly into one sheet through Google Apps Script. Every vendor had its own personality: EasyEcom wanted dual-header auth and a report queue, Returns Prime only ever pushes webhooks and has no AWB column at all. An AWB corruption bug turned out to be key formatting, so matching now happens on a normalised key while the raw value is what gets stored.',
+      'The whole stack (n8n, Chatwoot, Postgres with pgvector, Redis, Caddy) runs Dockerized on one droplet with GitHub Actions deploying on push. A production crash loop that looked like a workflow bug was actually the box running out of memory.',
+      'Built 40+ n8n workflows across four phases, 15 of them running in production, covering NDR detection, claims creation and tracking, and courier switching reship with a human approval gate. The two biggest published flows run past 60 nodes against live courier APIs. Most of the debugging was against real executions: item count explosions, duplicate reship races, a consent gate reading the wrong column.',
+      'A WhatsApp support bot on Gemini through Chatwoot, with a 19 domain intent classifier built by mining actual customer transcripts instead of guessing at categories. Every reply traces back to the row it came from. The same stack now runs a second brand, so two CRMs on shared infra.',
+      'Where a courier portal has no API, a Tampermonkey script drives the real DOM instead. The Delhivery one files a claim end to end, form fill and multi photo upload included.',
+      'Building Elevar Play, a Flutter game hub with three games shipped. Each game is a plugin, and the rules live in pure Dart packages that import no Flutter and no Flame, which means a server can re-run a submitted match and check the score it was handed.',
     ],
-    tags: ['Google Apps Script', 'n8n', 'Docker', 'DigitalOcean', 'Postgres/pgvector', 'Redis', 'Chatwoot', 'Gemini', 'Tampermonkey'],
-    highlight: true,
+    stack: ['Google Apps Script', 'n8n', 'Docker', 'Postgres/pgvector', 'Redis', 'Chatwoot', 'Gemini', 'Flutter'],
+    links: [{ label: 'elevar-game', href: 'https://github.com/rudranaresh0201/elevar-game' }],
   },
   {
-    id: 2, current: false, icon: Briefcase, iconColor: '#1f7d68',
-    role: 'Backend Engineering Intern', company: 'OpenRAG',
-    period: '2026 · Jun 2026', location: 'Remote',
-    blurb: 'Fixed production RAG infrastructure bugs: chunk overwrites, cache cross-talk, streaming recovery.',
-    bullets: [
-      'Fixed a BM25 chunk-overwrite bug in a production multi-user RAG pipeline, where multi-file uploads silently deleted chunks; resolved with file-scoped UUID keying in MongoDB.',
-      'Implemented Redis-backed FAISS cache eliminating cross-worker cache misses in a Gunicorn multi-process deployment; added L1 in-process TTL cache for hot users.',
-      'Upgraded to SemanticChunker with A/B retrieval evaluation; built Redis semantic cache, SSE streaming error recovery, and load-balancer-safe per-user rate limiting.',
+    id: '4seer',
+    role: 'Software Engineering Intern',
+    org: '4Seer Technologies',
+    period: 'may to jul 2026',
+    line: 'A FastAPI PDF service, an ops dashboard API, and the testing pass on an Australian client build.',
+    points: [
+      'Built a PDF generation service in FastAPI with the layers kept honest: routers, then Pydantic schemas, then a service layer, then ReportLab doing the rendering. Structured logging with correlation IDs, so a bad PDF traces back to the request that asked for it.',
+      'A separate dashboard API surfacing live metrics for the Amplex app, so ops could stop asking engineering what the numbers were.',
+      'Ran the testing pass for Amplex: the full frontend, cable management and spec sheet flows, and pricing engine validation across the API.',
+      'Containerised with Docker and covered by a pytest suite over health checks, schema validation and endpoint behaviour.',
     ],
-    tags: ['RAG', 'Redis', 'FAISS', 'MongoDB', 'FastAPI', 'SSE', 'Python'],
+    stack: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic', 'React'],
+    links: [
+      { label: 'pdf-generator-service', href: 'https://github.com/rudranaresh0201/pdf-generator-service' },
+      { label: '4seer-dashboard-api', href: 'https://github.com/rudranaresh0201/4seer-dashboard-api' },
+      { label: 'certificate', href: `${import.meta.env.BASE_URL}certs/4seer-internship-certificate.pdf` },
+    ],
   },
   {
-    id: 3, current: false, icon: Briefcase, iconColor: '#c1861a',
-    role: 'Software Engineering Intern', company: '4seer Technologies',
-    period: 'May 2026 · Jul 2026', location: 'Remote',
-    blurb: 'FastAPI PDF-generation microservice, plus backend testing for an Australian client.',
-    bullets: [
-      'Built a production FastAPI microservice for automated PDF generation: layered architecture, HTTP routers → Pydantic schemas → service layer → ReportLab rendering, with structured logging and correlation ID middleware.',
-      'End-to-end backend testing for Amplex (Australian client): app testing, cable management flows, and pricing engine validation across API endpoints.',
-      'Built an internal dashboard for the Amplex app to surface live metrics and streamline ops visibility.',
-      'Containerised via Docker; wrote pytest suite covering health checks, schema validation, and endpoint behaviour.',
+    id: 'openrag',
+    role: 'Backend Engineering Intern',
+    org: 'OpenRAG',
+    period: 'apr to jun 2026',
+    line: 'Production RAG bugs on DocDynamo: chunks quietly deleting each other, caches no worker could see, chunking that cut mid sentence.',
+    points: [
+      'A BM25 bug where uploading several files silently overwrote earlier chunks, because chunk keys were not scoped to the file. Fixed by keying per file with UUIDs in MongoDB.',
+      'The FAISS cache was process local, so under Gunicorn every worker kept its own copy and mostly missed. Replaced it with a Redis L2 layer plus a threading lock so workers stop stepping on each other, with an in process TTL cache in front for hot users.',
+      'Replaced phrase scanning in user_ip() with a structured return type, so callers stop parsing strings to work out what happened.',
+      'Moved chunking from character counts to a semantic chunker with a 1000 character ceiling, so a chunk ends where the meaning does and not at character 512.',
+      'Prototyped a pandas agent for CSV and XLSX questions, so structured data stops being force fed through a retrieval pipeline built for PDFs.',
     ],
-    tags: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic', 'React'],
-    certUrl: `${import.meta.env.BASE_URL}certs/4seer-internship-certificate.pdf`,
-    certLabel: 'Internship completion certificate',
+    stack: ['Python', 'FastAPI', 'Redis', 'FAISS', 'MongoDB', 'SSE'],
+    links: [
+      { label: 'docdynamo.in', href: 'https://www.docdynamo.in/', live: true },
+      { label: 'pandas-agent-prototype', href: 'https://github.com/rudranaresh0201/pandas-agent-prototype' },
+    ],
   },
 ];
 
-function ExperienceTile({ item, onOpen }) {
-  const Icon = item.icon;
+function Row({ item }) {
+  const [open, setOpen] = useState(false);
   return (
-    <TiltCard maxTilt={6} className="group relative glass rounded-2xl glow-border">
-      <motion.button
-        onClick={() => onOpen(item)}
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ y: -4 }}
-        className="text-left w-full p-5 flex flex-col h-full"
+    <li className="rowline">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="w-full text-left py-4 group"
       >
-        <div className="flex items-start justify-between mb-3">
-          <div className="relative w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: `${item.iconColor}15`, border: `1px solid ${item.iconColor}30` }}>
-            {item.current && (
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-teal-500 ring-2 ring-paper">
-                <span className="absolute inset-0 rounded-full bg-teal-500 animate-ping opacity-75" />
-              </span>
-            )}
-            <Icon size={16} style={{ color: item.iconColor }} />
-          </div>
-          <ArrowUpRight size={14} className="text-ink-300 group-hover:text-ink-700 transition-colors" />
+        <div className="flex items-baseline justify-between gap-4 mb-1">
+          <h3 className="text-fg font-medium">
+            {item.role}
+            <span className="text-mute font-normal"> at {item.org}</span>
+          </h3>
+          <span className="font-mono text-2xs text-faint shrink-0 flex items-center gap-1.5">
+            {item.current && <span className="w-1.5 h-1.5 rounded-full bg-ok" />}
+            {item.period}
+          </span>
         </div>
-        <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-          {item.current && (
-            <span className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full"
-              style={{ background: '#1f7d6818', color: '#155f4d', border: '1px solid #1f7d6830' }}>CURRENT</span>
-          )}
-          {item.highlight && (
-            <span className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full"
-              style={{ background: '#e8542e18', color: '#c23c1b', border: '1px solid #e8542e30' }}>MAIN FOCUS</span>
-          )}
-        </div>
-        <h3 className="font-semibold text-ink-900 leading-tight">{item.role}</h3>
-        <p className="text-sm font-medium mb-1" style={{ color: item.iconColor }}>{item.company}</p>
-        <p className="font-mono text-[10px] text-ink-300 mb-3">{item.period}</p>
-        <p className="text-sm text-ink-500 leading-relaxed mt-auto">{item.blurb}</p>
-      </motion.button>
-    </TiltCard>
-  );
-}
+        <p className="text-dim text-sm leading-relaxed pr-6">{item.line}</p>
+        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-block">
+          {open ? 'less' : 'more'}
+        </span>
+      </button>
 
-function ExperienceDetail({ item }) {
-  const Icon = item.icon;
-  return (
-    <div>
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ background: `${item.iconColor}15`, border: `1px solid ${item.iconColor}30` }}>
-          <Icon size={18} style={{ color: item.iconColor }} />
+      {open && (
+        <div className="pb-5 -mt-1">
+          <ul className="space-y-2.5 mb-4">
+            {item.points.map((p, i) => (
+              <li key={i} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">
+                {p}
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
+            {item.stack.map((s) => <span key={s} className="chip">{s}</span>)}
+          </div>
+          <Links items={item.links} />
         </div>
-        <div>
-          <h3 className="font-serif font-semibold text-xl text-ink-900 leading-tight">{item.role}</h3>
-          <p className="text-sm font-medium" style={{ color: item.iconColor }}>{item.company} · {item.location}</p>
-        </div>
-      </div>
-      <div className="flex flex-wrap items-center gap-1.5 mb-5">
-        <span className="font-mono text-xs text-ink-500 bg-ink-900/[0.04] px-3 py-1 rounded-full border border-ink-900/[0.07]">{item.period}</span>
-        {item.current && (
-          <span className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full"
-            style={{ background: '#1f7d6818', color: '#155f4d', border: '1px solid #1f7d6830' }}>CURRENT</span>
-        )}
-        {item.highlight && (
-          <span className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full"
-            style={{ background: '#e8542e18', color: '#c23c1b', border: '1px solid #e8542e30' }}>MAIN FOCUS</span>
-        )}
-      </div>
-      <ul className="space-y-2.5 mb-5">
-        {item.bullets.map((b, i) => (
-          <li key={i} className="flex gap-2 text-sm text-ink-500 leading-relaxed">
-            <span className="mt-1 flex-shrink-0" style={{ color: item.iconColor }}>›</span>
-            {b}
-          </li>
-        ))}
-      </ul>
-      <div className="flex flex-wrap gap-x-4 gap-y-1.5 mb-4">
-        {item.tags.map((t) => <span key={t} className="tag">{t}</span>)}
-      </div>
-      {item.certUrl && (
-        <a href={item.certUrl} target="_blank" rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 font-mono text-xs pt-4 border-t border-ink-900/[0.08] w-full transition-colors"
-          style={{ color: item.iconColor }}>
-          <FileCheck size={13} />
-          {item.certLabel} ↗
-        </a>
       )}
-    </div>
+    </li>
   );
 }
 
 export default function Experience() {
-  const [selected, setSelected] = useState(null);
-
   return (
-    <section id="experience" className="py-24 px-5 sm:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.55 }} className="mb-12">
-          <p className="section-label mb-3">02. experience</p>
-          <h2 className="font-serif font-semibold tracking-tight text-ink-900 mb-3" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}>
-            Where I've <span className="gradient-text">Worked</span>
-          </h2>
-          <p className="text-ink-500 text-base">One active internship, full-time in production right now · plus two I wrapped up along the way. Click any card for the full story.</p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {TIMELINE.map((t) => <ExperienceTile key={t.id} item={t} onOpen={setSelected} />)}
-        </div>
-      </div>
-
-      <Modal open={!!selected} onClose={() => setSelected(null)}>
-        {selected && <ExperienceDetail item={selected} />}
-      </Modal>
+    <section id="work" className="py-14">
+      <h2 className="label mb-1">work</h2>
+      <p className="text-mute text-sm mb-5">Three internships. The first one is still going.</p>
+      <ul>
+        {ROLES.map((r) => <Row key={r.id} item={r} />)}
+      </ul>
     </section>
   );
 }

@@ -1,36 +1,41 @@
-# Rudra Naresh — Portfolio
+# rudranaresh0201.github.io/portfolio
 
-## 🌐 Live Demo
+Live: **https://rudranaresh0201.github.io/portfolio/**
 
-**[https://rudranaresh0201.github.io/portfolio/](https://rudranaresh0201.github.io/portfolio/)**
+A single page, dark, mostly type. No analytics, no cookies, no tracking.
 
----
+## Notes on the build
 
-A personal portfolio built with React and Vite, showcasing projects, skills, and experience.
+React 18 + Vite + Tailwind. The only runtime dependencies are `react`,
+`react-dom` and `react-router-dom`. There is no animation library: the site
+barely moves on purpose, and `prefers-reduced-motion` is respected for the
+little that does.
 
-## Tech Stack
+Two things worth knowing if you edit it:
 
-- React 18
-- Vite
-- Tailwind CSS
+- **Colour is semantic, not decorative.** `ok` (green), `bad` (red) and `warn`
+  mean verified, disproven and honest-error respectively, matching the verimcp
+  console. Everything else is greyscale. Do not reach for them to make a
+  heading look nice.
+- **Never build a Tailwind class name at runtime.** Tailwind scans source text,
+  so `` `bg-${tone}` `` gets purged and silently renders as nothing. Write the
+  full class name out, the way `VERDICT` in `src/components/Console.jsx` does.
 
-## Getting Started
+Links are only added for things that are actually reachable. A `live: true`
+flag on a link (see `src/components/Links.jsx`) marks something deployed and
+running, not just a repo you can read.
+
+## Local
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
-
-```bash
-npm run build
-```
-
 ## Deploy
 
-The portfolio is deployed via **GitHub Pages** at:
+Publishes `dist/` to the `gh-pages` branch:
 
-**[https://rudranaresh0201.github.io/portfolio/](https://rudranaresh0201.github.io/portfolio/)**
-
-To set the Website field in the GitHub repository sidebar, go to the repository page → gear icon next to "About" → paste `https://rudranaresh0201.github.io/portfolio/` in the Website field.
+```bash
+npm run deploy
+```
