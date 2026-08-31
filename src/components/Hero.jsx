@@ -39,15 +39,14 @@ export default function Hero() {
 
       <Reveal delay={80}>
         <p className="text-dim leading-relaxed mb-4">
-          Most of my week goes into <span className="text-accent">MCP and agent infrastructure</span>,
-          and an AI automation internship at <span className="text-fg">Elevar Sports</span>. Two ends
-          of the same interest: the protocol layer agents talk over, and what it takes to keep real
-          systems running on top of it.
+          Most of my week goes into <span className="text-accent">agents, MCP and automation</span>.
+          I like the layer underneath the model, the protocols and plumbing and the unglamorous work
+          of making all of it hold up once something real depends on it.
         </p>
         <p className="text-dim leading-relaxed mb-8">
-          I like the layer underneath the model, and I tend to build something and then spend just as
-          long trying to break it, because that is usually the part that tells you what you actually
-          made.
+          Mostly I tinker. I build a thing, then spend about as long trying to break it, because that
+          is usually the part that tells you whether you built something that works or something that
+          only looks like it does.
         </p>
       </Reveal>
 

@@ -30,7 +30,7 @@ const ROWS = [
   },
   {
     k: 'open source',
-    v: 'verimcp, devmcp, PRGuard and ClinIQ are all public repos',
+    v: 'verimcp, devmcp, PRGuard, ClinIQ and the CrewAI CSV agent are public',
     href: 'https://github.com/rudranaresh0201?tab=repositories',
   },
   {

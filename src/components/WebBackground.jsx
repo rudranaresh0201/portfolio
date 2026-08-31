@@ -1,49 +1,53 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * One canvas doing two jobs, so there is a single RAF loop on the page:
+ * A web, not a starfield.
  *
- *  1. a slow drifting constellation, where nodes closer than LINK_DIST get a
- *     thread between them and the cursor pulls threads toward itself
- *  2. a burst on click, throwing web strands and dashed rings out from the
- *     point you hit
+ * Nodes sit on a jittered grid and are wired to their neighbours, so the mesh
+ * is visible at rest instead of appearing only where dots happen to drift near
+ * each other. The cursor is what makes it feel like a web: strands within reach
+ * light up and the nodes give way slightly, as though something pressed into
+ * it. Clicking throws strands and rings out from the point of contact.
  *
- * Everything is drawn at low alpha and sits behind the content. Under
- * prefers-reduced-motion the nodes are painted once and never move, and
- * clicking does nothing.
+ * One canvas, one RAF loop. Under prefers-reduced-motion the mesh is painted
+ * once, flat, and nothing listens.
  */
 
-const LINK_DIST = 132;
-const MOUSE_DIST = 172;
+const SPACING = 94;    // grid pitch in px
+const JITTER = 0.34;   // how far off-grid a node sits, as a fraction of pitch
+const REACH = 190;     // cursor influence radius
+const PUSH = 26;       // how far a node gives way, px
 const BURST_MS = 900;
 const STRANDS = 9;
-const RINGS = [26, 52, 84];
+const RINGS = [26, 54, 86];
 
-const ACCENT = '103, 232, 249'; // cyan, matches --accent in the CSS
+const ACCENT = '103, 232, 249';
 const PLAIN = '255, 255, 255';
+
+const REST_EDGE = 0.05;   // the web at rest
+const LIT_EDGE = 0.5;    // the web under the cursor
 
 const easeOut = (p) => 1 - Math.pow(1 - p, 3);
 
 export default function WebBackground() {
-  const canvasRef = useRef(null);
+  const ref = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-
     const still = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-    let w = 0;
-    let h = 0;
-    let dpr = 1;
-    let nodes = [];
+    let w = 0, h = 0, cols = 0, rows = 0;
+    let nodes = [];       // flat grid, index = r * cols + c
     let bursts = [];
-    const mouse = { x: -9999, y: -9999 };
     let raf = 0;
+    const mouse = { x: -9999, y: -9999 };
 
-    function size() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const at = (c, r) => nodes[r * cols + c];
+
+    function build() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -52,59 +56,75 @@ export default function WebBackground() {
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // density scales with area, but stays cheap on big screens
-      const count = Math.min(72, Math.max(26, Math.round((w * h) / 26000)));
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.16,
-        vy: (Math.random() - 0.5) * 0.16,
-        r: Math.random() * 1.1 + 0.5,
-      }));
+      cols = Math.ceil(w / SPACING) + 2;
+      rows = Math.ceil(h / SPACING) + 2;
+      nodes = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const bx = (c - 0.5) * SPACING + (Math.random() - 0.5) * SPACING * JITTER * 2;
+          const by = (r - 0.5) * SPACING + (Math.random() - 0.5) * SPACING * JITTER * 2;
+          nodes.push({
+            bx, by, x: bx, y: by,
+            phase: Math.random() * Math.PI * 2,   // for the idle sway
+            lit: 0,
+          });
+        }
+      }
     }
 
-    function drawWeb() {
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
+    function settle(t) {
+      for (const n of nodes) {
+        // a slow breath so the web is never completely dead
+        const sway = still ? 0 : 2.4;
+        const ox = Math.cos(t * 0.00022 + n.phase) * sway;
+        const oy = Math.sin(t * 0.00019 + n.phase * 1.3) * sway;
 
-        if (!still) {
-          a.x += a.vx;
-          a.y += a.vy;
-          if (a.x < 0 || a.x > w) a.vx *= -1;
-          if (a.y < 0 || a.y > h) a.vy *= -1;
+        let dx = n.bx + ox - mouse.x;
+        let dy = n.by + oy - mouse.y;
+        const d = Math.hypot(dx, dy);
+
+        if (d < REACH && d > 0.001) {
+          const k = 1 - d / REACH;          // 1 at the cursor, 0 at the edge
+          n.lit = k;
+          const give = PUSH * k * k;         // the web gives way where it is touched
+          n.x = n.bx + ox + (dx / d) * give;
+          n.y = n.by + oy + (dy / d) * give;
+        } else {
+          n.lit = 0;
+          n.x = n.bx + ox;
+          n.y = n.by + oy;
         }
+      }
+    }
 
-        // threads between neighbours
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < LINK_DIST) {
-            ctx.strokeStyle = `rgba(${PLAIN}, ${0.055 * (1 - d / LINK_DIST)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
+    function strand(a, b) {
+      // an edge is lit by whichever end the cursor is nearer
+      const lit = Math.max(a.lit, b.lit);
+      const alpha = REST_EDGE + (LIT_EDGE - REST_EDGE) * lit * lit;
+      ctx.strokeStyle = lit > 0.02
+        ? `rgba(${ACCENT}, ${alpha})`
+        : `rgba(${PLAIN}, ${REST_EDGE})`;
+      ctx.lineWidth = lit > 0.5 ? 1.15 : 1;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+
+    function drawMesh() {
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const n = at(c, r);
+          if (c + 1 < cols) strand(n, at(c + 1, r));          // across
+          if (r + 1 < rows) strand(n, at(c, r + 1));          // down
+          if (c + 1 < cols && r + 1 < rows) strand(n, at(c + 1, r + 1)); // the diagonal that makes it a web
         }
-
-        // a thread to the cursor when it comes close
-        const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-        if (md < MOUSE_DIST) {
-          const k = 1 - md / MOUSE_DIST;
-          ctx.strokeStyle = `rgba(${ACCENT}, ${0.22 * k})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-        }
-
-        ctx.fillStyle = `rgba(${PLAIN}, ${md < MOUSE_DIST ? 0.4 : 0.2})`;
+      }
+      for (const n of nodes) {
+        if (n.lit <= 0.02) continue;                          // only knots near the cursor read as dots
+        ctx.fillStyle = `rgba(${ACCENT}, ${0.5 * n.lit})`;
         ctx.beginPath();
-        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, 1 + 1.6 * n.lit, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -116,7 +136,6 @@ export default function WebBackground() {
         const e = easeOut(p);
         const fade = 1 - p;
 
-        // web strands thrown outward
         ctx.lineCap = 'round';
         for (const s of b.strands) {
           ctx.strokeStyle = `rgba(${ACCENT}, ${0.55 * fade})`;
@@ -127,83 +146,68 @@ export default function WebBackground() {
           ctx.stroke();
         }
 
-        // dashed rings, the way a web is spun
         ctx.setLineDash([2, 5]);
-        RINGS.forEach((r, i) => {
+        RINGS.forEach((rad, i) => {
           const rp = Math.max(0, Math.min(1, (p - i * 0.06) / 0.78));
           if (rp <= 0) return;
           ctx.strokeStyle = `rgba(${ACCENT}, ${0.4 * (1 - rp)})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(b.x, b.y, r * easeOut(rp), 0, Math.PI * 2);
+          ctx.arc(b.x, b.y, rad * easeOut(rp), 0, Math.PI * 2);
           ctx.stroke();
         });
         ctx.setLineDash([]);
 
-        // the spark at the point of contact
-        ctx.fillStyle = `rgba(${ACCENT}, ${0.85 * (1 - Math.min(1, p / 0.45))})`;
+        const spark = 1 - Math.min(1, p / 0.45);
+        ctx.fillStyle = `rgba(${ACCENT}, ${0.85 * spark})`;
         ctx.beginPath();
-        ctx.arc(b.x, b.y, 5 * (1 - Math.min(1, p / 0.45)), 0, Math.PI * 2);
+        ctx.arc(b.x, b.y, 5 * spark, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     function frame(now) {
       ctx.clearRect(0, 0, w, h);
-      drawWeb();
+      settle(now);
+      drawMesh();
       drawBursts(now);
       raf = requestAnimationFrame(frame);
     }
 
-    function onMove(e) {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    }
-    function onLeave() {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    }
-    function onClick(e) {
-      if (still) return;
+    const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
+    const onDown = (e) => {
       bursts.push({
-        x: e.clientX,
-        y: e.clientY,
-        t0: performance.now(),
+        x: e.clientX, y: e.clientY, t0: performance.now(),
         strands: Array.from({ length: STRANDS }, (_, i) => ({
           a: (i / STRANDS) * Math.PI * 2 + Math.random() * 0.35,
           len: 58 + Math.random() * 44,
         })),
       });
-    }
+    };
+    const onResize = () => { build(); if (still) { ctx.clearRect(0, 0, w, h); settle(0); drawMesh(); } };
 
-    size();
+    build();
 
     if (still) {
-      // paint once, then stop
-      ctx.clearRect(0, 0, w, h);
-      drawWeb();
+      settle(0);
+      drawMesh();
     } else {
       raf = requestAnimationFrame(frame);
       window.addEventListener('pointermove', onMove, { passive: true });
-      window.addEventListener('pointerdown', onClick, { passive: true });
+      window.addEventListener('pointerdown', onDown, { passive: true });
       document.addEventListener('pointerleave', onLeave);
     }
-    window.addEventListener('resize', size);
+    window.addEventListener('resize', onResize);
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerdown', onClick);
+      window.removeEventListener('pointerdown', onDown);
       document.removeEventListener('pointerleave', onLeave);
-      window.removeEventListener('resize', size);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="fixed inset-0 z-0 pointer-events-none"
-    />
-  );
+  return <canvas ref={ref} aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none" />;
 }

@@ -45,18 +45,18 @@ const ROLES = [
     role: 'Backend Engineering Intern',
     org: 'OpenRAG',
     period: 'apr to jun 2026',
-    line: 'Production RAG bugs on DocDynamo: chunks quietly deleting each other, caches no worker could see, chunking that cut mid sentence.',
+    line: 'Production RAG work on DocDynamo: chunks quietly deleting each other, caches no worker could see, and a CSV agent for the questions retrieval was never going to answer.',
     points: [
       'A BM25 bug where uploading several files silently overwrote earlier chunks, because chunk keys were not scoped to the file. Fixed by keying per file with UUIDs in MongoDB.',
       'The FAISS cache was process local, so under Gunicorn every worker kept its own copy and mostly missed. Replaced it with a Redis L2 layer plus a threading lock so workers stop stepping on each other, with an in process TTL cache in front for hot users.',
       'Replaced phrase scanning in user_ip() with a structured return type, so callers stop parsing strings to work out what happened.',
       'Moved chunking from character counts to a semantic chunker with a 1000 character ceiling, so a chunk ends where the meaning does and not at character 512.',
-      'Prototyped a pandas agent for CSV and XLSX questions, so structured data stops being force fed through a retrieval pipeline built for PDFs.',
+      'Built a CrewAI CSV analytics agent so structured data stops being force fed through a retrieval pipeline designed for PDFs. Seven specialist agents in a chain: ingestion and encoding detection, schema profiling, cleaning, LLM query planning, execution, validation, then the written answer. The planner emits pandas code and the executor validates it against an AST allowlist before running it in a restricted sandbox, because the alternative is exec() on model output. Covered by a pytest suite.',
     ],
-    stack: ['Python', 'FastAPI', 'Redis', 'FAISS', 'MongoDB', 'SSE'],
+    stack: ['Python', 'FastAPI', 'Redis', 'FAISS', 'MongoDB', 'CrewAI', 'pandas'],
     links: [
       { label: 'docdynamo.in', href: 'https://www.docdynamo.in/', live: true },
-      { label: 'pandas-agent-prototype', href: 'https://github.com/rudranaresh0201/pandas-agent-prototype' },
+      { label: 'crewai-csv-agent', href: 'https://github.com/rudranaresh0201/pandas-agent-prototype' },
     ],
   },
 ];
