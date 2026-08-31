@@ -15,8 +15,8 @@ const ROWS = [
     v: '15 n8n workflows live, 123 on the instance, biggest past 60 nodes',
   },
   {
-    k: 'merged',
-    v: '3 PRs into DocDynamo, a product with real users',
+    k: 'worked on',
+    v: 'DocDynamo, a live document product with real users',
     href: 'https://www.docdynamo.in/',
   },
   {
