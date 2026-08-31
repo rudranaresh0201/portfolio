@@ -45,7 +45,7 @@
     font-size: 0.6875rem;
     letter-spacing: 0.11em;
     text-transform: uppercase;
-    color: #6a6a67;
+    color: #67e8f9;
   }
 
   /* a plain text link: underline lives on hover, nothing else moves */
@@ -56,7 +56,10 @@
     text-underline-offset: 3px;
     transition: text-decoration-color 0.15s ease;
   }
-  .link:hover { text-decoration-color: rgba(255,255,255,0.8); }
+  .link:hover {
+    color: #67e8f9;
+    text-decoration-color: rgba(103,232,249,0.7);
+  }
 
   /* dotted rule used between list rows */
   .rowline { border-top: 1px solid rgba(255,255,255,0.07); }
@@ -134,7 +137,7 @@
   display: block;
   height: 1px;
   width: 0;
-  background: rgba(255, 255, 255, 0.16);
+  background: linear-gradient(90deg, rgba(103,232,249,0.75), rgba(103,232,249,0.05));
   transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
 }
 .reveal.is-in .rule,
@@ -143,15 +146,15 @@
 }
 
 /* rows that open and close: animate the track, not a measured height */
-.collapse {
+.disclose {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.collapse[data-open='true'] {
+.disclose[data-open='true'] {
   grid-template-rows: 1fr;
 }
-.collapse > * {
+.disclose > * {
   overflow: hidden;
   min-height: 0;
 }
@@ -159,5 +162,5 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .rule { width: 64px; transition: none; }
-  .collapse { transition: none; }
+  .disclose { transition: none; }
 }

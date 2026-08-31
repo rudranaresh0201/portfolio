@@ -14,7 +14,7 @@ export default function Hero() {
         <img
           src={`${import.meta.env.BASE_URL}profile.jpg`}
           alt="Rudra Naresh"
-          className="w-32 h-32 sm:w-36 sm:h-36 rounded-xl object-cover border border-line shrink-0"
+          className="w-44 h-44 sm:w-56 sm:h-56 rounded-xl object-cover border border-line shrink-0"
           style={{ objectPosition: '50% 18%' }}
         />
         <div className="min-w-0 sm:pt-1">
@@ -30,19 +30,15 @@ export default function Hero() {
 
       <Reveal delay={80}>
         <p className="text-dim leading-relaxed mb-4">
-          Most of my week goes into exploring MCP and agent infrastructure, and an AI automation
-          internship at <span className="text-fg">Elevar Sports</span>. Different ends of the same
-          thing: one is the protocol layer agents talk over, the other is what happens when a real
-          business depends on those pipes not quietly failing.
-        </p>
-        <p className="text-dim leading-relaxed mb-4">
-          The problem I keep circling is that agents believe whatever a tool tells them. If a server
-          says the commit landed, nothing anywhere checks that it did. It shows up in ops too: a
-          courier API says the shipment booked, a sheet says the order synced, and the team finds out
-          on Monday that neither one happened.
+          Most of my week goes into <span className="text-accent">MCP and agent infrastructure</span>,
+          and an AI automation internship at <span className="text-fg">Elevar Sports</span>. Two ends
+          of the same interest: the protocol layer agents talk over, and what it takes to keep real
+          systems running on top of it.
         </p>
         <p className="text-dim leading-relaxed mb-8">
-          So I mostly build the checking layer, and then try hard to break it.
+          I like the layer underneath the model, and I tend to build something and then spend just as
+          long trying to break it, because that is usually the part that tells you what you actually
+          made.
         </p>
       </Reveal>
 

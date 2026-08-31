@@ -31,9 +31,8 @@ export default function About() {
 
       <p className="text-dim leading-relaxed mb-4">
         I am a B.Tech electronics student at VJTI Mumbai with an AI and ML minor, CGPA 8.26, graduating
-        in 2028. I came into agents from the RAG side and stayed for the infrastructure, because the
-        failure mode that kept showing up was never the model reasoning badly. It was the model being
-        told something false by a tool and having no way to know.
+        in 2028. I came into this from the retrieval side and stayed for the infrastructure underneath
+        it: agents, MCP, automation, and the unglamorous work of making those hold up outside a demo.
       </p>
       <p className="text-dim leading-relaxed mb-8">
         I like problems where you can be proven wrong. A benchmark that prints a number I do not like,

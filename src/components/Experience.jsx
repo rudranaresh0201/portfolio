@@ -87,7 +87,7 @@ function Row({ item }) {
         </span>
       </button>
 
-      <div className="collapse" data-open={open}>
+      <div className="disclose" data-open={open ? "true" : "false"}>
         <div>
           <div className="pb-5 -mt-1">
           <ul className="space-y-2.5 mb-4">

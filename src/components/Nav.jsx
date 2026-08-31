@@ -67,12 +67,12 @@ export default function Nav() {
               <button
                 onClick={() => go(s.id)}
                 className={`relative font-mono text-2xs py-1 transition-colors duration-200 ${
-                  active === s.id ? 'text-fg' : 'text-mute hover:text-dim'
+                  active === s.id ? 'text-accent' : 'text-mute hover:text-dim'
                 }`}
               >
                 {s.label}
                 <span
-                  className={`absolute left-0 -bottom-0.5 h-px bg-fg transition-all duration-300 ease-out ${
+                  className={`absolute left-0 -bottom-0.5 h-px bg-accent transition-all duration-300 ease-out ${
                     active === s.id ? 'w-full opacity-100' : 'w-0 opacity-0'
                   }`}
                 />

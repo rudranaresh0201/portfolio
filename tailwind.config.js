@@ -19,6 +19,9 @@ export default {
         dim:   '#9b9b97',
         mute:  '#6a6a67',
         faint: '#4a4a48',
+        /* identity accent, used for emphasis and the web background */
+        accent: '#67e8f9',
+        accentdim: '#22d3ee',
         /* semantic only — these mean verified / disproven, never decoration */
         ok:    '#4ade80',
         bad:   '#f87171',

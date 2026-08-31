@@ -100,7 +100,7 @@ function Project({ p }) {
     <>
       <button onClick={() => setOpen((v) => !v)} aria-expanded={open} className="w-full text-left py-4 group">
         <div className="flex items-baseline justify-between gap-4 mb-1">
-          <h3 className="text-fg font-medium font-mono text-sm">{p.name}</h3>
+          <h3 className="text-accent font-medium font-mono text-sm">{p.name}</h3>
           <span className={`font-mono text-2xs shrink-0 flex items-center gap-1.5 ${s.text}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
             {p.status}
@@ -113,7 +113,7 @@ function Project({ p }) {
         </span>
       </button>
 
-      <div className="collapse" data-open={open}>
+      <div className="disclose" data-open={open ? "true" : "false"}>
         <div>
           <div className="pb-5 -mt-1">
           {p.body.map((para, i) => (
