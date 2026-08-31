@@ -49,7 +49,7 @@ const PROJECTS = [
     ],
     note: 'The bugs have been the useful part. A process integrity rule meant a standard privilege collector literally could not see an elevated window like Task Manager. An fp16 underflow was rounding LoRA updates to zero while the loss curve still looked healthy. And 36 percent of a dataset I had already called validated turned out to be labels from the wrong app, which only showed up when I rendered the boxes onto screenshots and actually looked at them.',
     stack: ['Python', 'PyTorch', 'LoRA', 'Qwen2-VL', 'LangGraph', 'Windows UIA'],
-    links: [],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/computer-use' }],
   },
   {
     id: 'aria',
