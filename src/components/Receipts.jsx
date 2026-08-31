@@ -20,6 +20,11 @@ const ROWS = [
     href: 'https://www.docdynamo.in/',
   },
   {
+    k: 'deployed',
+    v: 'ClinIQ, a 9 stage clinical pipeline, answering on its own API',
+    href: 'https://cliniq-backend-lwon.onrender.com/docs',
+  },
+  {
     k: 'shipped',
     v: 'Elevar Play, a Flutter game hub with 3 games playable offline',
     href: 'https://github.com/rudranaresh0201/elevar-game',

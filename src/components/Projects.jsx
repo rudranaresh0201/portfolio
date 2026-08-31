@@ -112,9 +112,12 @@ const PROJECTS = [
       ['pipeline', '9 stages, evidence checked between them'],
       ['sources', 'PubMed and OpenFDA, live, not a scraped dump'],
     ],
-    note: 'The honest gap: this one has no test suite and I have not published evaluation numbers for it, so unlike the projects above it is argued on how it is built rather than on a score. The frontend is deployed but its backend is currently offline, so the repo is the link until I bring it back up.',
+    note: 'The honest gap: this one has no test suite and I have not published evaluation numbers for it, so unlike the projects above it is argued on how it is built rather than on a score. It runs on a free instance, so the first request after fifteen idle minutes takes about a minute to wake.',
     stack: ['FastAPI', 'React', 'TypeScript', 'ChromaDB', 'Supabase', 'Docker', 'SSE'],
-    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/Cliniq' }],
+    links: [
+      { label: 'github', href: 'https://github.com/rudranaresh0201/Cliniq' },
+      { label: 'live api', href: 'https://cliniq-backend-lwon.onrender.com/docs', live: true },
+    ],
   },
 ];
 
