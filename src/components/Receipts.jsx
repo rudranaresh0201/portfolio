@@ -21,8 +21,8 @@ const ROWS = [
   },
   {
     k: 'deployed',
-    v: 'ClinIQ, a 9 stage clinical pipeline, answering on its own API',
-    href: 'https://cliniq-backend-lwon.onrender.com/docs',
+    v: 'ClinIQ, a 9 stage clinical pipeline, live end to end',
+    href: 'https://cliniq-opal.vercel.app',
   },
   {
     k: 'shipped',

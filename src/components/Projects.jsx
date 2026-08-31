@@ -30,11 +30,11 @@ const PROJECTS = [
       { label: 'pypi', href: 'https://pypi.org/project/verimcp/', live: true },
       { label: 'mcp registry', href: 'https://registry.modelcontextprotocol.io/?search=rudranaresh0201', live: true },
     ],
-    shot: {
+    shots: [{
       src: 'shots/verimcp-console.jpg',
       alt: 'The verimcp console mid-run, five calls marked disproven',
       caption: 'The console tailing a real run. Five of nine calls claimed a success that never happened; the inspector shows the claim beside what re-deriving it actually found.',
-    },
+    }],
     blog: '/blog/verimcp',
   },
   {
@@ -71,11 +71,11 @@ const PROJECTS = [
       ['agents', '15 specialists behind one planner'],
       ['security', 'found and fixed a JWT flaw allowing forged tokens'],
     ],
-    shot: {
+    shots: [{
       src: 'shots/aria-answer.jpg',
       alt: 'Aria answering a question with evidence and insights panels',
       caption: 'One answer, with the evidence it was drawn from and the confidence beside it, so a claim can be traced back to the document that supports it rather than taken on faith.',
-    },
+    }],
     note: 'Repo is private for now, so there is nothing to link yet.',
     stack: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Docker'],
     links: [],
@@ -114,9 +114,22 @@ const PROJECTS = [
     ],
     note: 'The honest gap: this one has no test suite and I have not published evaluation numbers for it, so unlike the projects above it is argued on how it is built rather than on a score. It runs on a free instance, so the first request after fifteen idle minutes takes about a minute to wake.',
     stack: ['FastAPI', 'React', 'TypeScript', 'ChromaDB', 'Supabase', 'Docker', 'SSE'],
+    shots: [
+      {
+        src: 'shots/cliniq-patient-os.jpg',
+        alt: 'The ClinIQ patient view: recovery score, risk band and agent activity',
+        caption: 'The patient view after a real query. A recovery score and risk band over a seven day window, a monitoring plan with checkpoints, and the agents that produced it logged as they finish.',
+      },
+      {
+        src: 'shots/cliniq-timeline.jpg',
+        alt: 'The case timeline listing which agent produced each entry',
+        caption: 'The same case as a timeline, with each entry tagged by the agent that wrote it: symptom extractor, clinical reasoner, India epidemiology reranker.',
+      },
+    ],
     links: [
+      { label: 'live demo', href: 'https://cliniq-opal.vercel.app', live: true },
+      { label: 'api', href: 'https://cliniq-backend-lwon.onrender.com/docs', live: true },
       { label: 'github', href: 'https://github.com/rudranaresh0201/Cliniq' },
-      { label: 'live api', href: 'https://cliniq-backend-lwon.onrender.com/docs', live: true },
     ],
   },
 ];
@@ -142,7 +155,7 @@ function Project({ p }) {
         </div>
         <div className="flex items-start gap-4">
           <p className="text-dim text-sm leading-relaxed flex-1">{p.line}</p>
-          {p.shot && <Thumb src={p.shot.src} alt={p.shot.alt} />}
+          {p.shots?.[0] && <Thumb src={p.shots[0].src} alt={p.shots[0].alt} />}
         </div>
         <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
           {open ? 'less' : 'more'}
@@ -153,7 +166,7 @@ function Project({ p }) {
       <div className="disclose" data-open={open ? "true" : "false"}>
         <div>
           <div className="pb-5 -mt-1">
-          {p.shot && <Shot {...p.shot} />}
+          {p.shots?.map((sh) => <Shot key={sh.src} {...sh} />)}
           {p.body.map((para, i) => (
             <p key={i} className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-line">{para}</p>
           ))}
