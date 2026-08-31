@@ -20,6 +20,7 @@ const PROJECTS = [
       ['duplicate side effects', '5 / 5 down to 0 / 5'],
       ['tests', '138, real subprocess pipes, no mocks'],
     ],
+    next: 'Currently extending the same idea past MCP to A2A, so an agent handing another agent a finished task gets checked the same way a tool call does. A2A renamed its state enum between v0.3 and v1.0 and both are deployed in the wild, so the first piece reads a Task across both generations and treats an unfamiliar state as unknown rather than crashing a working conversation.',
     note: 'The benchmark prints 79 percent rather than a round 100 on purpose. Three of the fourteen exploit gaps that are real and documented, like a hash-exists check that cannot prove this call is what created the hash. A tool scoring perfectly on a benchmark it wrote itself is the thing worth being suspicious of.',
     stack: ['Python', 'MCP', 'JSON-RPC', 'OpenTelemetry', 'Docker', 'pytest'],
     links: [
@@ -125,6 +126,13 @@ function Project({ p }) {
                 </div>
               ))}
             </dl>
+          )}
+
+          {p.next && (
+            <p className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-ok/40">
+              <span className="font-mono text-2xs text-ok mr-1.5">now</span>
+              {p.next}
+            </p>
           )}
 
           {p.note && (
