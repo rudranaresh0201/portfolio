@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Reveal from './Reveal';
 
 const POSTS = [
   {
@@ -13,8 +14,11 @@ const POSTS = [
 export default function Writing() {
   return (
     <section id="writing" className="py-14">
-      <h2 className="label mb-1">writing</h2>
-      <p className="text-mute text-sm mb-5">Long form, when something is worth the space.</p>
+      <Reveal>
+        <h2 className="label mb-1">writing</h2>
+        <p className="text-mute text-sm mb-1">Long form, when something is worth the space.</p>
+        <span className="rule mb-4" />
+      </Reveal>
       <ul>
         {POSTS.map((p) => (
           <li key={p.slug} className="rowline">

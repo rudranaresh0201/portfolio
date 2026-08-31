@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Links from './Links';
+import Reveal from './Reveal';
 
 const PROJECTS = [
   {
@@ -96,7 +97,7 @@ function Project({ p }) {
   const s = STATUS[p.status];
 
   return (
-    <li className="rowline">
+    <>
       <button onClick={() => setOpen((v) => !v)} aria-expanded={open} className="w-full text-left py-4 group">
         <div className="flex items-baseline justify-between gap-4 mb-1">
           <h3 className="text-fg font-medium font-mono text-sm">{p.name}</h3>
@@ -106,13 +107,15 @@ function Project({ p }) {
           </span>
         </div>
         <p className="text-dim text-sm leading-relaxed pr-6">{p.line}</p>
-        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-block">
+        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
           {open ? 'less' : 'more'}
+          <span className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>&#8595;</span>
         </span>
       </button>
 
-      {open && (
-        <div className="pb-5 -mt-1">
+      <div className="collapse" data-open={open}>
+        <div>
+          <div className="pb-5 -mt-1">
           {p.body.map((para, i) => (
             <p key={i} className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-line">{para}</p>
           ))}
@@ -146,23 +149,31 @@ function Project({ p }) {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
             <Links items={p.links} />
             {p.blog && <Link to={p.blog} className="font-mono text-2xs link">read the writeup</Link>}
+            </div>
           </div>
         </div>
-      )}
-    </li>
+      </div>
+    </>
   );
 }
 
 export default function Projects() {
   return (
     <section id="projects" className="py-14">
-      <h2 className="label mb-1">projects</h2>
-      <p className="text-mute text-sm mb-5">
-        Four I would actually defend in a room. The numbers below are the ones the benchmarks print,
-        including the parts that do not flatter.
-      </p>
+      <Reveal>
+        <h2 className="label mb-1">projects</h2>
+        <p className="text-mute text-sm mb-1">
+          Some things I have built. The numbers are whatever the benchmarks actually print,
+          including the parts that do not flatter.
+        </p>
+        <span className="rule mb-4" />
+      </Reveal>
       <ul>
-        {PROJECTS.map((p) => <Project key={p.id} p={p} />)}
+        {PROJECTS.map((p, i) => (
+          <Reveal key={p.id} as="li" delay={i * 60} className="rowline">
+            <Project p={p} />
+          </Reveal>
+        ))}
       </ul>
     </section>
   );

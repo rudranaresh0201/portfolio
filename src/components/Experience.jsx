@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Links from './Links';
+import Reveal from './Reveal';
 
 const ROLES = [
   {
@@ -63,7 +64,7 @@ const ROLES = [
 function Row({ item }) {
   const [open, setOpen] = useState(false);
   return (
-    <li className="rowline">
+    <>
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
@@ -80,13 +81,15 @@ function Row({ item }) {
           </span>
         </div>
         <p className="text-dim text-sm leading-relaxed pr-6">{item.line}</p>
-        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-block">
+        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
           {open ? 'less' : 'more'}
+          <span className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>&#8595;</span>
         </span>
       </button>
 
-      {open && (
-        <div className="pb-5 -mt-1">
+      <div className="collapse" data-open={open}>
+        <div>
+          <div className="pb-5 -mt-1">
           <ul className="space-y-2.5 mb-4">
             {item.points.map((p, i) => (
               <li key={i} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">
@@ -97,20 +100,28 @@ function Row({ item }) {
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
             {item.stack.map((s) => <span key={s} className="chip">{s}</span>)}
           </div>
-          <Links items={item.links} />
+            <Links items={item.links} />
+          </div>
         </div>
-      )}
-    </li>
+      </div>
+    </>
   );
 }
 
 export default function Experience() {
   return (
     <section id="work" className="py-14">
-      <h2 className="label mb-1">work</h2>
-      <p className="text-mute text-sm mb-5">Three internships. The first one is still going.</p>
+      <Reveal>
+        <h2 className="label mb-1">work</h2>
+        <p className="text-mute text-sm mb-1">Three internships. The first one is still going.</p>
+        <span className="rule mb-4" />
+      </Reveal>
       <ul>
-        {ROLES.map((r) => <Row key={r.id} item={r} />)}
+        {ROLES.map((r, i) => (
+          <Reveal key={r.id} as="li" delay={i * 60} className="rowline">
+            <Row item={r} />
+          </Reveal>
+        ))}
       </ul>
     </section>
   );

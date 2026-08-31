@@ -1,3 +1,5 @@
+import Reveal from './Reveal';
+
 /**
  * Concrete, checkable facts. Every row links to the thing that proves it,
  * or it does not belong on this list.
@@ -36,7 +38,10 @@ const ROWS = [
 export default function Receipts() {
   return (
     <section className="pb-14">
-      <h2 className="label mb-3">receipts</h2>
+      <Reveal>
+        <h2 className="label mb-1">receipts</h2>
+        <span className="rule mb-3" />
+      </Reveal>
       <ul className="border border-line rounded-md divide-y divide-line bg-panel">
         {ROWS.map((r) => (
           <li key={r.k} className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4 px-3 py-2.5">

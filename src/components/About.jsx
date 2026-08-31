@@ -1,3 +1,5 @@
+import Reveal from './Reveal';
+
 const CERTS = [
   {
     title: 'Introduction to Model Context Protocol',
@@ -21,8 +23,11 @@ const ELSEWHERE = [
 export default function About() {
   return (
     <section id="about" className="py-14">
-      <h2 className="label mb-1">about</h2>
-      <p className="text-mute text-sm mb-6">The parts that do not fit anywhere else.</p>
+      <Reveal>
+        <h2 className="label mb-1">about</h2>
+        <p className="text-mute text-sm mb-1">The parts that do not fit anywhere else.</p>
+        <span className="rule mb-5" />
+      </Reveal>
 
       <p className="text-dim leading-relaxed mb-4">
         I am a B.Tech electronics student at VJTI Mumbai with an AI and ML minor, CGPA 8.26, graduating
