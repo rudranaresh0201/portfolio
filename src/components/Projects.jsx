@@ -65,6 +65,7 @@ const PROJECTS = [
       ['agents', '15 specialists behind one planner'],
       ['security', 'found and fixed a JWT flaw allowing forged tokens'],
     ],
+    note: 'Repo is private for now, so there is nothing to link yet.',
     stack: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Docker'],
     links: [],
   },
@@ -83,7 +84,26 @@ const PROJECTS = [
       ['languages covered', 'Python, Solidity, Bash, Dockerfile'],
     ],
     stack: ['LangGraph', 'FastAPI', 'ChromaDB', 'Ed25519', 'PyGitHub'],
-    links: [],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/PRGuard' }],
+  },
+  {
+    id: 'cliniq',
+    name: 'ClinIQ',
+    period: '2026',
+    status: 'shipped',
+    line: 'A clinical decision-support pipeline that has to show its evidence, because the failure mode here is a confident sentence nobody can trace.',
+    body: [
+      'Takes symptoms, age, medications and location, and runs them through a nine stage pipeline: emergency red flag check first, then a cached-answer lookup over PubMedBERT vectors, first-principles clinical reasoning, a plan for which tools to call, and only then retrieval against real PubMed literature and OpenFDA drug data. Answers stream to the browser over SSE so you watch the stages resolve instead of waiting on a spinner.',
+      'Two parts I would actually defend. The evaluator scores whether the evidence it just fetched is sufficient, and if it is not, it rewrites the query and fetches again, which is roughly what a clinician does when a broad search comes back useless. And after synthesis, a faithfulness pass checks every claim against the abstracts actually retrieved on that run, so a fluent sentence with no source behind it gets flagged rather than shipped.',
+      'Retrieval is reranked against India-specific epidemiology, seasonal and state level, because base rates are most of diagnosis and a model trained on largely Western literature carries the wrong ones.',
+    ],
+    metrics: [
+      ['pipeline', '9 stages, evidence checked between them'],
+      ['sources', 'PubMed and OpenFDA, live, not a scraped dump'],
+    ],
+    note: 'The honest gap: this one has no test suite and I have not published evaluation numbers for it, so unlike the projects above it is argued on how it is built rather than on a score. The frontend is deployed but its backend is currently offline, so the repo is the link until I bring it back up.',
+    stack: ['FastAPI', 'React', 'TypeScript', 'ChromaDB', 'Supabase', 'Docker', 'SSE'],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/Cliniq' }],
   },
 ];
 

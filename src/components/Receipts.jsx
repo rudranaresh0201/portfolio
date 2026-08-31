@@ -29,6 +29,11 @@ const ROWS = [
     v: '2 CRMs for 2 brands on one shared Dockerized stack',
   },
   {
+    k: 'open source',
+    v: 'verimcp, devmcp, PRGuard and ClinIQ are all public repos',
+    href: 'https://github.com/rudranaresh0201?tab=repositories',
+  },
+  {
     k: 'certified',
     v: 'Anthropic, Introduction to Model Context Protocol',
     href: 'https://verify.skilljar.com/c/gg3nm2kasyoy',
