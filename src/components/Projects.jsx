@@ -95,6 +95,11 @@ const PROJECTS = [
       ['languages covered', 'Python, Solidity, Bash, Dockerfile'],
     ],
     stack: ['LangGraph', 'FastAPI', 'ChromaDB', 'Ed25519', 'PyGitHub'],
+    shots: [{
+      src: 'shots/prguard-routes.jpg',
+      alt: 'The deployed API listing its governance and cross-repo routes',
+      caption: 'The deployed surface, in three groups. The agent answers questions about an indexed codebase, governance takes the GitHub webhook and the manual trigger that starts a review, and cross-repo is Aftershock: announce a breaking change, fetch the public key, verify a notice.',
+    }],
     links: [
       { label: 'live api', href: 'https://governance-agent.onrender.com/docs', live: true },
       { label: 'signing key', href: 'https://governance-agent.onrender.com/cross-repo/pubkey', live: true },
