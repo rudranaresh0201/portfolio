@@ -21,7 +21,7 @@ const ROWS = [
   },
   {
     k: 'deployed',
-    v: 'ClinIQ, a 9 stage clinical pipeline, live end to end',
+    v: 'ClinIQ live end to end, and PRGuard serving its governance API',
     href: 'https://cliniq-opal.vercel.app',
   },
   {
