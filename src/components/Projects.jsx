@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Links from './Links';
 import Reveal from './Reveal';
+import Shot, { Thumb } from './Shot';
 
 const PROJECTS = [
   {
@@ -29,6 +30,11 @@ const PROJECTS = [
       { label: 'pypi', href: 'https://pypi.org/project/verimcp/', live: true },
       { label: 'mcp registry', href: 'https://registry.modelcontextprotocol.io/?search=rudranaresh0201', live: true },
     ],
+    shot: {
+      src: 'shots/verimcp-console.jpg',
+      alt: 'The verimcp console mid-run, five calls marked disproven',
+      caption: 'The console tailing a real run. Five of nine calls claimed a success that never happened; the inspector shows the claim beside what re-deriving it actually found.',
+    },
     blog: '/blog/verimcp',
   },
   {
@@ -65,6 +71,11 @@ const PROJECTS = [
       ['agents', '15 specialists behind one planner'],
       ['security', 'found and fixed a JWT flaw allowing forged tokens'],
     ],
+    shot: {
+      src: 'shots/aria-answer.jpg',
+      alt: 'Aria answering a question with evidence and insights panels',
+      caption: 'One answer, with the evidence it was drawn from and the confidence beside it, so a claim can be traced back to the document that supports it rather than taken on faith.',
+    },
     note: 'Repo is private for now, so there is nothing to link yet.',
     stack: ['LangGraph', 'FastAPI', 'React', 'ChromaDB', 'Docker'],
     links: [],
@@ -126,7 +137,10 @@ function Project({ p }) {
             {p.status}
           </span>
         </div>
-        <p className="text-dim text-sm leading-relaxed pr-6">{p.line}</p>
+        <div className="flex items-start gap-4">
+          <p className="text-dim text-sm leading-relaxed flex-1">{p.line}</p>
+          {p.shot && <Thumb src={p.shot.src} alt={p.shot.alt} />}
+        </div>
         <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
           {open ? 'less' : 'more'}
           <span className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>&#8595;</span>
@@ -136,6 +150,7 @@ function Project({ p }) {
       <div className="disclose" data-open={open ? "true" : "false"}>
         <div>
           <div className="pb-5 -mt-1">
+          {p.shot && <Shot {...p.shot} />}
           {p.body.map((para, i) => (
             <p key={i} className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-line">{para}</p>
           ))}

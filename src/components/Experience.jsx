@@ -1,5 +1,6 @@
 import Links from './Links';
 import Reveal from './Reveal';
+import Shot from './Shot';
 
 const ROLES = [
   {
@@ -17,6 +18,18 @@ const ROLES = [
       'A WhatsApp support bot on Gemini through Chatwoot, with a 19 domain intent classifier built by mining actual customer transcripts instead of guessing at categories. Every reply traces back to the row it came from. The same stack now runs a second brand, so two CRMs on shared infra.',
       'Where a courier portal has no API, a Tampermonkey script drives the real DOM instead. The Delhivery one files a claim end to end, form fill and multi photo upload included.',
       'Building Elevar Play, a Flutter game hub with three games shipped. Each game is a plugin, and the rules live in pure Dart packages that import no Flutter and no Flame, which means a server can re-run a submitted match and check the score it was handed.',
+    ],
+    shots: [
+      {
+        src: 'shots/elevar-n8n-claims.jpg',
+        alt: 'The claims creation workflow in n8n, past sixty nodes',
+        caption: 'Claims creation, published and running. Warehouse staff type one AWB; the flow resolves the order across EasyEcom, Shiprocket and Delhivery, falls back when a lookup misses, files the claim and logs the result.',
+      },
+      {
+        src: 'shots/elevar-n8n-list.jpg',
+        alt: 'The n8n instance listing 123 workflows',
+        caption: '123 workflows on the instance. Most are probes and one-off tests; the ones marked published are what actually runs the operation.',
+      },
     ],
     stack: ['Google Apps Script', 'n8n', 'Docker', 'Postgres/pgvector', 'Redis', 'Chatwoot', 'Gemini', 'Flutter'],
     links: [{ label: 'elevar-game', href: 'https://github.com/rudranaresh0201/elevar-game' }],
@@ -95,6 +108,8 @@ export default function Experience() {
                 <li key={j} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">{p}</li>
               ))}
             </ul>
+
+            {r.shots?.map((sh) => <Shot key={sh.src} {...sh} />)}
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
               {r.stack.map((s) => <span key={s} className="chip">{s}</span>)}
             </div>
