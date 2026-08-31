@@ -88,7 +88,7 @@ const PROJECTS = [
     line: 'PR review that indexes the whole codebase by AST, so it catches what a diff cannot show you.',
     body: [
       'An 8 node LangGraph pipeline: triage, security, docs, bug detection, API change detection, critical file audit. Because it indexes the repo at function level rather than reading the diff alone, it can flag an architecture violation or logic that already exists elsewhere, which is exactly the class of problem a diff hides by definition.',
-      'Alongside it, Aftershock: a signed cross repo notice board with no registration and no server to trust, so a library can warn dependent repos about a breaking change and they can verify the notice offline with Ed25519. It is deployed, and /cross-repo/pubkey serves the running instance\u2019s actual Ed25519 key, so a notice it signs can be checked against it by anyone.',
+      'Alongside it, Aftershock: a signed cross repo notice board with no registration and no server to trust, so a library can warn dependent repos about a breaking change and they can verify the notice offline with Ed25519. It is deployed and /cross-repo/pubkey serves a real key, though not yet a stable identity: free hosting gives it no persistent disk, so the keypair is regenerated on every cold start and a notice signed before a restart stops verifying after one. I watched the key change between two requests fifteen minutes apart. The mechanism works and the durability wants a mounted disk, which is worth saying plainly, because the whole value of the scheme is not having to trust the server.',
     ],
     metrics: [
       ['on a 16 issue suite', '100% recall, 94.12% precision'],
