@@ -8,24 +8,24 @@ export default {
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        /* surfaces */
-        base:  '#0b0b0c',
-        panel: '#0f0f11',
-        raise: '#141417',
-        line:  'rgba(255,255,255,0.09)',
-        line2: 'rgba(255,255,255,0.16)',
+        /* surfaces: true black, with panels lifted just enough to separate */
+        base:  '#000000',
+        panel: '#0a0c0a',
+        raise: '#111411',
+        line:  'rgba(255,255,255,0.10)',
+        line2: 'rgba(255,255,255,0.18)',
         /* type */
-        fg:    '#ededec',
-        dim:   '#9b9b97',
-        mute:  '#6a6a67',
-        faint: '#4a4a48',
-        /* identity accent, used for emphasis and the web background */
-        accent: '#67e8f9',
-        accentdim: '#22d3ee',
-        /* semantic only — these mean verified / disproven, never decoration */
-        ok:    '#4ade80',
-        bad:   '#f87171',
-        warn:  '#e3b341',
+        fg:    '#e9efe9',
+        dim:   '#a8b2a8',
+        mute:  '#758075',
+        faint: '#4c554c',
+        /* Accent and "verified" are the same green on purpose: the site is
+           about things being checked, so the brand colour is the pass state. */
+        accent: '#3fb950',
+        accentdim: '#238636',
+        ok:    '#3fb950',
+        bad:   '#f85149',
+        warn:  '#d29922',
       },
       fontSize: {
         '2xs': ['0.6875rem', { lineHeight: '1rem' }],

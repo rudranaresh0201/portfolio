@@ -22,7 +22,7 @@ const ELSEWHERE = [
 
 export default function About() {
   return (
-    <section id="about" className="py-14">
+    <section className="py-14 border-t border-line">
       <Reveal>
         <h2 className="label mb-1">about</h2>
         <p className="text-mute text-sm mb-1">The parts that do not fit anywhere else.</p>

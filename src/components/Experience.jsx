@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Links from './Links';
 import Reveal from './Reveal';
 
@@ -8,6 +7,7 @@ const ROLES = [
     role: 'AI Automation Intern',
     org: 'Elevar Sports',
     period: 'jun 2026 to now',
+    where: 'mumbai',
     current: true,
     line: 'Own the ops automation stack end to end: data sync, courier logic, the support bot, and the infra it all sits on.',
     points: [
@@ -26,14 +26,15 @@ const ROLES = [
     role: 'Software Engineering Intern',
     org: '4Seer Technologies',
     period: 'may to jul 2026',
-    line: 'A FastAPI PDF service, an ops dashboard API, and the testing pass on an Australian client build.',
+    where: 'remote',
+    line: 'Software testing and backend work for Amplex, an Australian client.',
     points: [
-      'Built a PDF generation service in FastAPI with the layers kept honest: routers, then Pydantic schemas, then a service layer, then ReportLab doing the rendering. Structured logging with correlation IDs, so a bad PDF traces back to the request that asked for it.',
+      'Ran the testing pass across Amplex end to end: the full frontend, cable management and spec sheet flows, and pricing engine validation against the API. Most of the value sat in the boring half, checking that a quoted price survived every path a user could take to reach it.',
+      'On the backend, a PDF generation service in FastAPI with the layers kept honest: routers, then Pydantic schemas, then a service layer, then ReportLab doing the rendering. Structured logging with correlation IDs, so a bad document traces back to the request that asked for it.',
       'A separate dashboard API surfacing live metrics for the Amplex app, so ops could stop asking engineering what the numbers were.',
-      'Ran the testing pass for Amplex: the full frontend, cable management and spec sheet flows, and pricing engine validation across the API.',
       'Containerised with Docker and covered by a pytest suite over health checks, schema validation and endpoint behaviour.',
     ],
-    stack: ['FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic', 'React'],
+    stack: ['Testing', 'FastAPI', 'Docker', 'ReportLab', 'pytest', 'Pydantic'],
     links: [
       { label: 'pdf-generator-service', href: 'https://github.com/rudranaresh0201/pdf-generator-service' },
       { label: '4seer-dashboard-api', href: 'https://github.com/rudranaresh0201/4seer-dashboard-api' },
@@ -42,9 +43,10 @@ const ROLES = [
   },
   {
     id: 'openrag',
-    role: 'Backend Engineering Intern',
+    role: 'AI Intern',
     org: 'OpenRAG',
     period: 'apr to jun 2026',
+    where: 'remote',
     line: 'Production RAG work on DocDynamo: chunks quietly deleting each other, caches no worker could see, and a CSV agent for the questions retrieval was never going to answer.',
     points: [
       'A BM25 bug where uploading several files silently overwrote earlier chunks, because chunk keys were not scoped to the file. Fixed by keying per file with UUIDs in MongoDB.',
@@ -61,68 +63,45 @@ const ROLES = [
   },
 ];
 
-function Row({ item }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="w-full text-left py-4 group"
-      >
-        <div className="flex items-baseline justify-between gap-4 mb-1">
-          <h3 className="text-fg font-medium">
-            {item.role}
-            <span className="text-mute font-normal"> at {item.org}</span>
-          </h3>
-          <span className="font-mono text-2xs text-faint shrink-0 flex items-center gap-1.5">
-            {item.current && <span className="w-1.5 h-1.5 rounded-full bg-ok" />}
-            {item.period}
-          </span>
-        </div>
-        <p className="text-dim text-sm leading-relaxed pr-6">{item.line}</p>
-        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
-          {open ? 'less' : 'more'}
-          <span className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>&#8595;</span>
-        </span>
-      </button>
-
-      <div className="disclose" data-open={open ? "true" : "false"}>
-        <div>
-          <div className="pb-5 -mt-1">
-          <ul className="space-y-2.5 mb-4">
-            {item.points.map((p, i) => (
-              <li key={i} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">
-                {p}
-              </li>
-            ))}
-          </ul>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
-            {item.stack.map((s) => <span key={s} className="chip">{s}</span>)}
-          </div>
-            <Links items={item.links} />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
+/**
+ * On a page of its own there is no reason to make anyone click to read this,
+ * so every role is open and they hang off one timeline rail.
+ */
 export default function Experience() {
   return (
-    <section id="work" className="py-14">
-      <Reveal>
-        <h2 className="label mb-1">work</h2>
-        <p className="text-mute text-sm mb-1">Three internships. The first one is still going.</p>
-        <span className="rule mb-4" />
-      </Reveal>
-      <ul>
+    <section className="pb-16">
+      <ol className="relative">
+        <span className="absolute left-[5px] top-2 bottom-2 w-px bg-line" aria-hidden="true" />
         {ROLES.map((r, i) => (
-          <Reveal key={r.id} as="li" delay={i * 60} className="rowline">
-            <Row item={r} />
+          <Reveal as="li" key={r.id} delay={i * 70} className="relative pl-7 pb-12 last:pb-0">
+            <span
+              className={`absolute left-0 top-[7px] w-[11px] h-[11px] rounded-full border ${
+                r.current ? 'bg-ok border-ok' : 'bg-base border-line2'
+              }`}
+              aria-hidden="true"
+            />
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+              <span className="font-mono text-2xs text-accent">{r.period}</span>
+              <span className="font-mono text-2xs text-faint">{r.where}</span>
+              {r.current && <span className="font-mono text-2xs text-ok">current</span>}
+            </div>
+            <h2 className="text-fg font-medium text-lg leading-tight">
+              {r.role}
+              <span className="text-mute font-normal"> at {r.org}</span>
+            </h2>
+            <p className="text-dim text-sm leading-relaxed mt-1 mb-4">{r.line}</p>
+            <ul className="space-y-2.5 mb-4">
+              {r.points.map((p, j) => (
+                <li key={j} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">{p}</li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
+              {r.stack.map((s) => <span key={s} className="chip">{s}</span>)}
+            </div>
+            <Links items={r.links} />
           </Reveal>
         ))}
-      </ul>
+      </ol>
     </section>
   );
 }

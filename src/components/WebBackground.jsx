@@ -21,7 +21,7 @@ const BURST_MS = 900;
 const STRANDS = 9;
 const RINGS = [26, 54, 86];
 
-const ACCENT = '103, 232, 249';
+const ACCENT = '63, 185, 80';
 const PLAIN = '255, 255, 255';
 
 const REST_EDGE = 0.05;   // the web at rest

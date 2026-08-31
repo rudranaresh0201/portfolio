@@ -13,12 +13,7 @@ const POSTS = [
 
 export default function Writing() {
   return (
-    <section id="writing" className="py-14">
-      <Reveal>
-        <h2 className="label mb-1">writing</h2>
-        <p className="text-mute text-sm mb-1">Long form, when something is worth the space.</p>
-        <span className="rule mb-4" />
-      </Reveal>
+    <section className="pb-16">
       <ul>
         {POSTS.map((p) => (
           <li key={p.slug} className="rowline">

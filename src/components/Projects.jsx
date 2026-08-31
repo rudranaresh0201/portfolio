@@ -179,14 +179,20 @@ function Project({ p }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-14">
-      <Reveal>
-        <h2 className="label mb-1">projects</h2>
-        <p className="text-mute text-sm mb-1">
-          Some things I have built. The numbers are whatever the benchmarks actually print,
-          including the parts that do not flatter.
-        </p>
-        <span className="rule mb-4" />
+    <section className="pb-16">
+      <Reveal className="mb-8">
+        <p className="label mb-2">index</p>
+        <ol className="border border-line rounded-md divide-y divide-line bg-panel">
+          {PROJECTS.map((p, i) => (
+            <li key={p.id} className="flex items-baseline gap-3 px-3 py-2">
+              <span className="font-mono text-2xs text-faint tabular-nums w-5 shrink-0">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="font-mono text-2xs text-accent w-32 shrink-0 truncate">{p.name}</span>
+              <span className="text-sm text-mute leading-snug truncate hidden sm:block">{p.line}</span>
+            </li>
+          ))}
+        </ol>
       </Reveal>
       <ul>
         {PROJECTS.map((p, i) => (

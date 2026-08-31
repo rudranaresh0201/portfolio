@@ -6,12 +6,12 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 88px;
-    background: #0b0b0c;
+    background: #000000;
   }
 
   body {
-    background: #0b0b0c;
-    color: #ededec;
+    background: #000000;
+    color: #e9efe9;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 15px;
     line-height: 1.6;
@@ -23,10 +23,10 @@
   ::selection { background: rgba(255,255,255,0.16); color: #fff; }
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #0b0b0c; }
+  ::-webkit-scrollbar-track { background: #000000; }
   ::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.12);
-    border: 3px solid #0b0b0c;
+    border: 3px solid #000000;
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
@@ -45,20 +45,20 @@
     font-size: 0.6875rem;
     letter-spacing: 0.11em;
     text-transform: uppercase;
-    color: #67e8f9;
+    color: #3fb950;
   }
 
   /* a plain text link: underline lives on hover, nothing else moves */
   .link {
-    color: #ededec;
+    color: #e9efe9;
     text-decoration: underline;
     text-decoration-color: rgba(255,255,255,0.22);
     text-underline-offset: 3px;
     transition: text-decoration-color 0.15s ease;
   }
   .link:hover {
-    color: #67e8f9;
-    text-decoration-color: rgba(103,232,249,0.7);
+    color: #3fb950;
+    text-decoration-color: rgba(63,185,80,0.7);
   }
 
   /* dotted rule used between list rows */
@@ -67,7 +67,7 @@
   .chip {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6875rem;
-    color: #9b9b97;
+    color: #a8b2a8;
     white-space: nowrap;
   }
 
@@ -76,15 +76,15 @@
     font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: -0.015em;
-    color: #ededec;
+    color: #e9efe9;
     margin-top: 2.75rem;
     margin-bottom: 0.9rem;
   }
-  .prose-blog p { color: #b9b9b5; margin-bottom: 1.1rem; }
-  .prose-blog strong { color: #ededec; font-weight: 600; }
-  .prose-blog em { color: #9b9b97; }
+  .prose-blog p { color: #a8b2a8; margin-bottom: 1.1rem; }
+  .prose-blog strong { color: #e9efe9; font-weight: 600; }
+  .prose-blog em { color: #a8b2a8; }
   .prose-blog a {
-    color: #ededec;
+    color: #e9efe9;
     text-decoration: underline;
     text-decoration-color: rgba(255,255,255,0.25);
     text-underline-offset: 3px;
@@ -93,14 +93,14 @@
   .prose-blog code {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85em;
-    background: #141417;
+    background: #111411;
     border: 1px solid rgba(255,255,255,0.09);
-    color: #ededec;
+    color: #e9efe9;
     padding: 0.1em 0.35em;
     border-radius: 4px;
   }
   .prose-blog ul { margin-bottom: 1.1rem; padding-left: 1.1rem; }
-  .prose-blog li { color: #b9b9b5; margin-bottom: 0.4rem; list-style: disc; }
+  .prose-blog li { color: #a8b2a8; margin-bottom: 0.4rem; list-style: disc; }
 }
 
 /* Respect users who don't want motion. The site barely moves anyway. */
@@ -137,7 +137,7 @@
   display: block;
   height: 1px;
   width: 0;
-  background: linear-gradient(90deg, rgba(103,232,249,0.75), rgba(103,232,249,0.05));
+  background: linear-gradient(90deg, rgba(63,185,80,0.75), rgba(63,185,80,0.05));
   transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
 }
 .reveal.is-in .rule,
@@ -163,4 +163,16 @@
   .reveal { opacity: 1; transform: none; transition: none; }
   .rule { width: 64px; transition: none; }
   .disclose { transition: none; }
+}
+
+/* Page transition. Keyed on the route in App.jsx so it replays on every
+   navigation, not only on first load. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation: none; }
 }
