@@ -3,6 +3,13 @@ import Reveal from './Reveal';
 
 const POSTS = [
   {
+    slug: '/blog/computer-use',
+    title: 'Where should an agent click? A small grounder, and when to trust the accessibility tree',
+    date: '2026-10-18',
+    excerpt:
+      'I trained a 2B model to point at buttons on free labels and a free GPU, then measured the common "trust the accessibility tree first" design. It is worse than vision alone once the tree has holes, and the loss has an exact formula. Then I built an agent around the fix.',
+  },
+  {
     slug: '/blog/verimcp',
     title: "Don't trust the tool call: building a verifier for MCP",
     date: '2026-08-15',

@@ -8,6 +8,7 @@ import Work from './pages/Work';
 import ProjectsPage from './pages/ProjectsPage';
 import WritingPage from './pages/WritingPage';
 import BlogVerimcp from './pages/BlogVerimcp';
+import BlogComputerUse from './pages/BlogComputerUse';
 
 /* A new page should start at the top, not wherever the last one was scrolled. */
 function ScrollToTop() {
@@ -35,6 +36,7 @@ function Shell() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/writing" element={<WritingPage />} />
             <Route path="/blog/verimcp" element={<BlogVerimcp />} />
+            <Route path="/blog/computer-use" element={<BlogComputerUse />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
