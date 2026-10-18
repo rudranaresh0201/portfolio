@@ -296,7 +296,6 @@ export default function BlogComputerUse() {
       <p>
         Everything here, including the per-example results and the script that regenerates every number and chart, is
         in <a href="https://github.com/rudranaresh0201/computer-use" target="_blank" rel="noopener noreferrer">the repo</a>.
-        A paper version is going to arXiv.
       </p>
     </BlogLayout>
   );
