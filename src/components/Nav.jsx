@@ -1,50 +1,35 @@
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const PAGES = [
-  { to: '/work', label: 'work' },
-  { to: '/projects', label: 'projects' },
-  { to: '/writing', label: 'writing' },
+export const SECTIONS = [
+  { id: 'projects', label: 'projects', path: '/projects' },
+  { id: 'demos', label: 'demos', path: '/demos' },
+  { id: 'internships', label: 'internships', path: '/work' },
+  { id: 'writing', label: 'blog', path: '/writing' },
+  { id: 'about', label: 'about', path: '/about' },
 ];
 
 export default function Nav() {
   const { pathname } = useLocation();
-  const onHome = pathname === '/';
 
   return (
-    <header className="sticky top-0 z-50 bg-base/80 backdrop-blur-md border-b border-line">
-      <nav className="max-w-page mx-auto px-5 h-14 flex items-center justify-between gap-4">
-        <Link
-          to="/"
-          className={`font-mono text-2xs shrink-0 transition-colors ${
-            onHome ? 'text-accent' : 'text-fg hover:text-accent'
-          }`}
-        >
-          rudra naresh
-          <span className="text-faint"> / vjti</span>
+    <header className="sticky top-0 z-50 bg-base/85 backdrop-blur-md border-b border-line/60">
+      <nav className="max-w-shell mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-6">
+        <Link to="/" className="display text-2xl text-fg hover:text-accent transition-colors shrink-0">
+          Rudra Naresh
         </Link>
-
-        <ul className="flex items-center gap-4 sm:gap-5">
-          {PAGES.map((p) => (
-            <li key={p.to}>
-              <NavLink
-                to={p.to}
-                className={({ isActive }) =>
-                  `relative font-mono text-2xs py-1 transition-colors duration-200 ${
-                    isActive ? 'text-accent' : 'text-mute hover:text-dim'
-                  }`
-                }
+        <ul className="flex items-center gap-4 sm:gap-7 overflow-x-auto">
+          {SECTIONS.map((s) => (
+            <li key={s.id}>
+              <Link
+                to={s.path}
+                className={`text-sm transition-colors ${
+                  pathname === s.path || (s.id === 'projects' && pathname.startsWith('/projects/'))
+                    ? 'text-accent'
+                    : 'text-mute hover:text-fg'
+                }`}
               >
-                {({ isActive }) => (
-                  <>
-                    {p.label}
-                    <span
-                      className={`absolute left-0 -bottom-0.5 h-px bg-accent transition-all duration-300 ease-out ${
-                        isActive ? 'w-full opacity-100' : 'w-0 opacity-0'
-                      }`}
-                    />
-                  </>
-                )}
-              </NavLink>
+                {s.label}
+              </Link>
             </li>
           ))}
         </ul>

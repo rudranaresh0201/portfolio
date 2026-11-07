@@ -4,12 +4,27 @@ import Shot from './Shot';
 
 const ROLES = [
   {
+    id: 'habit',
+    role: 'AI Intern',
+    org: 'Everyday Habit',
+    period: 'oct 2026 to now',
+    where: 'remote',
+    current: true,
+    line: 'A computer-use agent that learns a desktop workflow by watching someone do it once, then replays it on its own. I run the experiments that check what its spec assumes about real operating systems.',
+    points: [
+      'The spec was written by reasoning about how Windows, Linux and macOS behave. Each experiment takes one of those assumptions, measures it on real machines, and ends in a findings file that goes back into the spec. Ten so far, on Windows and Linux: accessibility trees, finding the same button again after a restart, browsers and Electron apps, photographing one window, how the screen settles after a click, hidden desktops, virtual displays, restricted tokens, clicking without the mouse, and Wayland recording.',
+      'Accessibility trees: everyday apps have 46 to 198 nodes, not the 500 to 5,000 the spec assumed, but reading them one property at a time takes 64 to 511 ms, 3 to 25 times the spec\'s figure. Every clickable GTK4 button sits deeper than the planned depth-8 cap, so that pruning would have cut all of them off.',
+      'Windows: a window on a hidden desktop can be photographed with PrintWindow, while Windows Graphics Capture refuses. Calculator and Settings cannot be driven through UI Automation while the screen is locked, minimised or on another desktop, and the spec\'s lock check does not see the lock. The spec\'s restricted-token recipe stops every program from starting.',
+    ],
+    stack: ['Windows UI Automation', 'AT-SPI', 'X11', 'Wayland', 'Python', 'Rust'],
+    links: [],
+  },
+  {
     id: 'elevar',
     role: 'AI Automation Intern',
     org: 'Elevar Sports',
-    period: 'jun 2026 to now',
+    period: 'jun to nov 2026',
     where: 'mumbai',
-    current: true,
     line: 'Own the ops automation stack end to end: data sync, courier logic, the support bot, and the infra it all sits on.',
     points: [
       'Seven sources (Shopify, Shiprocket, EasyEcom, Delhivery forward and reverse, ATS, Returns Prime, Amazon) sync nightly into one sheet through Google Apps Script. Every vendor had its own personality: EasyEcom wanted dual-header auth and a report queue, Returns Prime only ever pushes webhooks and has no AWB column at all. An AWB corruption bug turned out to be key formatting, so matching now happens on a normalised key while the raw value is what gets stored.',
@@ -54,26 +69,6 @@ const ROLES = [
       { label: 'certificate', href: `${import.meta.env.BASE_URL}certs/4seer-internship-certificate.pdf` },
     ],
   },
-  {
-    id: 'openrag',
-    role: 'AI Intern',
-    org: 'OpenRAG',
-    period: 'apr to jun 2026',
-    where: 'remote',
-    line: 'Production RAG work on DocDynamo: chunks quietly deleting each other, caches no worker could see, and a CSV agent for the questions retrieval was never going to answer.',
-    points: [
-      'A BM25 bug where uploading several files silently overwrote earlier chunks, because chunk keys were not scoped to the file. Fixed by keying per file with UUIDs in MongoDB.',
-      'The FAISS cache was process local, so under Gunicorn every worker kept its own copy and mostly missed. Replaced it with a Redis L2 layer plus a threading lock so workers stop stepping on each other, with an in process TTL cache in front for hot users.',
-      'Replaced phrase scanning in user_ip() with a structured return type, so callers stop parsing strings to work out what happened.',
-      'Moved chunking from character counts to a semantic chunker with a 1000 character ceiling, so a chunk ends where the meaning does and not at character 512.',
-      'Built a CrewAI CSV analytics agent so structured data stops being force fed through a retrieval pipeline designed for PDFs. Seven specialist agents in a chain: ingestion and encoding detection, schema profiling, cleaning, LLM query planning, execution, validation, then the written answer. The planner emits pandas code and the executor validates it against an AST allowlist before running it in a restricted sandbox, because the alternative is exec() on model output. Covered by a pytest suite.',
-    ],
-    stack: ['Python', 'FastAPI', 'Redis', 'FAISS', 'MongoDB', 'CrewAI', 'pandas'],
-    links: [
-      { label: 'docdynamo.in', href: 'https://www.docdynamo.in/', live: true },
-      { label: 'crewai-csv-agent', href: 'https://github.com/rudranaresh0201/pandas-agent-prototype' },
-    ],
-  },
 ];
 
 /**
@@ -82,30 +77,30 @@ const ROLES = [
  */
 export default function Experience() {
   return (
-    <section className="pb-16">
+    <section>
       <ol className="relative">
         <span className="absolute left-[5px] top-2 bottom-2 w-px bg-line" aria-hidden="true" />
         {ROLES.map((r, i) => (
-          <Reveal as="li" key={r.id} delay={i * 70} className="relative pl-7 pb-12 last:pb-0">
+          <Reveal as="li" key={r.id} delay={i * 70} className="relative pl-7 pb-14 last:pb-0 max-w-3xl">
             <span
               className={`absolute left-0 top-[7px] w-[11px] h-[11px] rounded-full border ${
-                r.current ? 'bg-ok border-ok' : 'bg-base border-line2'
+                r.current ? 'bg-accent border-accent' : 'bg-base border-line2'
               }`}
               aria-hidden="true"
             />
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-              <span className="font-mono text-2xs text-accent">{r.period}</span>
-              <span className="font-mono text-2xs text-faint">{r.where}</span>
-              {r.current && <span className="font-mono text-2xs text-ok">current</span>}
+              <span className="text-sm text-accent font-medium">{r.period}</span>
+              <span className="text-sm text-faint">{r.where}</span>
+              {r.current && <span className="text-sm text-ok">current</span>}
             </div>
-            <h2 className="text-fg font-medium text-lg leading-tight">
+            <h3 className="display text-3xl text-fg leading-tight">
               {r.role}
-              <span className="text-mute font-normal"> at {r.org}</span>
-            </h2>
-            <p className="text-dim text-sm leading-relaxed mt-1 mb-4">{r.line}</p>
+              <span className="text-mute"> at {r.org}</span>
+            </h3>
+            <p className="text-dim leading-relaxed mt-2 mb-5">{r.line}</p>
             <ul className="space-y-2.5 mb-4">
               {r.points.map((p, j) => (
-                <li key={j} className="text-dim text-sm leading-relaxed pl-4 border-l border-line">{p}</li>
+                <li key={j} className="text-dim text-[15px] leading-relaxed pl-4 border-l-2 border-line">{p}</li>
               ))}
             </ul>
 

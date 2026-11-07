@@ -35,7 +35,7 @@ const ROWS = [
   },
   {
     k: 'open source',
-    v: 'verimcp, devmcp, PRGuard, ClinIQ and the CrewAI CSV agent are public',
+    v: 'SO-101 world model, DreamDesk, computer-use, verimcp, devmcp, PRGuard, ClinIQ and the CrewAI CSV agent are public',
     href: 'https://github.com/rudranaresh0201?tab=repositories',
   },
   {
@@ -47,15 +47,14 @@ const ROWS = [
 
 export default function Receipts() {
   return (
-    <section className="pb-14">
+    <section>
       <Reveal>
-        <h2 className="label mb-1">receipts</h2>
-        <span className="rule mb-3" />
+        <h3 className="label mb-3">receipts</h3>
       </Reveal>
-      <ul className="border border-line rounded-md divide-y divide-line bg-panel">
+      <ul className="card divide-y divide-line overflow-hidden">
         {ROWS.map((r) => (
-          <li key={r.k} className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4 px-3 py-2.5">
-            <span className="font-mono text-2xs text-mute sm:w-24 shrink-0">{r.k}</span>
+          <li key={r.k} className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-4 px-4 py-3">
+            <span className="text-xs text-mute sm:w-28 shrink-0">{r.k}</span>
             <span className="text-sm text-dim leading-snug">
               {r.href ? (
                 <a href={r.href} target="_blank" rel="noopener noreferrer" className="link">{r.v}</a>

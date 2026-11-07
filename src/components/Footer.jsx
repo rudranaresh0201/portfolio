@@ -7,19 +7,19 @@ const LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line mt-10">
-      <div className="max-w-page mx-auto px-5 py-8">
-        <p className="text-dim text-sm leading-relaxed mb-5 max-w-md">
+    <footer className="border-t border-line mt-10 bg-raise">
+      <div className="max-w-shell mx-auto px-5 sm:px-8 py-14">
+        <p className="display text-3xl sm:text-4xl text-fg leading-tight mb-6 max-w-2xl">
           If you are building agent infrastructure, or you have a system that quietly lies to itself,
           I would like to hear about it.
         </p>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8">
           {LINKS.map((l) => (
             <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
-              className="font-mono text-2xs link">{l.label}</a>
+              className="text-sm link">{l.label}</a>
           ))}
         </div>
-        <p className="font-mono text-2xs text-faint">
+        <p className="text-xs text-faint">
           built by hand, mumbai. no analytics, no cookies, nothing tracking you here.
         </p>
       </div>

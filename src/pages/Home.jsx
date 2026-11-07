@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import Console from '../components/Console';
 import Receipts from '../components/Receipts';
 import About from '../components/About';
+import Projects, { PROJECTS } from '../components/Projects';
+import Demos from '../components/Demos';
+import Experience from '../components/Experience';
+import Writing from '../components/Writing';
 import Reveal from '../components/Reveal';
 
 const LINKS = [
@@ -10,107 +14,113 @@ const LINKS = [
   { label: 'email', href: 'mailto:rudranaresh2018@gmail.com' },
 ];
 
-const NEXT = [
-  { to: '/work', label: 'work', blurb: 'Three internships, the first still going.' },
-  { to: '/projects', label: 'projects', blurb: 'Five builds, with the gaps named.' },
-  { to: '/writing', label: 'writing', blurb: 'Long form, when it earns the space.' },
-];
+/* Every section opens the same way: a serif title, a quiet count or note. */
+function Head({ title, aside, lede }) {
+  return (
+    <Reveal className="mb-10">
+      <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
+        <h2 className="display text-4xl sm:text-5xl text-fg">{title}</h2>
+        {aside && <span className="text-sm text-faint shrink-0">{aside}</span>}
+      </div>
+      {lede && <p className="text-dim leading-relaxed max-w-2xl mt-5">{lede}</p>}
+    </Reveal>
+  );
+}
 
-export default function Home() {
+export default function Home({ section }) {
+  /* /projects, /work, ... land here and scroll to their section */
+  useEffect(() => {
+    if (section === 'top') return window.scrollTo({ top: 0 });
+    document.getElementById(section)?.scrollIntoView({ block: 'start' });
+  }, [section]);
+
   return (
     <>
-      <section className="pt-14 pb-14">
-        <Reveal className="flex flex-col items-center text-center mb-9">
-          <div className="relative mb-6">
-            <div
-              className="absolute -inset-3 rounded-full blur-2xl opacity-40"
-              style={{ background: 'radial-gradient(circle, rgba(63,185,80,0.28), transparent 70%)' }}
-              aria-hidden="true"
-            />
-            <img
-              src={`${import.meta.env.BASE_URL}portrait.jpg`}
-              alt="Rudra Naresh"
-              width={224}
-              height={224}
-              className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover
-                         ring-1 ring-white/15 shadow-2xl shadow-black/60"
-            />
+      <section className="pt-16 sm:pt-24 pb-20 sm:pb-28">
+        <Reveal className="grid sm:grid-cols-[1fr_auto] gap-10 sm:gap-16 items-end">
+          <div>
+            <h1 className="display text-[3.4rem] sm:text-7xl lg:text-[5.75rem] text-fg leading-[0.95]">
+              Building with AI,<br />
+              <em className="text-accent">agents</em> and RL.
+            </h1>
+            <p className="text-lg text-dim leading-relaxed max-w-2xl mt-8">
+              Most of my week goes into agents, MCP and automation, and lately reinforcement learning
+              and robotics. I like the layer underneath the model, the protocols and plumbing and the
+              unglamorous work of making all of it hold up once something real depends on it.
+            </p>
+            <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
+              {LINKS.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm link">{l.label}</a>
+                </li>
+              ))}
+              <li className="text-sm text-faint">Mumbai, India</li>
+            </ul>
           </div>
-
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight mb-2">
-            Rudra Naresh
-          </h1>
-          <p className="font-mono text-2xs text-mute leading-relaxed">
-            electronics + ai/ml minor · vjti mumbai · b.tech '28
-          </p>
-          <span className="rule mt-4 mx-auto" />
+          <img
+            src={`${import.meta.env.BASE_URL}portrait.jpg`}
+            alt="Rudra Naresh"
+            width={176}
+            height={176}
+            className="w-32 h-32 sm:w-44 sm:h-44 rounded-full object-cover ring-1 ring-line order-first sm:order-none"
+          />
         </Reveal>
+      </section>
 
-        <Reveal delay={80}>
-          <p className="text-dim leading-relaxed mb-4">
-            Most of my week goes into <span className="text-accent">agents, MCP and automation</span>.
-            I like the layer underneath the model, the protocols and plumbing and the unglamorous work
-            of making all of it hold up once something real depends on it.
-          </p>
-          <p className="text-dim leading-relaxed mb-8">
-            Mostly I tinker. Lately that means agentic systems and the protocol layer they talk over:
-            retrieval that admits when it has nothing, tool calls that get checked instead of taken on
-            trust, pipelines that survive contact with an actual user. I build a thing, then spend
-            about as long trying to break it, because that is usually the part that tells you whether
-            you built something that works or something that only looks like it does.
-          </p>
-        </Reveal>
+      <section id="projects" className="scroll-mt-20 pb-24">
+        <Head
+          title="Projects"
+          aside={`${PROJECTS.length} projects`}
+          lede="The numbers are whatever the benchmarks actually print, and every one carries a note saying what it does not do yet, because a project page with no gaps in it is not telling you the truth."
+        />
+        <Projects />
+      </section>
 
-        <Reveal delay={140}>
-          <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 mb-12">
-            {LINKS.map((l) => (
-              <li key={l.label}>
-                <a href={l.href} target="_blank" rel="noopener noreferrer" className="font-mono text-2xs link">
-                  {l.label}
-                </a>
-              </li>
-            ))}
-            <li className="font-mono text-2xs text-faint">mumbai, india</li>
-          </ul>
-        </Reveal>
-
-        <Reveal delay={60}>
-          <div className="mb-2 flex items-baseline justify-between gap-3">
-            <p className="label">verimcp console, replaying one real run</p>
-            <p className="font-mono text-2xs text-faint">click any row</p>
+      <section id="demos" className="scroll-mt-20 pb-24">
+        <Head title="Demos" aside="real runs, nothing mocked" />
+        <Demos />
+        <Reveal className="card p-5 sm:p-6 mt-6">
+          <div className="mb-3 flex items-baseline justify-between gap-3">
+            <p className="text-fg font-medium">verimcp console, replaying one real run</p>
+            <p className="text-xs text-faint">click any row</p>
           </div>
           <Console />
-          <p className="font-mono text-2xs text-faint mt-2.5 leading-relaxed">
+          <p className="text-sm text-mute mt-3 leading-relaxed">
             Five of these nine calls reported a success that never happened. The pause on each row is
             the proxy going and checking rather than taking the answer on trust.
           </p>
         </Reveal>
       </section>
 
-      <Receipts />
+      <section id="internships" className="scroll-mt-20 pb-24">
+        <Head title="Internships" aside="3 roles" />
+        <Experience />
+      </section>
 
-      <About />
+      <section id="writing" className="scroll-mt-20 pb-24">
+        <Head
+          title="Blog"
+          lede="Mostly write-ups of something that took a while to understand, with the wrong turns left in."
+        />
+        <Writing />
+      </section>
 
-      {/* the page ends by handing you somewhere to go, since the rest is behind the nav */}
-      <Reveal as="nav" className="py-14 border-t border-line" aria-label="Rest of the site">
-        <p className="label mb-4">elsewhere on this site</p>
-        <ul className="grid sm:grid-cols-3 gap-px bg-line border border-line rounded-md overflow-hidden">
-          {NEXT.map((n) => (
-            <li key={n.to} className="bg-panel">
-              <Link
-                to={n.to}
-                className="block px-4 py-4 h-full group hover:bg-raise transition-colors"
-              >
-                <span className="font-mono text-2xs text-accent inline-flex items-center gap-1.5">
-                  {n.label}
-                  <span className="transition-transform duration-200 group-hover:translate-x-0.5">&#8594;</span>
-                </span>
-                <p className="text-sm text-dim leading-snug mt-1.5">{n.blurb}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
+      <section id="about" className="scroll-mt-20 pb-16">
+        <Head title="About" />
+        <div className="grid lg:grid-cols-2 gap-x-16 gap-y-10">
+          <div>
+            <p className="text-dim leading-relaxed mb-8">
+              Mostly I tinker. Lately that means agentic systems and the protocol layer they talk over:
+              retrieval that admits when it has nothing, tool calls that get checked instead of taken on
+              trust, pipelines that survive contact with an actual user. I build a thing, then spend
+              about as long trying to break it, because that is usually the part that tells you whether
+              you built something that works or something that only looks like it does.
+            </p>
+            <About />
+          </div>
+          <Receipts />
+        </div>
+      </section>
     </>
   );
 }

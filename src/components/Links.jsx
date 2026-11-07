@@ -13,7 +13,7 @@ export default function Links({ items = [] }) {
           href={l.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-mono text-2xs link inline-flex items-center gap-1.5"
+          className="text-xs link inline-flex items-center gap-1.5"
         >
           {l.live && <span className="w-1.5 h-1.5 rounded-full bg-ok shrink-0" aria-hidden="true" />}
           {l.label}

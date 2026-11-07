@@ -25,7 +25,7 @@ export default function Shot({ src, caption, alt }) {
         className="w-full rounded-md border border-line block"
       />
       {caption && (
-        <figcaption className="font-mono text-2xs text-faint mt-2 leading-relaxed">
+        <figcaption className="text-xs text-faint mt-2 leading-relaxed">
           {caption}
         </figcaption>
       )}

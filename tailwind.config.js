@@ -5,33 +5,36 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        /* surfaces: true black, with panels lifted just enough to separate */
-        base:  '#000000',
-        panel: '#0a0c0a',
-        raise: '#111411',
-        line:  'rgba(255,255,255,0.10)',
-        line2: 'rgba(255,255,255,0.18)',
-        /* type */
-        fg:    '#e9efe9',
-        dim:   '#a8b2a8',
-        mute:  '#758075',
-        faint: '#4c554c',
-        /* Accent and "verified" are the same green on purpose: the site is
-           about things being checked, so the brand colour is the pass state. */
-        accent: '#3fb950',
-        accentdim: '#238636',
-        ok:    '#3fb950',
-        bad:   '#f85149',
-        warn:  '#d29922',
+        /* Paper: warm off-white page, white-ish cards, ink text */
+        base:  '#f4f0e8',
+        panel: '#fffdf8',
+        raise: '#f9f5ed',
+        sand:  '#efe8da',
+        line:  'rgba(28,26,23,0.11)',
+        line2: 'rgba(28,26,23,0.22)',
+        fg:    '#1c1a17',
+        dim:   '#4a453d',
+        mute:  '#6b6559',
+        faint: '#9a9283',
+        /* one accent, burnt orange, for links, emphasis and hover */
+        accent: '#c2410c',
+        accentdim: '#9a3412',
+        /* verified / disproven / honest-error, darkened to read on paper */
+        ok:    '#15803d',
+        bad:   '#b91c1c',
+        warn:  '#b45309',
       },
       fontSize: {
         '2xs': ['0.6875rem', { lineHeight: '1rem' }],
       },
       maxWidth: {
         page: '46rem',
+        shell: '70rem',
+        prose: '42rem',
       },
     },
   },

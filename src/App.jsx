@@ -1,47 +1,46 @@
 import { useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Nav from './components/Nav';
-import WebBackground from './components/WebBackground';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Work from './pages/Work';
-import ProjectsPage from './pages/ProjectsPage';
-import WritingPage from './pages/WritingPage';
+import ProjectPage from './pages/ProjectPage';
 import BlogVerimcp from './pages/BlogVerimcp';
 import BlogComputerUse from './pages/BlogComputerUse';
 
-/* A new page should start at the top, not wherever the last one was scrolled. */
+/* Project and blog pages start at the top. The section routes (/projects,
+   /work, ...) are all the one home page, which scrolls itself. */
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    if (pathname.startsWith('/blog') || pathname.startsWith('/projects/')) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
   }, [pathname]);
   return null;
 }
 
-/* The canvas is fixed at z-0, so nothing above it paints an opaque background
-   of its own. The page colour lives on <body>. */
 function Shell() {
   const { pathname } = useLocation();
+  const onHome = !pathname.startsWith('/blog') && !pathname.startsWith('/projects/');
+
   return (
     <div className="min-h-screen">
-      <WebBackground />
-      <div className="relative z-10">
-        <Nav />
-        {/* keying on pathname replays the entry fade on every navigation */}
-        <main key={pathname} className="max-w-page mx-auto px-5 page-enter">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/work" element={<Work />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/writing" element={<WritingPage />} />
-            <Route path="/blog/verimcp" element={<BlogVerimcp />} />
-            <Route path="/blog/computer-use" element={<BlogComputerUse />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Nav />
+      <main key={onHome ? 'home' : pathname} className="max-w-shell mx-auto px-5 sm:px-8 page-enter">
+        <Routes>
+          <Route path="/" element={<Home section="top" />} />
+          <Route path="/projects" element={<Home section="projects" />} />
+          <Route path="/demos" element={<Home section="demos" />} />
+          <Route path="/work" element={<Home section="internships" />} />
+          <Route path="/writing" element={<Home section="writing" />} />
+          <Route path="/about" element={<Home section="about" />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
+          <Route path="/blog/verimcp" element={<BlogVerimcp />} />
+          <Route path="/blog/computer-use" element={<BlogComputerUse />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -1,10 +1,82 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Links from './Links';
-import Reveal from './Reveal';
-import Shot, { Thumb } from './Shot';
 
-const PROJECTS = [
+export const PROJECTS = [
+  {
+    id: 'so101',
+    name: 'SO-101 world model',
+    period: '2026',
+    status: 'building',
+    line: 'SAC teaches a simulated SO-101 arm to pick up a box. A second policy then trains inside a learned world model instead of the simulator, learns to cheat it, and is tested back in real physics.',
+    body: [
+      'The baseline is plain SAC in MuJoCo: twin critics, entropy tuning, observation normalisation, and a staged reward for reaching, grasping (both jaws touching and actually squeezing) and lifting. It picks up a randomly placed box in 100% of test episodes, on two seeds.',
+      'The world model is an ensemble of five MLPs trained on 172k recorded transitions to predict how the 41-number state changes for a given action. The reward is computed exactly from the predicted state, with no learned reward head, so any gap between the dream and reality comes from dynamics error alone. A fresh SAC policy trains only on rollouts from this model, MBPO-style, and every evaluation happens in real MuJoCo.',
+      'Short 5-step rollouts never learned, and the same recipe also failed when run in the real simulator, which pinned that failure on the horizon rather than on the model. At 50 steps the policy found an exploit: it hovered about 16 cm from the box while the predicted contact signals drifted upward, the model counted a grasp, and the imagined box rose 50 cm. Real success stayed at 0%.',
+      'Three fixes together: an online loop that feeds a few real episodes back into the model and into SAC\'s replay buffer, a penalty on ensemble disagreement, and a physics check that a grasp needs the claw within 6 cm of the box (the largest real grasp distance in the data was 5.1 cm). With them, the policy trained in the dream picks the box in real physics on 2 of 3 seeds, peaking at 60%.',
+    ],
+    metrics: [
+      ['SAC in MuJoCo', '100% pick success, 2 seeds'],
+      ['dream, no fixes', 'model says grasped 100%, real 0%'],
+      ['dream + fixes', 'real picks on 2 of 3 seeds, best 60%'],
+      ['rollout horizon, real physics', '5 fails, 20 reaches 85%, 50 reaches 95%'],
+    ],
+    note: 'Not solved. Real success swings up and down during training and one seed never picks, most likely because the penalised dream turns pessimistic and the policy unlearns a strategy that works. The model\'s training data also came from policies that were already trained, so this does not yet show that a world model saves real steps. That needs a model built from random play alone, with every real step counted.',
+    stack: ['Python', 'MuJoCo', 'Gymnasium', 'Stable-Baselines3', 'PyTorch', 'SAC', 'MBPO'],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/so101-world-model' }],
+    demo: true,
+    thumb: { src: 'demos/so101.jpg', alt: 'The world model and reality side by side' },
+  },
+  {
+    id: 'computer-use',
+    name: 'computer-use',
+    period: '2026',
+    status: 'building',
+    line: 'A computer-use agent where Claude only decides, and a 2B grounder I trained for free finds what the accessibility tree cannot.',
+    body: [
+      'Every action an agent takes starts with one question: where on the screen is the thing I want? The accessibility tree answers it exactly when the target is there and named, and agents usually trust it first and fall back to vision. I measured that design on generated apps and on real Windows screens with ground truth from neither source. Once the tree has holes it is worse than vision alone, and the loss has an exact form: how often the tree answers, times how much less precise it is than vision on those same items.',
+      'The vision side is Qwen2-VL-2B with LoRA, trained on 1,572 targets the Windows accessibility tree labels for free, on one free Kaggle T4. A gate that trusts the tree only when the element an LLM picks has a name keeps the tree on named targets and hands everything else to the grounder.',
+      'The agent is built around that rule. Claude runs headless with its tools off and returns one decision as JSON. A router applies the gate, my grounder places nameless targets from a GPU behind a tunnel, and every step has to be proved from the app itself, so a wrong "done" is counted as a false success instead of a pass. One prompt drove Calculator, Notepad++ and Excalidraw end to end.',
+    ],
+    metrics: [
+      ['unseen apps', '1.5% to 46.5% after training'],
+      ['ScreenSpot-v2', '19.2 to 62.8'],
+      ['tree first, else vision', '12 points below vision alone'],
+      ['named-pick gate', '85.2% vs 66.4% for vision'],
+      ['tests', '417'],
+    ],
+    note: 'The useful part was the failures. 36 percent of an early dataset was labels from the wrong window, found only by drawing the boxes on the screenshots. In the Tinkercad demo the grounder pointed every "empty spot on the board" at the toolbar, because it learned to find things and empty space is not a thing, so empty places are now the brain\'s job. The circuit run is the next experiment, not the demo.',
+    stack: ['Python', 'PyTorch', 'LoRA', 'Qwen2-VL', 'LangGraph', 'Claude', 'Windows UIA', 'Playwright', 'Electron'],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/computer-use' }],
+    shots: [{
+      src: 'shots/computer-use-demo.jpg',
+      alt: 'The finished Excalidraw box labelled 0.06 beside the agent window',
+      caption: 'The end of a three-app run. The label is drawn on a canvas the accessibility tree cannot see, so the verifier rejected the first proof and the step had to be checked another way.',
+    }],
+    blog: '/blog/computer-use',
+  },
+  {
+    id: 'dreamdesk',
+    name: 'DreamDesk',
+    period: '2026',
+    status: 'building',
+    line: 'An agent dropped into an app it has never seen explores it, learns a world model that predicts the next screen from the current one and a click, and plans inside that model. No LLM calls and no instructions.',
+    body: [
+      'The agent reads the app through its accessibility tree rather than pixels, inside a sandbox (bubblewrap and a private Xvfb screen) so that random clicking cannot reach real files. It explores with random clicks, and the world model is trained only on what those clicks did.',
+      'The model generalises past what it saw. On 6 of 6 apps it predicts 5 steps ahead better than memorising, at 153 times real speed. On combo goals, screens whose parts it saw while exploring but never together, planning in the dream beats replaying a map of memorised screens by 11.5 points. Before a single real attempt, the dream also predicts which tasks a policy will fail.',
+      'On apps held out of training, zero-shot transfer failed. A prior trained on 7 apps and fine-tuned on 100 to 300 clicks of the new app learns it better than a model trained from scratch, and then does real tasks about as well as the map, and better than random from 300 clicks on.',
+    ],
+    metrics: [
+      ['world model vs memorising', 'better on 6 / 6 apps, 153x real speed'],
+      ['combo goals, dream vs map', '19.8% vs 4.2% at 100 clicks'],
+      ['forecasting real failure', 'AUROC 0.88 over 1,770 real runs'],
+      ['held-out apps', 'prior + 300 clicks: matches map, beats random'],
+    ],
+    next: 'Test 1: does a prior trained on more apps (7, 15 or 23) give a new app a better dream? Running on Kaggle.',
+    note: 'On combo goals the dream beats random by only 4.8 points, which is inside the noise. A policy trained in the dream did not reach goals it never practised (23% vs 24% for random). So far the world model generalises better than anything built on top of it.',
+    stack: ['Python', 'PyTorch', 'AT-SPI', 'Xvfb', 'bubblewrap', 'Kaggle'],
+    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/dreamdesk' }],
+    demo: true,
+    thumb: { src: 'demos/dreamdesk.jpg', alt: 'DreamDesk exploring an app' },
+  },
   {
     id: 'verimcp',
     name: 'verimcp + devmcp',
@@ -36,34 +108,6 @@ const PROJECTS = [
       caption: 'The console tailing a real run. Five of nine calls claimed a success that never happened; the inspector shows the claim beside what re-deriving it actually found.',
     }],
     blog: '/blog/verimcp',
-  },
-  {
-    id: 'computer-use',
-    name: 'computer-use',
-    period: '2026',
-    status: 'building',
-    line: 'A computer-use agent where Claude only decides, and a 2B grounder I trained for free finds what the accessibility tree cannot.',
-    body: [
-      'Every action an agent takes starts with one question: where on the screen is the thing I want? The accessibility tree answers it exactly when the target is there and named, and agents usually trust it first and fall back to vision. I measured that design on generated apps and on real Windows screens with ground truth from neither source. Once the tree has holes it is worse than vision alone, and the loss has an exact form: how often the tree answers, times how much less precise it is than vision on those same items.',
-      'The vision side is Qwen2-VL-2B with LoRA, trained on 1,572 targets the Windows accessibility tree labels for free, on one free Kaggle T4. A gate that trusts the tree only when the element an LLM picks has a name keeps the tree on named targets and hands everything else to the grounder.',
-      'The agent is built around that rule. Claude runs headless with its tools off and returns one decision as JSON. A router applies the gate, my grounder places nameless targets from a GPU behind a tunnel, and every step has to be proved from the app itself, so a wrong "done" is counted as a false success instead of a pass. One prompt drove Calculator, Notepad++ and Excalidraw end to end.',
-    ],
-    metrics: [
-      ['unseen apps', '1.5% to 46.5% after training'],
-      ['ScreenSpot-v2', '19.2 to 62.8'],
-      ['tree first, else vision', '12 points below vision alone'],
-      ['named-pick gate', '85.2% vs 66.4% for vision'],
-      ['tests', '417'],
-    ],
-    note: 'The useful part was the failures. 36 percent of an early dataset was labels from the wrong window, found only by drawing the boxes on the screenshots. In the Tinkercad demo the grounder pointed every "empty spot on the board" at the toolbar, because it learned to find things and empty space is not a thing, so empty places are now the brain\'s job. The circuit run is the next experiment, not the demo.',
-    stack: ['Python', 'PyTorch', 'LoRA', 'Qwen2-VL', 'LangGraph', 'Claude', 'Windows UIA', 'Playwright', 'Electron'],
-    links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/computer-use' }],
-    shots: [{
-      src: 'shots/computer-use-demo.jpg',
-      alt: 'The finished Excalidraw box labelled 0.06 beside the agent window',
-      caption: 'The end of a three-app run. The label is drawn on a canvas the accessibility tree cannot see, so the verifier rejected the first proof and the step had to be checked another way.',
-    }],
-    blog: '/blog/computer-use',
   },
   {
     id: 'aria',
@@ -152,103 +196,44 @@ const PROJECTS = [
 ];
 
 const STATUS = {
-  shipped: { dot: 'bg-mute', text: 'text-faint' },
-  building: { dot: 'bg-ok', text: 'text-ok' },
+  shipped: 'text-mute',
+  building: 'text-accent',
 };
 
-function Project({ p }) {
-  const [open, setOpen] = useState(false);
-  const s = STATUS[p.status];
-
-  return (
-    <>
-      <button onClick={() => setOpen((v) => !v)} aria-expanded={open} className="w-full text-left py-4 group">
-        <div className="flex items-baseline justify-between gap-4 mb-1">
-          <h3 className="text-accent font-medium font-mono text-sm">{p.name}</h3>
-          <span className={`font-mono text-2xs shrink-0 flex items-center gap-1.5 ${s.text}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
-            {p.status}
-          </span>
-        </div>
-        <div className="flex items-start gap-4">
-          <p className="text-dim text-sm leading-relaxed flex-1">{p.line}</p>
-          {p.shots?.[0] && <Thumb src={p.shots[0].src} alt={p.shots[0].alt} />}
-        </div>
-        <span className="font-mono text-2xs text-faint group-hover:text-mute mt-1.5 inline-flex items-center gap-1">
-          {open ? 'less' : 'more'}
-          <span className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>&#8595;</span>
-        </span>
-      </button>
-
-      <div className="disclose" data-open={open ? "true" : "false"}>
-        <div>
-          <div className="pb-5 -mt-1">
-          {p.shots?.map((sh) => <Shot key={sh.src} {...sh} />)}
-          {p.body.map((para, i) => (
-            <p key={i} className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-line">{para}</p>
-          ))}
-
-          {p.metrics?.length > 0 && (
-            <dl className="my-4 border border-line rounded-md divide-y divide-line bg-panel">
-              {p.metrics.map(([k, v]) => (
-                <div key={k} className="flex items-baseline justify-between gap-4 px-3 py-2">
-                  <dt className="font-mono text-2xs text-mute">{k}</dt>
-                  <dd className="font-mono text-2xs text-fg text-right">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-
-          {p.next && (
-            <p className="text-dim text-sm leading-relaxed mb-3 pl-4 border-l border-ok/40">
-              <span className="font-mono text-2xs text-ok mr-1.5">now</span>
-              {p.next}
-            </p>
-          )}
-
-          {p.note && (
-            <p className="text-mute text-sm leading-relaxed mb-4 italic">{p.note}</p>
-          )}
-
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
-            {p.stack.map((t) => <span key={t} className="chip">{t}</span>)}
-          </div>
-
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-            <Links items={p.links} />
-            {p.blog && <Link to={p.blog} className="font-mono text-2xs link">read the writeup</Link>}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
+/* The grid on the home page: picture, name, one line, stack. The whole card
+   opens the project's own page, where the full write-up lives. */
 export default function Projects() {
   return (
-    <section className="pb-16">
-      <Reveal className="mb-8">
-        <p className="label mb-2">index</p>
-        <ol className="border border-line rounded-md divide-y divide-line bg-panel">
-          {PROJECTS.map((p, i) => (
-            <li key={p.id} className="flex items-baseline gap-3 px-3 py-2">
-              <span className="font-mono text-2xs text-faint tabular-nums w-5 shrink-0">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span className="font-mono text-2xs text-accent w-32 shrink-0 truncate">{p.name}</span>
-              <span className="text-sm text-mute leading-snug truncate hidden sm:block">{p.line}</span>
-            </li>
-          ))}
-        </ol>
-      </Reveal>
-      <ul>
-        {PROJECTS.map((p, i) => (
-          <Reveal key={p.id} as="li" delay={i * 60} className="rowline">
-            <Project p={p} />
-          </Reveal>
-        ))}
-      </ul>
-    </section>
+    <ul className="grid sm:grid-cols-2 gap-6">
+      {PROJECTS.map((p, i) => {
+        const img = p.thumb || p.shots?.[0];
+        return (
+          <li key={p.id} className={i === 0 ? 'sm:col-span-2' : ''}>
+            <Link to={`/projects/${p.id}`} className="card card-hover block h-full overflow-hidden group">
+              {img && (
+                <div className={`overflow-hidden border-b border-line bg-sand ${i === 0 ? 'aspect-[21/9]' : 'aspect-[16/9]'}`}>
+                  <img
+                    src={`${import.meta.env.BASE_URL}${img.src}`}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                </div>
+              )}
+              <div className="p-5 sm:p-6">
+                <div className="flex items-baseline justify-between gap-4 mb-2">
+                  <h3 className={`display text-fg ${i === 0 ? 'text-4xl' : 'text-3xl'}`}>{p.name}</h3>
+                  <span className={`text-xs font-medium shrink-0 ${STATUS[p.status]}`}>{p.status}</span>
+                </div>
+                <p className="text-dim text-[15px] leading-relaxed">{p.line}</p>
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {p.stack.slice(0, 4).map((t) => <span key={t} className="chip">{t}</span>)}
+                </div>
+              </div>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

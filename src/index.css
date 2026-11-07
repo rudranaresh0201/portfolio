@@ -5,102 +5,132 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 88px;
-    background: #000000;
+    scroll-padding-top: 80px;
+    background: #f4f0e8;
   }
 
   body {
-    background: #000000;
-    color: #e9efe9;
+    background: #f4f0e8;
+    color: #1c1a17;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
-  ::selection { background: rgba(255,255,255,0.16); color: #fff; }
+  ::selection { background: rgba(194,65,12,0.18); color: #1c1a17; }
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #000000; }
+  ::-webkit-scrollbar-track { background: #f4f0e8; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.12);
-    border: 3px solid #000000;
+    background: rgba(28,26,23,0.18);
+    border: 3px solid #f4f0e8;
     border-radius: 999px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(28,26,23,0.3); }
 
   :focus-visible {
-    outline: 1px solid rgba(255,255,255,0.5);
+    outline: 2px solid rgba(194,65,12,0.6);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 }
 
 @layer components {
-  /* the one label style used site-wide */
+  /* the small label above a block */
   .label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.11em;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #3fb950;
+    color: #8a8375;
   }
 
-  /* a plain text link: underline lives on hover, nothing else moves */
+  /* a serif display heading */
+  .display {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  /* a plain text link: ink, underline turns orange on hover */
   .link {
-    color: #e9efe9;
+    color: #1c1a17;
     text-decoration: underline;
-    text-decoration-color: rgba(255,255,255,0.22);
+    text-decoration-color: rgba(28,26,23,0.25);
     text-underline-offset: 3px;
-    transition: text-decoration-color 0.15s ease;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
   }
   .link:hover {
-    color: #3fb950;
-    text-decoration-color: rgba(63,185,80,0.7);
+    color: #c2410c;
+    text-decoration-color: rgba(194,65,12,0.7);
   }
 
-  /* dotted rule used between list rows */
-  .rowline { border-top: 1px solid rgba(255,255,255,0.07); }
+  .rowline { border-top: 1px solid rgba(28,26,23,0.1); }
 
   .chip {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6875rem;
-    color: #a8b2a8;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5a5449;
+    background: #efe8da;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
     white-space: nowrap;
   }
 
-  /* blog prose, dark */
+  /* a card on the paper */
+  .card {
+    background: #fffdf8;
+    border: 1px solid #e3dccd;
+    border-radius: 14px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .card-hover:hover {
+    border-color: #d6cbb5;
+    box-shadow: 0 1px 2px rgba(60,40,10,0.04), 0 14px 34px -16px rgba(60,40,10,0.22);
+    transform: translateY(-2px);
+  }
+
+  /* blog prose */
+  .prose-blog { font-size: 17px; line-height: 1.75; }
   .prose-blog h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    color: #e9efe9;
-    margin-top: 2.75rem;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #1c1a17;
+    margin-top: 3rem;
     margin-bottom: 0.9rem;
   }
-  .prose-blog p { color: #a8b2a8; margin-bottom: 1.1rem; }
-  .prose-blog strong { color: #e9efe9; font-weight: 600; }
-  .prose-blog em { color: #a8b2a8; }
+  .prose-blog h3 { font-weight: 600; color: #1c1a17; margin-top: 2rem; margin-bottom: 0.6rem; }
+  .prose-blog p { color: #3d3933; margin-bottom: 1.2rem; }
+  .prose-blog strong { color: #1c1a17; font-weight: 600; }
+  .prose-blog em { color: #3d3933; }
   .prose-blog a {
-    color: #e9efe9;
+    color: #1c1a17;
     text-decoration: underline;
-    text-decoration-color: rgba(255,255,255,0.25);
+    text-decoration-color: rgba(194,65,12,0.45);
     text-underline-offset: 3px;
   }
-  .prose-blog a:hover { text-decoration-color: rgba(255,255,255,0.8); }
+  .prose-blog a:hover { color: #c2410c; text-decoration-color: #c2410c; }
   .prose-blog code {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85em;
-    background: #111411;
-    border: 1px solid rgba(255,255,255,0.09);
-    color: #e9efe9;
+    font-size: 0.82em;
+    background: #efe8da;
+    color: #1c1a17;
     padding: 0.1em 0.35em;
     border-radius: 4px;
   }
-  .prose-blog ul { margin-bottom: 1.1rem; padding-left: 1.1rem; }
-  .prose-blog li { color: #a8b2a8; margin-bottom: 0.4rem; list-style: disc; }
+  .prose-blog ul, .prose-blog ol { margin-bottom: 1.2rem; padding-left: 1.2rem; }
+  .prose-blog li { color: #3d3933; margin-bottom: 0.4rem; list-style: disc; }
+  .prose-blog ol li { list-style: decimal; }
+  .prose-blog figure { margin: 2rem 0; }
+  .prose-blog figcaption { font-size: 0.85rem; color: #6b6559; margin-top: 0.6rem; line-height: 1.5; }
 }
 
 /* Respect users who don't want motion. The site barely moves anyway. */
@@ -137,7 +167,7 @@
   display: block;
   height: 1px;
   width: 0;
-  background: linear-gradient(90deg, rgba(63,185,80,0.75), rgba(63,185,80,0.05));
+  background: linear-gradient(90deg, rgba(194,65,12,0.8), rgba(194,65,12,0.05));
   transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
 }
 .reveal.is-in .rule,
