@@ -3,6 +3,14 @@ import Reveal from './Reveal';
 
 const POSTS = [
   {
+    slug: '/blog/computer-use-journey',
+    title: 'Computer use, three ways: pointing, plumbing, and an agent with no LLM',
+    date: '2026-11-08',
+    cover: 'blog/computer-use/teaser.png',
+    excerpt:
+      'A 2B grounder with Claude deciding every step, the OS plumbing I measure at my internship, and DreamDesk, an agent with no LLM at all. What each one taught me, why calling a large model every step pushed me to the last one, and how they compare.',
+  },
+  {
     slug: '/blog/dreamdesk',
     title: 'DreamDesk: an agent that learns a model of an app it has never seen',
     date: '2026-11-08',
