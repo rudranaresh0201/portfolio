@@ -3,6 +3,14 @@ import Reveal from './Reveal';
 
 const POSTS = [
   {
+    slug: '/blog/dreamdesk',
+    title: 'DreamDesk: an agent that learns a model of an app it has never seen',
+    date: '2026-11-08',
+    cover: 'demos/dreamdesk.jpg',
+    excerpt:
+      'No LLM, no instructions: an agent explores an app with random clicks, learns a model of it, and plans inside that model. The model predicts situations it never saw and composes what it did see. Turning that into better real tasks is harder, and Test 1, whether more apps make a better prior, narrowly failed. Every test pre-registered.',
+  },
+  {
     slug: '/blog/so101',
     title: 'Training a robot arm inside a world model, and catching it cheating',
     date: '2026-11-08',
