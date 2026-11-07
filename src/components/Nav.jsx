@@ -5,7 +5,6 @@ export const SECTIONS = [
   { id: 'demos', label: 'demos', path: '/demos' },
   { id: 'internships', label: 'internships', path: '/work' },
   { id: 'writing', label: 'blog', path: '/writing' },
-  { id: 'about', label: 'about', path: '/about' },
 ];
 
 export default function Nav() {

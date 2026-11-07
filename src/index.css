@@ -126,6 +126,7 @@
     padding: 0.1em 0.35em;
     border-radius: 4px;
   }
+  .prose-blog pre code { background: none; padding: 0; border-radius: 0; }
   .prose-blog ul, .prose-blog ol { margin-bottom: 1.2rem; padding-left: 1.2rem; }
   .prose-blog li { color: #3d3933; margin-bottom: 0.4rem; list-style: disc; }
   .prose-blog ol li { list-style: decimal; }

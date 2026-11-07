@@ -23,6 +23,7 @@ export const PROJECTS = [
     stack: ['Python', 'MuJoCo', 'Gymnasium', 'Stable-Baselines3', 'PyTorch', 'SAC', 'MBPO'],
     links: [{ label: 'github', href: 'https://github.com/rudranaresh0201/so101-world-model' }],
     demo: true,
+    blog: '/blog/so101',
     thumb: { src: 'demos/so101.jpg', alt: 'The world model and reality side by side' },
   },
   {

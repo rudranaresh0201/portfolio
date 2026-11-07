@@ -3,6 +3,14 @@ import Reveal from './Reveal';
 
 const POSTS = [
   {
+    slug: '/blog/so101',
+    title: 'Training a robot arm inside a world model, and catching it cheating',
+    date: '2026-11-08',
+    cover: 'demos/so101.jpg',
+    excerpt:
+      'SAC learns to pick up a box in MuJoCo. A second policy trained inside a learned world model learns to fool it instead: the model says the box went up 49 cm, and it never moved. Why short rollouts failed, how the cheat works, and the three fixes that got real picks on 2 of 3 seeds.',
+  },
+  {
     slug: '/blog/computer-use',
     title: 'Where should an agent click? A small grounder, and when to trust the accessibility tree',
     date: '2026-10-18',

@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import ProjectPage from './pages/ProjectPage';
 import BlogVerimcp from './pages/BlogVerimcp';
 import BlogComputerUse from './pages/BlogComputerUse';
+import BlogSo101 from './pages/BlogSo101';
 
 /* Project and blog pages start at the top. The section routes (/projects,
    /work, ...) are all the one home page, which scrolls itself. */
@@ -33,10 +34,10 @@ function Shell() {
           <Route path="/demos" element={<Home section="demos" />} />
           <Route path="/work" element={<Home section="internships" />} />
           <Route path="/writing" element={<Home section="writing" />} />
-          <Route path="/about" element={<Home section="about" />} />
           <Route path="/projects/:id" element={<ProjectPage />} />
           <Route path="/blog/verimcp" element={<BlogVerimcp />} />
           <Route path="/blog/computer-use" element={<BlogComputerUse />} />
+          <Route path="/blog/so101" element={<BlogSo101 />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import Console from '../components/Console';
-import Receipts from '../components/Receipts';
-import About from '../components/About';
 import Projects, { PROJECTS } from '../components/Projects';
 import Demos from '../components/Demos';
 import Experience from '../components/Experience';
@@ -97,7 +95,7 @@ export default function Home({ section }) {
         <Experience />
       </section>
 
-      <section id="writing" className="scroll-mt-20 pb-24">
+      <section id="writing" className="scroll-mt-20 pb-20">
         <Head
           title="Blog"
           lede="Mostly write-ups of something that took a while to understand, with the wrong turns left in."
@@ -105,22 +103,6 @@ export default function Home({ section }) {
         <Writing />
       </section>
 
-      <section id="about" className="scroll-mt-20 pb-16">
-        <Head title="About" />
-        <div className="grid lg:grid-cols-2 gap-x-16 gap-y-10">
-          <div>
-            <p className="text-dim leading-relaxed mb-8">
-              Mostly I tinker. Lately that means agentic systems and the protocol layer they talk over:
-              retrieval that admits when it has nothing, tool calls that get checked instead of taken on
-              trust, pipelines that survive contact with an actual user. I build a thing, then spend
-              about as long trying to break it, because that is usually the part that tells you whether
-              you built something that works or something that only looks like it does.
-            </p>
-            <About />
-          </div>
-          <Receipts />
-        </div>
-      </section>
     </>
   );
 }

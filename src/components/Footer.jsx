@@ -13,15 +13,12 @@ export default function Footer() {
           If you are building agent infrastructure, or you have a system that quietly lies to itself,
           I would like to hear about it.
         </p>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-8">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           {LINKS.map((l) => (
             <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer"
               className="text-sm link">{l.label}</a>
           ))}
         </div>
-        <p className="text-xs text-faint">
-          built by hand, mumbai. no analytics, no cookies, nothing tracking you here.
-        </p>
       </div>
     </footer>
   );
