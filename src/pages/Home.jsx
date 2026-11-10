@@ -77,7 +77,7 @@ export default function Home({ section }) {
       <section className="pt-12 sm:pt-20 pb-20 sm:pb-28">
         <div className="grid lg:grid-cols-[1fr_19rem] gap-10 lg:gap-16 items-end">
           <Reveal>
-            <p className="label mb-6">Rudra Naresh / VJTI Mumbai, class of 2028</p>
+            <p className="label mb-6">Rudra Naresh / Electronics, VJTI, 2028</p>
             <h1 className="display text-[2.9rem] sm:text-7xl lg:text-[5.4rem] text-fg">
               RL, world models and <span className="text-accent">computer-use</span> agents.
             </h1>
