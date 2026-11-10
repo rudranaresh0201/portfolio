@@ -18,8 +18,12 @@ const LINKS = [
 
 /* The hero photo is picked at random on every load. Click it for the next one. */
 const PHOTOS = [
+  { src: 'me/cafe.jpg', caption: 'Mumbai', pos: '50% 30%' },
+  { src: 'me/medal.jpg', caption: 'Enthusia 2026, table tennis gold', pos: '50% 20%' },
+  { src: 'me/kurta-night.jpg', caption: 'Mumbai', pos: '50% 30%' },
   { src: 'me/portrait.jpg', caption: 'Mumbai', pos: '50% 30%' },
-  { src: 'me/medal.jpg', caption: 'Enthusia 2026, table tennis', pos: '50% 20%' },
+  { src: 'me/kurta.jpg', caption: 'Mumbai', pos: '50% 20%' },
+  { src: 'me/pool.jpg', caption: 'Off the clock', pos: '60% 40%' },
 ];
 
 const NOW = [
@@ -126,7 +130,7 @@ export default function Home({ section }) {
       </section>
 
       <section id="journey" className="scroll-mt-20 pb-28">
-        <Head n="04" title="Journey" aside="how I got here" />
+        <Head n="04" title="Journey" />
         <Journey />
       </section>
 

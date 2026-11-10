@@ -1,70 +1,101 @@
 import { Link } from 'react-router-dom';
 import Reveal from './Reveal';
 
-const STEPS = [
+const base = import.meta.env.BASE_URL;
+
+/* The story in order, no dates. Each chapter is a few short lines. */
+const CHAPTERS = [
   {
-    when: 'early 2026',
-    title: 'Stumbled into RAG',
-    text: 'It started with RAG and agentic AI. I built Aria, an assistant with 15 agents behind one planner, and ClinIQ.',
+    title: 'rag',
+    lines: [
+      'i stumbled into rag and agentic ai first.',
+      'built aria: 15 agents behind one planner, and it stops and asks before it writes anything.',
+      'then cliniq, a clinical assistant that has to show where every claim came from.',
+    ],
     to: '/projects/aria',
   },
   {
-    when: 'may 2026',
-    title: 'Agents got fun',
-    text: 'PRGuard, a review agent that reads the whole repo and not just the diff. This is where I got hooked on agents.',
+    title: 'agents',
+    lines: [
+      'prguard is where agents got fun.',
+      'a review agent that reads the whole repo instead of just the diff. it caught all 16 bugs i planted, at 94% precision.',
+    ],
     to: '/projects/prguard',
   },
   {
-    when: 'jul 2026',
-    title: 'Found MCP',
-    text: 'Nothing in MCP checks whether a tool call really happened. So I built verimcp and published it on PyPI and the MCP Registry.',
+    title: 'mcp',
+    lines: [
+      'then i came across mcp, and noticed nothing checks whether a tool call really happened.',
+      'so i built verimcp, a proxy that goes and checks. an agent with no protection believed 14 of 14 fake results. verimcp caught 11 and named the 3 it could not check.',
+      'published it on pypi and the mcp registry.',
+    ],
     to: '/projects/verimcp',
+    img: { src: 'shots/verimcp-console.jpg', caption: 'the verimcp console on a real run. five calls claimed a success that never happened.' },
   },
   {
-    when: 'may to nov 2026',
-    title: 'Internships',
-    text: '4Seer, then Elevar. Agents and an automation stack running a real business, where a bug means a real order goes wrong.',
+    title: 'internships',
+    lines: [
+      '4seer first: backend and testing for an australian cable company.',
+      'then elevar, where i automated the ops of a real d2c brand. failed deliveries, claims, reships, a whatsapp support bot. 40+ n8n workflows, 15 running in production.',
+      'this is where i learned what it takes for an agent to run something real.',
+    ],
     to: '/work',
+    img: { src: 'shots/elevar-n8n-claims.jpg', caption: 'the claims workflow at elevar, past 60 nodes.' },
   },
   {
-    when: 'sep to nov 2026',
-    title: 'Computer use',
-    text: 'Solved two things: trained a small model to find where to click, and built DreamDesk, an agent that learns an app with no LLM. Wrote both up.',
+    title: 'computer use',
+    lines: [
+      'got curious about agents that use a computer the way we do.',
+      'solved two things. trained a 2b model to find where to click: 1.5% to 46.5% on apps it had never seen. and built dreamdesk, an agent that learns an app with no llm at all.',
+      'wrote blogs about both. now building habit at everyday habit.',
+    ],
     to: '/blog/computer-use-journey',
   },
   {
-    when: 'nov 2026',
-    title: 'RL and robots',
-    text: 'Reinforcement learning on a robot arm. First a world model that got cheated, now visual RL on long tasks.',
+    title: 'rl and robots',
+    lines: [
+      'then i started rl and robot learning, from the basics.',
+      'trained a robot arm inside a world model and caught it cheating. the model said the box went up 50 cm. the real box never moved.',
+      'now it is visual rl on long tasks, on a free kaggle gpu.',
+    ],
     to: '/projects/squint',
+    img: { src: 'demos/so101.jpg', caption: 'the dream on the left, reality on the right.' },
   },
   {
-    when: 'next',
-    title: 'Where this goes',
-    text: 'Robot policies that remember what they have done and can handle long tasks without being shown each one.',
+    title: 'next',
+    lines: [
+      'robot policies that remember what they have done, and can handle long tasks without being shown each one.',
+    ],
   },
 ];
 
 export default function Journey() {
   return (
-    <ol className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 border-b border-line">
-      {STEPS.map((s, i) => {
-        const body = (
-          <>
-            <div className="flex items-baseline justify-between">
-              <span className={`label ${s.to ? '' : '!text-accent'}`}>{s.when}</span>
-              <span className="label">{String(i + 1).padStart(2, '0')}</span>
+    <ol className="border-b border-line">
+      {CHAPTERS.map((c, i) => (
+        <Reveal as="li" key={c.title} className="rowline grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-x-3 sm:gap-x-5 py-9">
+          <span className="label pt-2">{String(i + 1).padStart(2, '0')}</span>
+          <div className="max-w-2xl">
+            <h3 className={`display text-3xl ${c.to ? 'text-fg' : 'text-accent'}`}>{c.title}</h3>
+            <div className="mt-4 space-y-2.5">
+              {c.lines.map((l) => (
+                <p key={l} className="text-dim text-[17px] leading-relaxed">{l}</p>
+              ))}
             </div>
-            <h3 className="display text-2xl text-fg mt-3 group-hover:text-accent transition-colors">{s.title}</h3>
-            <p className="text-dim text-[15px] leading-relaxed mt-2 max-w-md">{s.text}</p>
-          </>
-        );
-        return (
-          <Reveal as="li" key={s.title} delay={(i % 3) * 60} className={`rowline py-7 ${s.to ? '' : 'sm:col-span-2 lg:col-span-3'}`}>
-            {s.to ? <Link to={s.to} className="group block">{body}</Link> : body}
-          </Reveal>
-        );
-      })}
+            {c.img && (
+              <figure className="mt-6">
+                <div className="frame border border-line">
+                  <img src={`${base}${c.img.src}`} alt="" loading="lazy" className="w-full block" />
+                </div>
+                <figcaption className="text-mute text-sm mt-2">{c.img.caption}</figcaption>
+              </figure>
+            )}
+            {c.to && (
+              <Link to={c.to} className="label inline-block mt-5 hover:!text-accent transition-colors">read more &#8599;</Link>
+            )}
+          </div>
+        </Reveal>
+      ))}
     </ol>
   );
 }
