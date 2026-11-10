@@ -2,11 +2,36 @@ import { Link } from 'react-router-dom';
 
 export const PROJECTS = [
   {
-    id: 'so101',
-    name: 'SO-101 world model',
+    id: 'squint',
+    cat: 'rl',
+    name: 'Long-horizon visual RL',
     period: '2026',
     status: 'building',
-    line: 'SAC teaches a simulated SO-101 arm to pick up a box. A second policy then trains inside a learned world model instead of the simulator, learns to cheat it, and is tested back in real physics.',
+    line: 'Visual RL on an SO-101 arm from 16x16 pixels, on a free Kaggle GPU. Now pushing it to long tasks without demos.',
+    body: [
+      'Squint is a fast visual RL method: SAC with a distributional critic, 1024 simulated arms in parallel on the GPU, and a 16x16 wrist-camera image as input. The paper uses a 3090. I got it running on a free Kaggle T4, which took fixing the Vulkan driver setup and switching off bf16. ReachCube and LiftCube both reach 100%.',
+      'Then I added my own tasks. LangLift puts a cube and a can on the table and an instruction says which one to lift: 100%. On StackCube I found why a discount of 0.99 fails: the returns go past the critic\'s fixed value range and get clamped. Widening the range took it from 12% to 100%.',
+      'Now: PlaceBoth, a 200-step task with two objects and one bin, four times Squint\'s horizon. The policy places the first object and then stalls. From a single 16x16 frame it cannot tell what it has already done. So the question I am working on is whether a policy with memory can work out the stage of a long task on its own.',
+    ],
+    metrics: [
+      ['ReachCube, LiftCube on a free T4', '100%'],
+      ['LangLift (instruction picks the object)', '100%'],
+      ['StackCube at discount 0.99', '12% to 100% with a wider value range'],
+      ['PlaceBoth (200 steps, 2 objects)', 'first object placed, 0% full task so far'],
+    ],
+    note: 'PlaceBoth is not solved yet. Everything here is one or two seeds on a free GPU.',
+    stack: ['Python', 'PyTorch', 'ManiSkill3', 'SAC', 'C51', 'Kaggle T4'],
+    links: [],
+    demo: true,
+    thumb: { src: 'demos/squint.jpg', alt: 'LangLift: the wrist view and the arm lifting the object it was told to' },
+  },
+  {
+    id: 'so101',
+    cat: 'rl',
+    name: 'SO-101 world model',
+    period: '2026',
+    status: 'shipped',
+    line: "Trained a robot arm inside a learned world model. It learned to cheat the model. I caught it, fixed it, and got real picks on 2 of 3 seeds.",
     body: [
       'The baseline is plain SAC in MuJoCo: twin critics, entropy tuning, observation normalisation, and a staged reward for reaching, grasping (both jaws touching and actually squeezing) and lifting. It picks up a randomly placed box in 100% of test episodes, on two seeds.',
       'The world model is an ensemble of five MLPs trained on 172k recorded transitions to predict how the 41-number state changes for a given action. The reward is computed exactly from the predicted state, with no learned reward head, so any gap between the dream and reality comes from dynamics error alone. A fresh SAC policy trains only on rollouts from this model, MBPO-style, and every evaluation happens in real MuJoCo.',
@@ -28,10 +53,11 @@ export const PROJECTS = [
   },
   {
     id: 'computer-use',
+    cat: 'agents',
     name: 'computer-use',
     period: '2026',
-    status: 'building',
-    line: 'A computer-use agent where Claude only decides, and a 2B grounder I trained for free finds what the accessibility tree cannot.',
+    status: 'shipped',
+    line: "A computer-use agent where Claude decides what to do and a 2B model I trained finds where to click.",
     body: [
       'Every action an agent takes starts with one question: where on the screen is the thing I want? The accessibility tree answers it exactly when the target is there and named, and agents usually trust it first and fall back to vision. I measured that design on generated apps and on real Windows screens with ground truth from neither source. Once the tree has holes it is worse than vision alone, and the loss has an exact form: how often the tree answers, times how much less precise it is than vision on those same items.',
       'The vision side is Qwen2-VL-2B with LoRA, trained on 1,572 targets the Windows accessibility tree labels for free, on one free Kaggle T4. A gate that trusts the tree only when the element an LLM picks has a name keeps the tree on named targets and hands everything else to the grounder.',
@@ -56,10 +82,11 @@ export const PROJECTS = [
   },
   {
     id: 'dreamdesk',
+    cat: 'agents',
     name: 'DreamDesk',
     period: '2026',
-    status: 'building',
-    line: 'An agent dropped into an app it has never seen explores it, learns a world model that predicts the next screen from the current one and a click, and plans inside that model. No LLM calls and no instructions.',
+    status: 'shipped',
+    line: "An agent that explores an app it has never seen, learns a world model of it, and plans inside that. No LLM.",
     body: [
       'The agent reads the app through its accessibility tree rather than pixels, inside a sandbox (bubblewrap and a private Xvfb screen) so that random clicking cannot reach real files. It explores with random clicks, and the world model is trained only on what those clicks did.',
       'The model generalises past what it saw. On 6 of 6 apps it predicts 5 steps ahead better than memorising, at 153 times real speed. On combo goals, screens whose parts it saw while exploring but never together, planning in the dream beats replaying a map of memorised screens by 11.5 points. Before a single real attempt, the dream also predicts which tasks a policy will fail.',
@@ -83,10 +110,11 @@ export const PROJECTS = [
   },
   {
     id: 'verimcp',
+    cat: 'agents',
     name: 'verimcp + devmcp',
     period: '2026',
     status: 'shipped',
-    line: 'A proxy that checks whether an MCP tool call actually did what it said, and a server built to be caught lying by it.',
+    line: "A proxy that checks whether an MCP tool call really did what it claims. On PyPI and the MCP Registry.",
     body: [
       'MCP gives a host no way to tell a real success from a claimed one. isError: false means the tool did not crash, nothing more. verimcp sits between host and backend as a transparent stdio proxy and forwards everything unchanged, except that for calls it knows how to check, it independently re-derives the outcome and compares. A write gets hashed back off disk, a commit gets re-read out of the git log, a CI step gets re-run if it is safe to re-run. When the two disagree, the claimed success is rewritten into a real error before the model ever sees it.',
       'There is a second problem underneath: MCP has no idea what a retry is. Resend a tools/call after a timeout and the backend just runs it again, which for a commit or a charge is not a no-op. The proxy answers a repeated call from cache, but only if that exact call was independently verified true earlier in the session. A key match with nothing verified behind it is a miss, not a dedupe.',
@@ -115,10 +143,11 @@ export const PROJECTS = [
   },
   {
     id: 'aria',
+    cat: 'agents',
     name: 'Aria',
     period: '2026',
     status: 'shipped',
-    line: 'An agentic assistant where every write action stops and shows you an editable card before it runs.',
+    line: "A multi-agent assistant with RAG, where every write waits for your approval.",
     body: [
       'A planner routes work across 15 specialist agents (Gmail, GitHub, Calendar, code execution, data analysis) behind an orchestrate, synthesise, critique pipeline. Anything that writes to the outside world pauses at an approval card first, so nothing sends or commits on the model deciding it should.',
       'Retrieval runs HyDE query expansion, BM25 and dense vectors fused and then reranked, with a similarity floor that returns nothing rather than inventing something when no relevant context exists. Vector store, memory and OAuth credentials are isolated per user. Executed code runs in a Docker sandbox with no network.',
@@ -138,13 +167,14 @@ export const PROJECTS = [
   },
   {
     id: 'prguard',
+    cat: 'agents',
     name: 'PRGuard',
     period: '2026',
     status: 'shipped',
-    line: 'PR review that indexes the whole codebase by AST, so it catches what a diff cannot show you.',
+    line: "A PR review agent that reads the whole repo, not just the diff.",
     body: [
       'An 8 node LangGraph pipeline: triage, security, docs, bug detection, API change detection, critical file audit. Because it indexes the repo at function level rather than reading the diff alone, it can flag an architecture violation or logic that already exists elsewhere, which is exactly the class of problem a diff hides by definition.',
-      'Alongside it, Aftershock: a signed cross repo notice board with no registration and no server to trust, so a library can warn dependent repos about a breaking change and they can verify the notice offline with Ed25519. It is deployed and /cross-repo/pubkey serves a real key, though not yet a stable identity: free hosting gives it no persistent disk, so the keypair is regenerated on every cold start and a notice signed before a restart stops verifying after one. I watched the key change between two requests fifteen minutes apart. The mechanism works and the durability wants a mounted disk, which is worth saying plainly, because the whole value of the scheme is not having to trust the server.',
+      'Alongside it, Aftershock: a signed notice board so a library can warn dependent repos about a breaking change, and they can verify the notice offline with Ed25519. It is deployed, but free hosting has no persistent disk, so the signing key changes on every cold start. The mechanism works; it needs a mounted disk to be useful.',
     ],
     metrics: [
       ['on a 16 issue suite', '100% recall, 94.12% precision'],
@@ -164,10 +194,11 @@ export const PROJECTS = [
   },
   {
     id: 'cliniq',
+    cat: 'agents',
     name: 'ClinIQ',
     period: '2026',
     status: 'shipped',
-    line: 'A clinical decision-support pipeline that has to show its evidence, because the failure mode here is a confident sentence nobody can trace.',
+    line: "Clinical decision support that has to show its evidence.",
     body: [
       'Takes symptoms, age, medications and location, and runs them through a nine stage pipeline: emergency red flag check first, then a cached-answer lookup over PubMedBERT vectors, first-principles clinical reasoning, a plan for which tools to call, and only then retrieval against real PubMed literature and OpenFDA drug data. Answers stream to the browser over SSE so you watch the stages resolve instead of waiting on a spinner.',
       'Two parts I would actually defend. The evaluator scores whether the evidence it just fetched is sufficient, and if it is not, it rewrites the query and fetches again, which is roughly what a clinician does when a broad search comes back useless. And after synthesis, a faithfulness pass checks every claim against the abstracts actually retrieved on that run, so a fluent sentence with no source behind it gets flagged rather than shipped.',
@@ -199,45 +230,87 @@ export const PROJECTS = [
   },
 ];
 
-const STATUS = {
-  shipped: 'text-mute',
-  building: 'text-accent',
-};
+export const CATEGORIES = [
+  { id: 'rl', title: 'RL & world models' },
+  { id: 'agents', title: 'Agents & computer use' },
+];
 
-/* The grid on the home page: picture, name, one line, stack. The whole card
-   opens the project's own page, where the full write-up lives. */
-export default function Projects() {
+/* What is in progress and has no page yet. Shown as plain rows under RL. */
+const UPCOMING = [
+  {
+    name: 'Memory for long tasks',
+    line: 'Can a policy work out which stage of a task it is in from its own history, without being told?',
+  },
+  {
+    name: 'World-model hallucination',
+    line: 'Catching a world model when it makes things up, before the policy learns to exploit it.',
+  },
+];
+
+function Row({ p, n }) {
+  const img = p.thumb || p.shots?.[0];
   return (
-    <ul className="grid sm:grid-cols-2 gap-6">
-      {PROJECTS.map((p, i) => {
-        const img = p.thumb || p.shots?.[0];
+    <li>
+      <Link
+        to={`/projects/${p.id}`}
+        className="row group grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr_7.5rem] gap-x-3 sm:gap-x-5 items-center py-5 sm:py-6 px-2 sm:px-3 -mx-2 sm:-mx-3"
+      >
+        <span className="label self-start pt-1.5">{String(n).padStart(2, '0')}</span>
+        <div className="min-w-0">
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h3 className="display text-2xl sm:text-[1.75rem] text-fg">{p.name}</h3>
+            <span className="arrow text-faint text-lg leading-none" aria-hidden="true">&#8599;</span>
+            {p.status === 'building' && (
+              <span className="label !text-accent inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent live-dot" aria-hidden="true" />
+                in progress
+              </span>
+            )}
+          </div>
+          <p className="text-dim text-[15px] leading-relaxed mt-1.5 max-w-2xl">{p.line}</p>
+        </div>
+        {img && (
+          <div className="frame hidden sm:block aspect-[16/10] border border-line">
+            <img
+              src={`${import.meta.env.BASE_URL}${img.src}`}
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition duration-300"
+            />
+          </div>
+        )}
+      </Link>
+    </li>
+  );
+}
+
+export default function Projects() {
+  let n = 0;
+  return (
+    <div className="space-y-14">
+      {CATEGORIES.map((c) => {
+        const items = PROJECTS.filter((p) => p.cat === c.id);
         return (
-          <li key={p.id} className={i === 0 ? 'sm:col-span-2' : ''}>
-            <Link to={`/projects/${p.id}`} className="card card-hover block h-full overflow-hidden group">
-              {img && (
-                <div className={`overflow-hidden border-b border-line bg-sand ${i === 0 ? 'aspect-[21/9]' : 'aspect-[16/9]'}`}>
-                  <img
-                    src={`${import.meta.env.BASE_URL}${img.src}`}
-                    alt={img.alt}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                </div>
-              )}
-              <div className="p-5 sm:p-6">
-                <div className="flex items-baseline justify-between gap-4 mb-2">
-                  <h3 className={`display text-fg ${i === 0 ? 'text-4xl' : 'text-3xl'}`}>{p.name}</h3>
-                  <span className={`text-xs font-medium shrink-0 ${STATUS[p.status]}`}>{p.status}</span>
-                </div>
-                <p className="text-dim text-[15px] leading-relaxed">{p.line}</p>
-                <div className="flex flex-wrap gap-1.5 mt-4">
-                  {p.stack.slice(0, 4).map((t) => <span key={t} className="chip">{t}</span>)}
-                </div>
-              </div>
-            </Link>
-          </li>
+          <div key={c.id}>
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="label !text-fg">{c.title}</h3>
+              <span className="label">{items.length}</span>
+            </div>
+            <ul className="border-b border-line">
+              {items.map((p) => <Row key={p.id} p={p} n={++n} />)}
+              {c.id === 'rl' && UPCOMING.map((u) => (
+                <li key={u.name} className="rowline grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-x-3 sm:gap-x-5 py-5 px-2 sm:px-3 -mx-2 sm:-mx-3">
+                  <span className="label pt-1.5">next</span>
+                  <div>
+                    <h3 className="display text-2xl sm:text-[1.75rem] text-mute">{u.name}</h3>
+                    <p className="text-mute text-[15px] leading-relaxed mt-1.5 max-w-2xl">{u.line}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         );
       })}
-    </ul>
+    </div>
   );
 }

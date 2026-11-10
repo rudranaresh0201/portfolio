@@ -7,32 +7,29 @@ const ROLES = [
     id: 'habit',
     role: 'AI Intern',
     org: 'Everyday Habit',
-    period: 'oct 2026 to now',
+    period: 'Oct 2026 to now',
     where: 'remote',
     current: true,
-    line: 'A computer-use agent that learns a desktop workflow by watching someone do it once, then replays it on its own. I run the experiments that check what its spec assumes about real operating systems.',
+    line: 'Habit is a computer-use agent. You show it a task on your desktop once. It learns the workflow and then does it for you every week.',
     points: [
-      'The spec was written by reasoning about how Windows, Linux and macOS behave. Each experiment takes one of those assumptions, measures it on real machines, and ends in a findings file that goes back into the spec. Ten so far, on Windows and Linux: accessibility trees, finding the same button again after a restart, browsers and Electron apps, photographing one window, how the screen settles after a click, hidden desktops, virtual displays, restricted tokens, clicking without the mouse, and Wayland recording.',
-      'Accessibility trees: everyday apps have 46 to 198 nodes, not the 500 to 5,000 the spec assumed, but reading them one property at a time takes 64 to 511 ms, 3 to 25 times the spec\'s figure. Every clickable GTK4 button sits deeper than the planned depth-8 cap, so that pruning would have cut all of them off.',
-      'Windows: a window on a hidden desktop can be photographed with PrintWindow, while Windows Graphics Capture refuses. Calculator and Settings cannot be driven through UI Automation while the screen is locked, minimised or on another desktop, and the spec\'s lock check does not see the lock. The spec\'s restricted-token recipe stops every program from starting.',
+      'While you do the task, it records your actions along with the screen and the accessibility tree. Each step is saved as something it can find again, so it still works after a restart or when a button moves. It checks every action worked before doing the next.',
+      'My part is testing that design on real Windows and Linux machines before it gets built. Ten experiments so far, and a few changed the plan: reading the accessibility tree is 3 to 25 times slower than assumed, and one planned shortcut would have hidden every GTK4 button.',
     ],
     stack: ['Windows UI Automation', 'AT-SPI', 'X11', 'Wayland', 'Python', 'Rust'],
     links: [],
   },
   {
     id: 'elevar',
-    role: 'AI Automation Intern',
+    role: 'Agentic AI and Automation Intern',
     org: 'Elevar Sports',
-    period: 'jun to nov 2026',
-    where: 'mumbai',
-    line: 'Own the ops automation stack end to end: data sync, courier logic, the support bot, and the infra it all sits on.',
+    period: 'Jun to Nov 2026',
+    where: 'Mumbai',
+    line: 'Automated the operations of a real D2C brand: failed deliveries, claims, reships and customer support.',
     points: [
-      'Seven sources (Shopify, Shiprocket, EasyEcom, Delhivery forward and reverse, ATS, Returns Prime, Amazon) sync nightly into one sheet through Google Apps Script. Every vendor had its own personality: EasyEcom wanted dual-header auth and a report queue, Returns Prime only ever pushes webhooks and has no AWB column at all. An AWB corruption bug turned out to be key formatting, so matching now happens on a normalised key while the raw value is what gets stored.',
-      'The whole stack (n8n, Chatwoot, Postgres with pgvector, Redis, Caddy) runs Dockerized on one droplet with GitHub Actions deploying on push. A production crash loop that looked like a workflow bug was actually the box running out of memory.',
-      'Built 40+ n8n workflows across four phases, 15 of them running in production, covering NDR detection, claims creation and tracking, and courier switching reship with a human approval gate. The two biggest published flows run past 60 nodes against live courier APIs. Most of the debugging was against real executions: item count explosions, duplicate reship races, a consent gate reading the wrong column.',
-      'A WhatsApp support bot on Gemini through Chatwoot, with a 19 domain intent classifier built by mining actual customer transcripts instead of guessing at categories. Every reply traces back to the row it came from. The same stack now runs a second brand, so two CRMs on shared infra.',
-      'Where a courier portal has no API, a Tampermonkey script drives the real DOM instead. The Delhivery one files a claim end to end, form fill and multi photo upload included.',
-      'Building Elevar Play, a Flutter game hub with three games shipped. Each game is a plugin, and the rules live in pure Dart packages that import no Flutter and no Flame, which means a server can re-run a submitted match and check the score it was handed.',
+      'Failed delivery (NDR) to claim to reship to customer message, automated end to end across 40+ n8n workflows. 15 run in production, the biggest past 60 nodes on live courier APIs. A human signs off before anything irreversible.',
+      'A WhatsApp support agent on Gemini with RAG, running through Chatwoot, routed by a 19-domain intent classifier built from real customer chats. It now runs a second brand on the same stack.',
+      'Seven systems (Shopify, Shiprocket, EasyEcom, Delhivery, Amazon, Returns Prime, ATS) synced into one dataset every night with Google Apps Script.',
+      'Elevar Play, a Flutter game hub with three games.',
     ],
     shots: [
       {
@@ -46,14 +43,14 @@ const ROLES = [
         caption: '123 workflows on the instance. Most are probes and one-off tests; the ones marked published are what actually runs the operation.',
       },
     ],
-    stack: ['Google Apps Script', 'n8n', 'Docker', 'Postgres/pgvector', 'Redis', 'Chatwoot', 'Gemini', 'Flutter'],
+    stack: ['n8n', 'Gemini', 'RAG', 'Chatwoot', 'Apps Script', 'Postgres/pgvector', 'Redis', 'Docker', 'Flutter'],
     links: [{ label: 'elevar-game', href: 'https://github.com/rudranaresh0201/elevar-game' }],
   },
   {
     id: '4seer',
     role: 'Software Engineering Intern',
     org: '4Seer Technologies',
-    period: 'may to jul 2026',
+    period: 'May to Jul 2026',
     where: 'remote',
     line: 'Software testing and backend work for Amplex, an Australian client.',
     points: [
@@ -71,47 +68,37 @@ const ROLES = [
   },
 ];
 
-/**
- * On a page of its own there is no reason to make anyone click to read this,
- * so every role is open and they hang off one timeline rail.
- */
 export default function Experience() {
   return (
-    <section>
-      <ol className="relative">
-        <span className="absolute left-[5px] top-2 bottom-2 w-px bg-line" aria-hidden="true" />
-        {ROLES.map((r, i) => (
-          <Reveal as="li" key={r.id} delay={i * 70} className="relative pl-7 pb-14 last:pb-0 max-w-3xl">
-            <span
-              className={`absolute left-0 top-[7px] w-[11px] h-[11px] rounded-full border ${
-                r.current ? 'bg-accent border-accent' : 'bg-base border-line2'
-              }`}
-              aria-hidden="true"
-            />
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-              <span className="text-sm text-accent font-medium">{r.period}</span>
-              <span className="text-sm text-faint">{r.where}</span>
-              {r.current && <span className="text-sm text-ok">current</span>}
-            </div>
-            <h3 className="display text-3xl text-fg leading-tight">
-              {r.role}
-              <span className="text-mute"> at {r.org}</span>
+    <ol className="border-b border-line">
+      {ROLES.map((r, i) => (
+        <Reveal as="li" key={r.id} delay={i * 60} className="rowline grid md:grid-cols-[11rem_1fr] gap-x-8 gap-y-3 py-9">
+          <div className="label flex md:flex-col gap-x-3 gap-y-1.5">
+            <span className={r.current ? '!text-accent inline-flex items-center gap-1.5' : ''}>
+              {r.current && <span className="w-1.5 h-1.5 rounded-full bg-accent live-dot" aria-hidden="true" />}
+              {r.period}
+            </span>
+            <span>{r.where}</span>
+          </div>
+          <div className="max-w-3xl">
+            <h3 className="display text-3xl text-fg">
+              {r.org}
             </h3>
-            <p className="text-dim leading-relaxed mt-2 mb-5">{r.line}</p>
-            <ul className="space-y-2.5 mb-4">
+            <p className="text-mute mt-1">{r.role}</p>
+            <p className="text-fg text-[17px] leading-relaxed mt-4">{r.line}</p>
+            <ul className="space-y-2.5 mt-4 mb-5">
               {r.points.map((p, j) => (
-                <li key={j} className="text-dim text-[15px] leading-relaxed pl-4 border-l-2 border-line">{p}</li>
+                <li key={j} className="text-dim text-[15px] leading-relaxed pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[0.7em] before:w-1.5 before:h-px before:bg-faint">{p}</li>
               ))}
             </ul>
-
             {r.shots?.map((sh) => <Shot key={sh.src} {...sh} />)}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-2">
+            <div className="flex flex-wrap items-center gap-1.5 mb-3">
               {r.stack.map((s) => <span key={s} className="chip">{s}</span>)}
             </div>
             <Links items={r.links} />
-          </Reveal>
-        ))}
-      </ol>
-    </section>
+          </div>
+        </Reveal>
+      ))}
+    </ol>
   );
 }

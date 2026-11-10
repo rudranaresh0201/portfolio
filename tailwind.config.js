@@ -4,26 +4,24 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['Geist', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        serif: ['"Bricolage Grotesque"', 'Geist', 'system-ui', 'sans-serif'],
+        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        /* Paper: warm off-white page, white-ish cards, ink text */
-        base:  '#f4f0e8',
-        panel: '#fffdf8',
-        raise: '#f9f5ed',
-        sand:  '#efe8da',
-        line:  'rgba(28,26,23,0.11)',
-        line2: 'rgba(28,26,23,0.22)',
-        fg:    '#1c1a17',
-        dim:   '#4a453d',
-        mute:  '#6b6559',
-        faint: '#9a9283',
-        /* one accent, burnt orange, for links, emphasis and hover */
-        accent: '#c2410c',
-        accentdim: '#9a3412',
-        /* verified / disproven / honest-error, darkened to read on paper */
+        /* Neutral paper, near-black ink, one cobalt accent */
+        base:  '#f6f6f3',
+        panel: '#ffffff',
+        raise: '#efefeb',
+        sand:  '#e9e9e4',
+        line:  'rgba(12,12,14,0.10)',
+        line2: 'rgba(12,12,14,0.22)',
+        fg:    '#0c0c0e',
+        dim:   '#3b3b40',
+        mute:  '#6c6c72',
+        faint: '#9a9aa0',
+        accent: '#1f3fff',
+        accentdim: '#1730c9',
         ok:    '#15803d',
         bad:   '#b91c1c',
         warn:  '#b45309',

@@ -8,7 +8,7 @@ const POSTS = [
     date: '2026-11-08',
     cover: 'blog/computer-use/teaser.png',
     excerpt:
-      'A 2B grounder with Claude deciding every step, the OS plumbing I measure at my internship, and DreamDesk, an agent with no LLM at all. What each one taught me, why calling a large model every step pushed me to the last one, and how they compare.',
+      "Three takes on computer use: a small grounder with Claude deciding, the OS plumbing from my internship, and DreamDesk, an agent with no LLM. What each one taught me.",
   },
   {
     slug: '/blog/dreamdesk',
@@ -16,7 +16,7 @@ const POSTS = [
     date: '2026-11-08',
     cover: 'demos/dreamdesk.jpg',
     excerpt:
-      'No LLM, no instructions: an agent explores an app with random clicks, learns a model of it, and plans inside that model. The model predicts situations it never saw and composes what it did see. Turning that into better real tasks is harder, and Test 1, whether more apps make a better prior, narrowly failed. Every test pre-registered.',
+      "An agent explores an app with random clicks, learns a model of it, and plans inside that model. What worked, and the scaling test that narrowly failed.",
   },
   {
     slug: '/blog/so101',
@@ -24,7 +24,7 @@ const POSTS = [
     date: '2026-11-08',
     cover: 'demos/so101.jpg',
     excerpt:
-      'SAC learns to pick up a box in MuJoCo. A second policy trained inside a learned world model learns to fool it instead: the model says the box went up 49 cm, and it never moved. Why short rollouts failed, how the cheat works, and the three fixes that got real picks on 2 of 3 seeds.',
+      "A policy trained inside a learned world model fooled it: the model said the box rose 49 cm and it never moved. How the cheat works and the three fixes.",
   },
   {
     slug: '/blog/computer-use',
@@ -32,7 +32,7 @@ const POSTS = [
     date: '2026-10-18',
     cover: 'blog/computer-use/teaser.png',
     excerpt:
-      'I trained a 2B model to point at buttons on free labels and a free GPU, then measured the common "trust the accessibility tree first" design. It is worse than vision alone once the tree has holes, and the loss has an exact formula. Then I built an agent around the fix.',
+      "I trained a 2B model to point at buttons on free labels and a free GPU, then measured the \"trust the accessibility tree first\" design. It loses to vision alone once the tree has holes.",
   },
   {
     slug: '/blog/verimcp',
@@ -40,28 +40,33 @@ const POSTS = [
     date: '2026-08-15',
     cover: 'shots/verimcp-console.jpg',
     excerpt:
-      'An MCP server can return isError: false and still be lying, because nothing in the protocol proves a claimed side effect ever happened. This is the proxy I built to check it, and the real bugs three separate clients found in it before I was willing to trust my own tests.',
+      "An MCP server can return isError: false and still be lying. The proxy I built to check it, and the bugs three clients found in it.",
   },
 ];
 
 export default function Writing() {
   return (
-    <ul className="grid sm:grid-cols-2 gap-6">
+    <ul className="border-b border-line">
       {POSTS.map((p) => (
         <Reveal as="li" key={p.slug}>
-          <Link to={p.slug} className="card card-hover block h-full overflow-hidden group">
-            <div className="aspect-[16/9] overflow-hidden border-b border-line bg-sand">
+          <Link
+            to={p.slug}
+            className="row group grid sm:grid-cols-[7rem_1fr_9rem] gap-x-6 gap-y-2 items-center py-6 px-2 sm:px-3 -mx-2 sm:-mx-3"
+          >
+            <span className="label self-start sm:pt-1.5">{p.date}</span>
+            <div>
+              <h3 className="display text-2xl text-fg">
+                {p.title} <span className="arrow inline-block text-faint text-lg" aria-hidden="true">&#8599;</span>
+              </h3>
+              <p className="text-dim text-[15px] leading-relaxed mt-2 max-w-2xl">{p.excerpt}</p>
+            </div>
+            <div className="frame hidden sm:block aspect-[16/10] border border-line">
               <img
                 src={`${import.meta.env.BASE_URL}${p.cover}`}
                 alt=""
                 loading="lazy"
-                className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition duration-300"
               />
-            </div>
-            <div className="p-5 sm:p-6">
-              <p className="text-xs text-faint mb-2">{p.date}</p>
-              <h3 className="display text-[1.75rem] leading-[1.1] text-fg group-hover:text-accent transition-colors">{p.title}</h3>
-              <p className="text-dim text-[15px] leading-relaxed mt-3">{p.excerpt}</p>
             </div>
           </Link>
         </Reveal>

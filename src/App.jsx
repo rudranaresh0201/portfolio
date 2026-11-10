@@ -36,6 +36,8 @@ function Shell() {
           <Route path="/demos" element={<Home section="demos" />} />
           <Route path="/work" element={<Home section="internships" />} />
           <Route path="/writing" element={<Home section="writing" />} />
+          <Route path="/journey" element={<Home section="journey" />} />
+          <Route path="/life" element={<Home section="life" />} />
           <Route path="/projects/:id" element={<ProjectPage />} />
           <Route path="/blog/verimcp" element={<BlogVerimcp />} />
           <Route path="/blog/computer-use" element={<BlogComputerUse />} />

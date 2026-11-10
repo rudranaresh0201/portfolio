@@ -3,6 +3,14 @@ import Reveal from './Reveal';
 
 const DEMOS = [
   {
+    id: 'squint',
+    title: 'LangLift: lift the one you are told to',
+    src: 'demos/squint.mp4',
+    poster: 'demos/squint.jpg',
+    caption: 'An SO-101 arm trained with visual RL on a free Kaggle T4. Left of each pair is what the policy sees, shown larger than its real 16x16 pixels. The instruction picks the cube or the can.',
+    project: 'squint',
+  },
+  {
     id: 'so101',
     title: 'SO-101: a world model that gets cheated',
     src: 'demos/so101.mp4',
@@ -54,7 +62,7 @@ function Clip({ src, poster, title }) {
       controls
       preload="metadata"
       aria-label={title}
-      className="w-full aspect-video object-cover bg-sand block border-b border-line"
+      className="w-full aspect-video object-contain bg-fg block border-b border-line"
     />
   );
 }
@@ -63,11 +71,11 @@ export default function Demos() {
   return (
     <ul className="grid sm:grid-cols-2 gap-6">
       {DEMOS.map((d, i) => (
-        <Reveal as="li" key={d.id} delay={i * 60} className={i === 0 ? 'sm:col-span-2' : ''}>
+        <Reveal as="li" key={d.id} delay={i * 60} className="">
           <figure className="card overflow-hidden">
             <Clip {...d} />
             <figcaption className="p-5 sm:p-6">
-              <p className="display text-2xl text-fg mb-2">{d.title}</p>
+              <p className="display text-xl text-fg mb-2">{d.title}</p>
               <p className="text-dim text-[15px] leading-relaxed">{d.caption}</p>
             </figcaption>
           </figure>

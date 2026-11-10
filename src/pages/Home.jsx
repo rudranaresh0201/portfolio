@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Console from '../components/Console';
 import Projects, { PROJECTS } from '../components/Projects';
 import Demos from '../components/Demos';
 import Experience from '../components/Experience';
+import Journey from '../components/Journey';
+import Life from '../components/Life';
 import Writing from '../components/Writing';
 import Reveal from '../components/Reveal';
+
+const base = import.meta.env.BASE_URL;
 
 const LINKS = [
   { label: 'github', href: 'https://github.com/rudranaresh0201' },
@@ -12,16 +16,48 @@ const LINKS = [
   { label: 'email', href: 'mailto:rudranaresh2018@gmail.com' },
 ];
 
-/* Every section opens the same way: a serif title, a quiet count or note. */
-function Head({ title, aside, lede }) {
+/* The hero photo is picked at random on every load. Click it for the next one. */
+const PHOTOS = [
+  { src: 'me/portrait.jpg', caption: 'Mumbai', pos: '50% 30%' },
+  { src: 'me/medal.jpg', caption: 'Enthusia 2026, table tennis', pos: '50% 20%' },
+];
+
+const NOW = [
+  'Long-horizon visual RL on an SO-101 arm, without demos',
+  'Habit, a computer-use agent, at Everyday Habit',
+  'Next: catching world models when they hallucinate',
+];
+
+function Head({ n, title, aside }) {
   return (
-    <Reveal className="mb-10">
-      <div className="flex items-baseline justify-between gap-4 border-b border-line pb-4">
-        <h2 className="display text-4xl sm:text-5xl text-fg">{title}</h2>
-        {aside && <span className="text-sm text-faint shrink-0">{aside}</span>}
-      </div>
-      {lede && <p className="text-dim leading-relaxed max-w-2xl mt-5">{lede}</p>}
+    <Reveal className="flex items-baseline justify-between gap-4 mb-8">
+      <h2 className="display text-4xl sm:text-6xl text-fg">
+        <span className="label align-top mr-3 relative top-2">{n}</span>
+        {title}
+      </h2>
+      {aside && <span className="label shrink-0">{aside}</span>}
     </Reveal>
+  );
+}
+
+function Photo() {
+  const [i, setI] = useState(() => Math.floor(Math.random() * PHOTOS.length));
+  const p = PHOTOS[i];
+  return (
+    <figure className="w-full max-w-[19rem] order-first lg:order-none">
+      <button
+        type="button"
+        onClick={() => setI((i + 1) % PHOTOS.length)}
+        className="frame block w-full aspect-[4/5] cursor-pointer"
+        aria-label="Show another photo"
+      >
+        <img key={p.src} src={`${base}${p.src}`} alt="Rudra Naresh" className="w-full h-full object-cover page-enter" style={{ objectPosition: p.pos }} />
+      </button>
+      <figcaption className="label flex justify-between mt-2.5">
+        <span>{p.caption}</span>
+        <span>{i + 1}/{PHOTOS.length}</span>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -34,75 +70,75 @@ export default function Home({ section }) {
 
   return (
     <>
-      <section className="pt-16 sm:pt-24 pb-20 sm:pb-28">
-        <Reveal className="grid sm:grid-cols-[1fr_auto] gap-10 sm:gap-16 items-end">
-          <div>
-            <h1 className="display text-[3.4rem] sm:text-7xl lg:text-[5.75rem] text-fg leading-[0.95]">
-              Building with AI,<br />
-              <em className="text-accent">agents</em> and RL.
+      <section className="pt-12 sm:pt-20 pb-20 sm:pb-28">
+        <div className="grid lg:grid-cols-[1fr_19rem] gap-10 lg:gap-16 items-end">
+          <Reveal>
+            <p className="label mb-6">Rudra Naresh / VJTI Mumbai, class of 2028</p>
+            <h1 className="display text-[2.9rem] sm:text-7xl lg:text-[5.4rem] text-fg">
+              RL, world models and <span className="text-accent">computer-use</span> agents.
             </h1>
-            <p className="text-lg text-dim leading-relaxed max-w-2xl mt-8">
-              Most of my week goes into agents, MCP and automation, and lately reinforcement learning
-              and robotics. I like the layer underneath the model, the protocols and plumbing and the
-              unglamorous work of making all of it hold up once something real depends on it.
-            </p>
+            <ul className="mt-10 max-w-xl">
+              {NOW.map((t, k) => (
+                <li key={t} className="rowline flex gap-4 py-3 text-dim">
+                  <span className="label pt-1 w-8 shrink-0 inline-flex items-center gap-1.5">
+                    {k === 0 && <span className="w-1.5 h-1.5 rounded-full bg-accent live-dot" aria-hidden="true" />}
+                    {k === 0 ? 'now' : ''}
+                  </span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
             <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8">
               {LINKS.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-sm link">{l.label}</a>
+                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="label hover:!text-accent transition-colors">{l.label} &#8599;</a>
                 </li>
               ))}
-              <li className="text-sm text-faint">Mumbai, India</li>
             </ul>
-          </div>
-          <img
-            src={`${import.meta.env.BASE_URL}portrait.jpg`}
-            alt="Rudra Naresh"
-            width={176}
-            height={176}
-            className="w-32 h-32 sm:w-44 sm:h-44 rounded-full object-cover ring-1 ring-line order-first sm:order-none"
-          />
-        </Reveal>
+          </Reveal>
+          <Photo />
+        </div>
       </section>
 
-      <section id="projects" className="scroll-mt-20 pb-24">
-        <Head
-          title="Projects"
-          aside={`${PROJECTS.length} projects`}
-          lede="The numbers are whatever the benchmarks actually print, and every one carries a note saying what it does not do yet, because a project page with no gaps in it is not telling you the truth."
-        />
+      <section id="projects" className="scroll-mt-20 pb-28">
+        <Head n="01" title="Projects" aside={`${PROJECTS.length} projects`} />
         <Projects />
       </section>
 
-      <section id="demos" className="scroll-mt-20 pb-24">
-        <Head title="Demos" aside="real runs, nothing mocked" />
+      <section id="demos" className="scroll-mt-20 pb-28">
+        <Head n="02" title="Demos" aside="real runs" />
         <Demos />
         <Reveal className="card p-5 sm:p-6 mt-6">
           <div className="mb-3 flex items-baseline justify-between gap-3">
             <p className="text-fg font-medium">verimcp console, replaying one real run</p>
-            <p className="text-xs text-faint">click any row</p>
+            <p className="label">click any row</p>
           </div>
           <Console />
           <p className="text-sm text-mute mt-3 leading-relaxed">
-            Five of these nine calls reported a success that never happened. The pause on each row is
-            the proxy going and checking rather than taking the answer on trust.
+            Five of these nine calls reported a success that never happened.
           </p>
         </Reveal>
       </section>
 
-      <section id="internships" className="scroll-mt-20 pb-24">
-        <Head title="Internships" aside="3 roles" />
+      <section id="internships" className="scroll-mt-20 pb-28">
+        <Head n="03" title="Work" aside="3 internships" />
         <Experience />
       </section>
 
-      <section id="writing" className="scroll-mt-20 pb-20">
-        <Head
-          title="Blog"
-          lede="Mostly write-ups of something that took a while to understand, with the wrong turns left in."
-        />
+      <section id="journey" className="scroll-mt-20 pb-28">
+        <Head n="04" title="Journey" aside="how I got here" />
+        <Journey />
+      </section>
+
+      <section id="writing" className="scroll-mt-20 pb-28">
+        <Head n="05" title="Blog" />
         <Writing />
       </section>
 
+      <section id="life" className="scroll-mt-20 pb-20">
+        <Head n="06" title="Off the clock" />
+        <Life />
+      </section>
     </>
   );
 }
